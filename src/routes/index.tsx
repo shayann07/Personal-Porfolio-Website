@@ -1,611 +1,441 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { ArrowUpRight, Mail, FileDown, MapPin } from "lucide-react";
+
+const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+    <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/>
+  </svg>
+);
+const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+    <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-1 1.9-2 3.9-2 4.2 0 5 2.8 5 6.4V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4V9z"/>
+  </svg>
+);
 import { personalLinks } from "@/config/personalLinks";
-import { CV_URL } from "@/config/links";
+import portrait from "/portrait.jpg?url";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "The Shayan Daily — Vol. VI · Muhammad Shayan, Engineer" },
-      {
-        name: "description",
-        content:
-          "A broadsheet portfolio of Muhammad Shayan — six years of Android, Flutter and offline-first mobile engineering, set in ink and cream.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:title", content: "The Shayan Daily — A Portfolio in Print" },
-      {
-        property: "og:description",
-        content:
-          "Dispatches from a working mobile engineer. Case files, instruments, and correspondence.",
-      },
+      { title: "Muhammad Shayan — Software Engineer & AI Developer" },
+      { name: "description", content: "Portfolio of Muhammad Shayan — software engineer building thoughtful, high-performance products with AI, mobile and web." },
+      { property: "og:title", content: "Muhammad Shayan — Software Engineer & AI Developer" },
+      { property: "og:description", content: "Portfolio of Muhammad Shayan — software engineer building thoughtful, high-performance products with AI, mobile and web." },
       { property: "og:image", content: "/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "The Shayan Daily — A Portfolio in Print" },
       { name: "twitter:image", content: "/og-image.png" },
-      { name: "theme-color", content: "#f2ecdc" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://shayxo.dev" }],
   }),
   component: Index,
 });
 
-/* ================================================================ *
- * THE SHAYAN DAILY — a broadsheet-style personal portfolio         *
- * ================================================================ */
-
-const EDITION_DATE = new Date().toLocaleDateString("en-GB", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
-
-const TICKER_ITEMS = [
-  "LATE EDITION",
-  "KARACHI · 32°C · CLEAR",
-  "SHIPPING VELOCITY UP 12% WoW",
-  "PROD INCIDENTS · 0",
-  "ANDROID 15 ROLLOUT · STABLE",
-  "FLUTTER 3.24 · ADOPTED",
-  "COFFEE INDEX · 3 cups",
-  "COMMITS TODAY · 14",
-  "OFFLINE-FIRST · ALWAYS",
-  "OPEN FOR COMMISSION · Q3 · 2026",
-];
-
-const PROJECTS = [
-  {
-    slug: "NEXUS-PAY",
-    kicker: "FINTECH · FLUTTER",
-    headline: "A wallet for a coverage-shy world.",
-    byline: "Ledger design · Biometric transactions · Tokenised cards",
-    body: "An offline-first challenger bank shipped to a million wallets across three emerging markets. Every debit is signed on-device and reconciled the moment a bar of signal returns.",
-    metric: "1.2M installs",
-    year: "2025",
-    stack: ["Flutter", "Rust FFI", "gRPC", "SQLCipher"],
-  },
-  {
-    slug: "SWIFTCART-OS",
-    kicker: "COMMERCE · ANDROID",
-    headline: "A storefront that outruns its network.",
-    byline: "Predictive prefetch · Baseline profiles · Edge cache",
-    body: "Rebuilt a marketplace's core purchase flow in Jetpack Compose. Startup fell from 2.4s to 640ms on mid-tier hardware; conversion rose 8% in the first sprint after launch.",
-    metric: "-73% cold start",
-    year: "2024",
-    stack: ["Kotlin", "Compose", "Baseline Profiles", "Apollo"],
-  },
-  {
-    slug: "AURA-SCAN",
-    kicker: "ON-DEVICE ML · KMP",
-    headline: "Diagnostics without a datacenter.",
-    byline: "TensorFlow Lite · Camera2 pipeline · Kotlin Multiplatform",
-    body: "A field-medic imaging tool that classifies skin lesions on a battery, no cloud round-trip. Ninety-four percent parity with the reference model, shipped as one binary to Android and iOS.",
-    metric: "94% F1 · 0 network",
-    year: "2024",
-    stack: ["KMP", "TFLite", "Camera2", "SwiftUI"],
-  },
-  {
-    slug: "GLASSMORPH-KIT",
-    kicker: "OSS · DESIGN SYSTEM",
-    headline: "A Compose kit for the glass era.",
-    byline: "Blur primitives · Motion tokens · Accessible by default",
-    body: "An open-source Jetpack Compose library that treats glassmorphism as a first-class design token — with contrast guards, reduced-motion fallbacks, and 12kb of shipped code.",
-    metric: "3.4k stars",
-    year: "2023",
-    stack: ["Kotlin", "Compose", "Skia", "GitHub Actions"],
-  },
-];
-
-const INSTRUMENTS = [
-  { group: "PLATFORMS",  items: ["Android · Kotlin",  "Flutter · Dart",   "Kotlin Multiplatform", "iOS · Swift interop"] },
-  { group: "UI SYSTEMS", items: ["Jetpack Compose",   "Material 3",       "Compose Multiplatform",  "Skia · Custom Canvas"] },
-  { group: "DATA",       items: ["Room · SQLDelight", "Ktor · gRPC",      "Apollo · GraphQL",       "Protobuf · FlatBuffers"] },
-  { group: "RUNTIME",    items: ["Coroutines · Flow", "Rx · legacy",      "Rust FFI",               "WorkManager · JobScheduler"] },
-  { group: "QUALITY",    items: ["Baseline Profiles", "Macrobenchmark",   "Detekt · Ktlint",        "Turbine · MockK"] },
-  { group: "DELIVERY",   items: ["Fastlane",          "GitHub Actions",   "Firebase App Dist.",      "Play Console · TestFlight"] },
-];
-
-const CHRONICLE = [
-  { year: "2026 — Now", role: "Independent Mobile Engineer",          note: "Case work for fintech, health, and commerce clients." },
-  { year: "2023 — 2025", role: "Senior Flutter Engineer, Nexus Labs", note: "Led the wallet team through a 1M-user launch." },
-  { year: "2021 — 2023", role: "Android Engineer, SwiftCart",         note: "Rewrote checkout in Compose; owned performance track." },
-  { year: "2020 — 2021", role: "Mobile Engineer, First Post",         note: "Shipped a Kotlin news reader used across the newsroom." },
-  { year: "2019 — 2020", role: "Junior Developer, Freelance",         note: "Small apps, big lessons. Learned the value of shipping." },
-];
-
-const CORRESPONDENCE = [
-  {
-    tag: "COMMISSION",
-    title: "Available for a case file.",
-    body: "Taking on one new engagement this quarter — offline-first mobile, on-device ML, or a performance rescue on an ailing Android codebase.",
-  },
-  {
-    tag: "SPEAKING",
-    title: "Talks & workshops.",
-    body: "Happy to speak on Compose performance, Flutter at scale, or the strange art of building for intermittent connectivity.",
-  },
-  {
-    tag: "MENTORING",
-    title: "Two open slots.",
-    body: "I keep two free mentoring slots each month for engineers from Pakistan and the wider region. Write, and we'll find a time.",
-  },
-];
-
-/* -------------------------------------------------------------- *
- * Small print utilities                                          *
- * -------------------------------------------------------------- */
-
-function Ticker() {
-  const line = TICKER_ITEMS.join("   ✦   ");
-  return (
-    <div className="rule-b overflow-hidden bg-[color:var(--deep-ink)] text-[color:var(--paper)]">
-      <div className="flex whitespace-nowrap py-1.5">
-        <div className="ticker-track flex shrink-0">
-          <span className="smallcaps px-6 tracking-[0.3em]">{line}</span>
-          <span className="smallcaps px-6 tracking-[0.3em]" aria-hidden>{line}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Masthead() {
-  const [now, setNow] = useState<string>("--:--:--");
+/* ————————————————————————————————————————————
+   Live clock (Asia/Karachi)
+———————————————————————————————————————————— */
+function useClock(tz = "Asia/Karachi") {
+  const [time, setTime] = useState(() => formatTime(new Date(), tz));
   useEffect(() => {
-    const tick = () => setNow(new Date().toLocaleTimeString("en-GB", {
-      hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Asia/Karachi",
-    }));
-    tick();
-    const id = window.setInterval(tick, 1000);
-    return () => window.clearInterval(id);
-  }, []);
+    const id = setInterval(() => setTime(formatTime(new Date(), tz)), 1000 * 30);
+    return () => clearInterval(id);
+  }, [tz]);
+  return time;
+}
+function formatTime(d: Date, tz: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric", minute: "2-digit", hour12: true, timeZone: tz,
+  }).format(d);
+}
+
+/* ————————————————————————————————————————————
+   Cursor blob (follows mouse behind cards)
+———————————————————————————————————————————— */
+function CursorBlob() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 60, damping: 20, mass: 0.6 });
+  const sy = useSpring(y, { stiffness: 60, damping: 20, mass: 0.6 });
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      x.set(e.clientX - 300);
+      y.set(e.clientY - 300);
+    };
+    window.addEventListener("pointermove", onMove);
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [x, y]);
   return (
-    <header className="mx-auto max-w-[1240px] px-6 pt-6">
-      {/* top meta row */}
-      <div className="rule-b flex items-end justify-between pb-2 folio">
-        <span>Vol. VI · No. 041</span>
-        <span className="hidden sm:inline">Est. MMXIX · Karachi ⟶ The World</span>
-        <span className="tabular-nums">{now} PKT</span>
-      </div>
-      {/* masthead nameplate */}
-      <div className="rule-triple-b pt-6 pb-3 text-center">
-        <div className="smallcaps mb-2 text-[color:var(--stamp)]">The Broadsheet Portfolio of</div>
-        <h1 className="headline text-[13vw] leading-[0.85] md:text-[112px]">
-          The Shayan Daily
-        </h1>
-        <p className="deck mt-3 text-lg md:text-xl">
-          &ldquo;All the code that's fit to ship&rdquo; — a personal record, printed weekly.
-        </p>
-      </div>
-      {/* sub-meta */}
-      <div className="mt-3 grid grid-cols-2 items-baseline gap-4 pb-3 folio md:grid-cols-4">
-        <span>{EDITION_DATE.toUpperCase()}</span>
-        <span className="text-center md:text-left">EDITION · LATE · WEB</span>
-        <span className="text-center md:text-right">PRICE · YOUR ATTENTION</span>
-        <span className="text-right">SIX SECTIONS · ONE ENGINEER</span>
-      </div>
-    </header>
+    <motion.div
+      aria-hidden
+      style={{ x: sx, y: sy }}
+      className="pointer-events-none fixed left-0 top-0 z-0 h-[600px] w-[600px] rounded-full"
+    >
+      <div className="h-full w-full rounded-full opacity-60"
+           style={{ background: "radial-gradient(closest-side, rgba(120,140,255,0.35), transparent 70%)" }} />
+    </motion.div>
   );
 }
 
-/* -------------------------------------------------------------- *
- * Sections                                                        *
- * -------------------------------------------------------------- */
-
-function FrontPage() {
+/* ————————————————————————————————————————————
+   Tile primitive
+———————————————————————————————————————————— */
+function Tile({
+  className = "",
+  children,
+  as: As = "div",
+  href,
+  label,
+  dark = false,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+  as?: any;
+  href?: string;
+  label?: string;
+  dark?: boolean;
+}) {
+  const Comp: any = href ? "a" : As;
+  const props: any = href
+    ? { href, target: href.startsWith("http") || href.startsWith("mailto") ? "_blank" : undefined, rel: "noreferrer" }
+    : {};
   return (
-    <section className="mx-auto max-w-[1240px] px-6 pt-8 pb-14">
-      {/* Lead — three-column top-of-fold */}
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-        {/* Left column — kicker + big headline */}
-        <div className="md:col-span-5 rule-r pr-8">
-          <div className="smallcaps mb-3 text-[color:var(--stamp)]">Section I · The Lead</div>
-          <h2 className="headline text-[56px] md:text-[76px]">
-            Mobile engineer,<br />
-            <em className="italic font-normal">still shipping,</em><br />
-            after six years.
-          </h2>
-          <p className="deck mt-4 text-xl">
-            Muhammad Shayan builds Android &amp; Flutter software that works
-            in the seat back of a bus with no signal — and on a MacBook Pro at
-            head office. This is his record.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a href={personalLinks.email.link} className="stamp text-xs">Commission a piece</a>
-            <a href={CV_URL} className="link-ink font-mono text-sm">
-              Download the résumé →
-            </a>
+    <Comp
+      {...props}
+      className={`tile ${dark ? "tile-dark" : ""} arrow-btn group relative overflow-hidden ${className}`}
+    >
+      <div className="grain absolute inset-0 rounded-[inherit]" />
+      <div className="relative flex h-full w-full flex-col">
+        {children}
+        {label && (
+          <div className="mt-auto flex items-end justify-between p-6 md:p-7">
+            <span className={`text-base md:text-lg font-medium ${dark ? "text-white/90" : "text-foreground"}`}>
+              {label}
+            </span>
+            <span className={`arrow inline-flex h-9 w-9 items-center justify-center rounded-full border ${dark ? "border-white/25 text-white/90" : "border-foreground/15 text-foreground"}`}>
+              <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+            </span>
+          </div>
+        )}
+      </div>
+    </Comp>
+  );
+}
+
+/* ————————————————————————————————————————————
+   Page
+———————————————————————————————————————————— */
+function Index() {
+  const time = useClock("Asia/Karachi");
+
+  // Scroll-linked headline motion (kinetic name reveal)
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const nameY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const nameOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.15]);
+  const nameBlur = useTransform(scrollYProgress, [0, 1], [0, 8]);
+  const nameFilter = useTransform(nameBlur, (v) => `blur(${v}px)`);
+
+  const projects = useMemo(
+    () => [
+      { name: "Numi", role: "AI-powered budgeting app", tag: "iOS · SwiftUI · CoreML", year: "2025" },
+      { name: "Signal", role: "Realtime market dashboard", tag: "Next.js · WebSockets", year: "2025" },
+      { name: "Kairos", role: "Voice-first journaling", tag: "React Native · Whisper", year: "2024" },
+      { name: "Loom", role: "Design tokens pipeline", tag: "TypeScript · CLI", year: "2024" },
+    ],
+    []
+  );
+
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      {/* Aurora background */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
+        <div className="blob left-[-10%] top-[10%] h-[520px] w-[520px]"
+             style={{ background: "radial-gradient(closest-side, rgba(190,170,255,0.55), transparent)" }} />
+        <div className="blob right-[-8%] top-[35%] h-[560px] w-[560px]"
+             style={{ background: "radial-gradient(closest-side, rgba(255,190,170,0.5), transparent)" }} />
+        <div className="blob left-[30%] bottom-[-10%] h-[600px] w-[600px]"
+             style={{ background: "radial-gradient(closest-side, rgba(170,220,255,0.5), transparent)" }} />
+      </div>
+
+      <CursorBlob />
+
+      {/* Top bar */}
+      <header className="relative z-20 mx-auto flex max-w-[1440px] items-center justify-between px-6 py-6 md:px-10 md:py-8">
+        <div className="flex items-center gap-3">
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500 text-emerald-500 dot-ping" />
+          <span className="text-sm font-medium tracking-tight text-foreground">Muhammad Shayan</span>
+        </div>
+        <nav className="hidden gap-8 text-sm text-subtle md:flex">
+          <a href="#work" className="text-foreground/60 transition hover:text-foreground">Work</a>
+          <a href="#about" className="text-foreground/60 transition hover:text-foreground">About</a>
+          <a href="#stack" className="text-foreground/60 transition hover:text-foreground">Stack</a>
+          <a href="#contact" className="text-foreground/60 transition hover:text-foreground">Contact</a>
+        </nav>
+        <div className="flex items-center gap-3 text-xs text-foreground/60">
+          <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
+          <span className="hidden sm:inline">Karachi · {time}</span>
+          <span className="sm:hidden">{time}</span>
+        </div>
+      </header>
+
+      {/* Hero — giant name behind bento grid */}
+      <section ref={heroRef} className="relative z-10 mx-auto max-w-[1440px] px-4 md:px-10">
+        <div className="relative">
+          {/* Kinetic name */}
+          <motion.h1
+            aria-label="Muhammad Shayan"
+            style={{ y: nameY, opacity: nameOpacity, filter: nameFilter }}
+            className="display pointer-events-none select-none text-foreground"
+          >
+            <span className="block text-[clamp(72px,17vw,280px)]">Muhammad</span>
+            <span className="block text-[clamp(72px,17vw,280px)] -mt-[0.08em]">Shayan.</span>
+          </motion.h1>
+
+          {/* Bento grid overlays the name */}
+          <div className="relative z-10 -mt-[clamp(120px,22vw,360px)] grid grid-cols-6 gap-3 md:gap-4">
+            {/* Row 1 */}
+            <BentoReveal className="col-span-6 md:col-span-2 aspect-[4/3]">
+              <Tile href="#about" label="About">
+                <TileBadge>01 / Profile</TileBadge>
+              </Tile>
+            </BentoReveal>
+
+            <BentoReveal delay={0.05} className="col-span-6 md:col-span-4 aspect-[16/9] md:aspect-[16/6]">
+              <Tile href="#work" label="Selected Work">
+                <div className="flex items-start justify-between p-6 md:p-7">
+                  <TileBadge>02 / Portfolio</TileBadge>
+                  <span className="hidden text-xs uppercase tracking-[0.2em] text-foreground/50 md:inline">2020 — 2026</span>
+                </div>
+                <div className="px-6 pb-4 md:px-7">
+                  <p className="max-w-md text-sm text-foreground/60 md:text-base">
+                    Shipping ambitious products across mobile, web and AI — from a solo indie iOS launch to production dashboards used daily.
+                  </p>
+                </div>
+              </Tile>
+            </BentoReveal>
+
+            {/* Row 2 */}
+            <BentoReveal delay={0.1} className="col-span-6 md:col-span-2 aspect-[4/3] md:aspect-[4/5]">
+              <Tile href={personalLinks.email.link} label="Contact">
+                <TileBadge>03 / Say hello</TileBadge>
+                <div className="px-6 md:px-7 mt-4">
+                  <p className="font-mono text-xs text-foreground/60 md:text-sm">{personalLinks.email.label}</p>
+                </div>
+              </Tile>
+            </BentoReveal>
+
+            <BentoReveal delay={0.15} className="col-span-6 md:col-span-2 aspect-[4/5]">
+              {/* Portrait tile */}
+              <div className="tile tile-dark relative h-full w-full overflow-hidden">
+                <img
+                  src={portrait}
+                  alt="Portrait of Muhammad Shayan"
+                  className="absolute inset-0 h-full w-full object-cover opacity-95"
+                  loading="lazy"
+                  width={1024}
+                  height={1280}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute left-0 right-0 top-0 flex items-center justify-between p-6">
+                  <span className="text-[10px] uppercase tracking-[0.25em] text-white/70">04 / Portrait</span>
+                  <span className="text-[10px] font-mono text-white/70">PKR · 24°C</span>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="text-white/95 text-lg font-medium tracking-tight">Software Engineer</div>
+                  <div className="text-white/60 text-xs mt-1">Building AI-first products, calmly.</div>
+                </div>
+              </div>
+            </BentoReveal>
+
+            <BentoReveal delay={0.2} className="col-span-3 md:col-span-1 aspect-square">
+              <Tile href={personalLinks.github.link}>
+                <div className="flex h-full flex-col items-start justify-between p-6">
+                <GithubIcon className="h-6 w-6" />
+                  <div>
+                    <div className="text-xs text-foreground/50">GitHub</div>
+                    <div className="text-sm font-medium">{personalLinks.github.label}</div>
+                  </div>
+                </div>
+              </Tile>
+            </BentoReveal>
+
+            <BentoReveal delay={0.22} className="col-span-3 md:col-span-1 aspect-square">
+              <Tile href={personalLinks.linkedin.link}>
+                <div className="flex h-full flex-col items-start justify-between p-6">
+                <LinkedinIcon className="h-6 w-6" />
+                  <div>
+                    <div className="text-xs text-foreground/50">LinkedIn</div>
+                    <div className="text-sm font-medium">{personalLinks.linkedin.label}</div>
+                  </div>
+                </div>
+              </Tile>
+            </BentoReveal>
+
+            <BentoReveal delay={0.25} className="col-span-6 md:col-span-2 aspect-[4/3] md:aspect-auto md:row-span-1">
+              <Tile href="/muhammad_shayan_cv.pdf" label="Résumé">
+                <div className="flex items-start justify-between p-6 md:p-7">
+                  <TileBadge>05 / PDF · 2 pages</TileBadge>
+                  <FileDown className="h-5 w-5 text-foreground/60" strokeWidth={1.5} />
+                </div>
+                <div className="px-6 pb-4 md:px-7">
+                  <p className="text-sm text-foreground/60">Full experience, education and toolkit — one crisp download.</p>
+                </div>
+              </Tile>
+            </BentoReveal>
           </div>
         </div>
+      </section>
 
-        {/* Middle column — article body */}
-        <div className="md:col-span-4">
-          <div className="smallcaps mb-2">From the desk of the engineer</div>
-          <h3 className="headline mb-3 text-2xl">A note on how this paper is made.</h3>
-          <div className="dropcap columns-1 text-[15px] leading-[1.55] text-[color:var(--ink)]">
-            I have spent the better part of a decade learning that software is not
-            written for machines — it is written for the tired person on the far
-            end of a broken pipe. The dispatches on the following pages are all,
-            in their way, letters to that person. Some are apps, some are
-            libraries, some are quiet rewrites of things that used to be loud.
-            Each was measured; each shipped; each was, I hope, a small kindness
-            to somebody's afternoon.
+      {/* Work */}
+      <section id="work" className="relative z-10 mx-auto mt-32 max-w-[1440px] px-6 md:mt-48 md:px-10">
+        <SectionHead eyebrow="Selected Work" title="Recent projects, quietly obsessed over." />
+        <ul className="mt-14 divide-y divide-foreground/10 border-y border-foreground/10">
+          {projects.map((p, i) => (
+            <motion.li
+              key={p.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.05, ease: [0.2, 0.8, 0.2, 1] }}
+              className="group"
+            >
+              <a href="#" className="grid grid-cols-12 items-baseline gap-4 py-8 md:py-10 transition hover:opacity-90">
+                <span className="col-span-1 font-mono text-xs text-foreground/40">0{i + 1}</span>
+                <span className="col-span-6 text-3xl font-medium tracking-tight md:col-span-5 md:text-5xl">{p.name}</span>
+                <span className="col-span-5 text-sm text-foreground/60 md:col-span-4">{p.role}</span>
+                <span className="hidden text-xs font-mono uppercase tracking-widest text-foreground/50 md:col-span-2 md:block">{p.tag}</span>
+                <span className="hidden text-right font-mono text-xs text-foreground/40 md:col-span-1 md:block group-hover:text-foreground">
+                  {p.year} ↗
+                </span>
+              </a>
+            </motion.li>
+          ))}
+        </ul>
+      </section>
+
+      {/* About */}
+      <section id="about" className="relative z-10 mx-auto mt-32 max-w-[1440px] px-6 md:mt-48 md:px-10">
+        <SectionHead eyebrow="About" title="Engineer by trade. Designer by instinct." />
+        <div className="mt-14 grid grid-cols-12 gap-6">
+          <div className="col-span-12 md:col-span-7">
+            <p className="text-2xl leading-snug text-foreground/85 md:text-3xl">
+              I build software that feels considered — fast, quiet, and human. My work sits between mobile apps, AI systems and the design details that make them worth using.
+            </p>
+            <p className="mt-6 max-w-2xl text-base text-foreground/60">
+              Currently based in Karachi. Previously shipped indie iOS apps, production dashboards, and AI tooling for teams that care about craft. Comfortable owning a product end-to-end from architecture to the last pixel.
+            </p>
           </div>
-          <p className="marginalia mt-4">
-            — <span className="not-italic font-semibold">M.S.</span>, Karachi
-          </p>
-        </div>
-
-        {/* Right column — sidebar / index */}
-        <aside className="md:col-span-3 rule-l pl-6">
-          <div className="smallcaps mb-3 text-[color:var(--stamp)]">Inside this issue</div>
-          <ul className="space-y-2 text-[15px]">
-            {[
-              ["I", "The Lead", "01"],
-              ["II", "Dispatches", "02"],
-              ["III", "Instruments", "06"],
-              ["IV", "Chronicle", "08"],
-              ["V", "Correspondence", "10"],
-              ["VI", "Colophon", "12"],
-            ].map(([n, name, pg]) => (
-              <li key={name} className="leaders">
-                <span className="folio w-6 shrink-0">{n}</span>
-                <a
-                  href={`#${(name as string).toLowerCase()}`}
-                  className="link-ink no-underline hover:underline"
-                >
-                  {name}
-                </a>
-                <span className="dots" />
-                <span className="folio">p.{pg}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-8 border border-[color:var(--rule)] p-4">
-            <div className="smallcaps mb-2 text-[color:var(--stamp)]">At a glance</div>
-            <dl className="space-y-2 text-[15px]">
+          <div className="col-span-12 md:col-span-5">
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-8">
               {[
-                ["Years shipping", "6"],
-                ["Apps in production", "17"],
-                ["Total installs", "3.2M+"],
-                ["Countries reached", "24"],
-                ["Timezone", "GMT+5"],
+                ["Focus", "iOS · AI · Web"],
+                ["Based", "Karachi, PK"],
+                ["Since", "2020"],
+                ["Available", "Q3 2026"],
               ].map(([k, v]) => (
-                <div key={k} className="leaders">
-                  <dt>{k}</dt>
-                  <span className="dots" />
-                  <dd className="font-mono tabular-nums">{v}</dd>
+                <div key={k}>
+                  <dt className="text-xs uppercase tracking-widest text-foreground/40">{k}</dt>
+                  <dd className="mt-2 text-lg tracking-tight">{v}</dd>
                 </div>
               ))}
             </dl>
           </div>
-        </aside>
-      </div>
-    </section>
-  );
-}
-
-function Dispatches() {
-  return (
-    <section id="dispatches" className="rule-t bg-[color:var(--paper)]">
-      <div className="mx-auto max-w-[1240px] px-6 py-14">
-        <SectionHeading roman="II" name="Dispatches" note="Selected case files, ordered by recency." />
-        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-14 md:grid-cols-2">
-          {PROJECTS.map((p, i) => (
-            <ProjectArticle key={p.slug} project={p} index={i} />
-          ))}
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
 
-function ProjectArticle({ project, index }: { project: (typeof PROJECTS)[number]; index: number }) {
-  const ref = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [20, -20]);
-  return (
-    <motion.article
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative"
-    >
-      <div className="rule-b mb-4 flex items-baseline justify-between pb-2">
-        <span className="folio">CASE No. {String(index + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}</span>
-        <span className="folio">{project.year}</span>
-      </div>
-
-      {/* Halftone illustration */}
-      <motion.div style={{ y }} className="halftone rule-b relative aspect-[16/9] w-full overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(135deg, oklch(0.42 0.09 ${45 + index * 60}) 0%, oklch(0.28 0.05 ${60 + index * 60}) 100%)`,
-          }}
-        />
-        <div className="absolute inset-0 flex items-end p-6">
-          <span
-            className="headline text-[color:var(--paper)] opacity-70"
-            style={{ fontSize: "clamp(28px, 4vw, 56px)" }}
-          >
-            {project.slug}
-          </span>
+      {/* Stack marquee */}
+      <section id="stack" className="relative z-10 mt-32 md:mt-48">
+        <div className="mx-auto max-w-[1440px] px-6 md:px-10">
+          <SectionHead eyebrow="Toolkit" title="Tools I reach for daily." />
         </div>
-      </motion.div>
-
-      <div className="mt-5">
-        <div className="smallcaps mb-2 text-[color:var(--stamp)]">{project.kicker}</div>
-        <h3 className="headline text-[34px] leading-[0.98]">{project.headline}</h3>
-        <p className="deck mt-2 text-lg">{project.byline}</p>
-        <p className="mt-4 text-[15px] leading-[1.6] text-[color:var(--ink)]">{project.body}</p>
-
-        <div className="mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2 rule-t pt-3">
-          <span className="folio">RESULT · <strong className="font-mono not-italic text-[color:var(--deep-ink)]">{project.metric}</strong></span>
-          <span className="folio">SET IN · {project.stack.join(" · ")}</span>
-          <a href="#" className="link-ink ml-auto font-mono text-xs">Read the case file →</a>
+        <div className="mt-14 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="marquee-track gap-14 whitespace-nowrap px-6 text-5xl font-medium tracking-tight text-foreground/70 md:text-7xl">
+            {Array.from({ length: 2 }).map((_, idx) => (
+              <div key={idx} className="flex items-center gap-14">
+                {["Swift", "SwiftUI", "TypeScript", "React", "Next.js", "Node", "Python", "PyTorch", "Figma", "Postgres", "Rust", "Tailwind"].map((t) => (
+                  <span key={t} className="flex items-center gap-14">
+                    <span>{t}</span>
+                    <span className="text-foreground/20">✦</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.article>
-  );
-}
+      </section>
 
-function SectionHeading({ roman, name, note }: { roman: string; name: string; note: string }) {
-  return (
-    <div id={name.toLowerCase()} className="rule-thick-b flex flex-wrap items-end justify-between gap-4 pb-3">
-      <div>
-        <div className="folio text-[color:var(--stamp)]">SECTION {roman}</div>
-        <h2 className="headline mt-1 text-[54px] leading-none md:text-[72px]">{name}</h2>
-      </div>
-      <p className="deck max-w-md text-right text-lg">{note}</p>
+      {/* Contact */}
+      <section id="contact" className="relative z-10 mx-auto mt-32 max-w-[1440px] px-6 pb-24 md:mt-48 md:px-10">
+        <div className="tile grain relative overflow-hidden p-10 md:p-16">
+          <div className="max-w-3xl">
+            <div className="text-xs uppercase tracking-[0.25em] text-foreground/50">Let's build</div>
+            <h2 className="display mt-6 text-[clamp(48px,9vw,140px)] text-foreground">
+              Have a project<br /><span className="italic font-light">in mind?</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-base text-foreground/60 md:text-lg">
+              I take on a small number of collaborations each year. If you're building something ambitious, I'd love to hear about it.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-3">
+              <a
+                href={personalLinks.email.link}
+                className="group inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-4 text-sm font-medium text-background transition hover:opacity-90"
+              >
+                <Mail className="h-4 w-4" strokeWidth={2} />
+                {personalLinks.email.label}
+                <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+              <a
+                href="/muhammad_shayan_cv.pdf"
+                className="inline-flex items-center gap-3 rounded-full border border-foreground/15 px-6 py-4 text-sm font-medium text-foreground transition hover:bg-foreground/5"
+              >
+                <FileDown className="h-4 w-4" strokeWidth={2} />
+                Download résumé
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <footer className="mt-10 flex flex-col items-start justify-between gap-4 text-xs text-foreground/50 md:flex-row md:items-center">
+          <div>© {new Date().getFullYear()} Muhammad Shayan. Handcrafted in Karachi.</div>
+          <div className="font-mono">v2026.4 · built with intent</div>
+        </footer>
+      </section>
     </div>
   );
 }
 
-function Instruments() {
+function TileBadge({ children }: { children: React.ReactNode }) {
   return (
-    <section id="instruments" className="rule-t bg-[color:var(--surface)]">
-      <div className="mx-auto max-w-[1240px] px-6 py-14">
-        <SectionHeading
-          roman="III"
-          name="Instruments"
-          note="The tools kept on the workbench, ordered by proximity to hand."
-        />
-        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-3">
-          {INSTRUMENTS.map((col) => (
-            <div key={col.group}>
-              <div className="rule-b flex items-baseline justify-between pb-2">
-                <span className="smallcaps">{col.group}</span>
-                <span className="folio">{col.items.length} entries</span>
-              </div>
-              <ul className="mt-3 space-y-2 text-[15px]">
-                {col.items.map((it, i) => (
-                  <li key={it} className="leaders">
-                    <span className="folio w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                    <span>{it}</span>
-                    <span className="dots" />
-                    <span className="font-mono text-xs">★★★★★</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="asterism mt-12" />
-      </div>
-    </section>
+    <div className="p-6 md:p-7">
+      <span className="inline-flex items-center rounded-full border border-foreground/10 bg-background/40 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-foreground/60 backdrop-blur">
+        {children}
+      </span>
+    </div>
   );
 }
 
-function Chronicle() {
+function BentoReveal({
+  children, className = "", delay = 0,
+}: { children: React.ReactNode; className?: string; delay?: number }) {
   return (
-    <section id="chronicle" className="rule-t bg-[color:var(--paper)]">
-      <div className="mx-auto max-w-[1240px] px-6 py-14">
-        <SectionHeading
-          roman="IV"
-          name="Chronicle"
-          note="A tidy accounting of the years, for those who wonder how one arrives here."
-        />
-        <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-8">
-            <ul className="space-y-4">
-              {CHRONICLE.map((row, i) => (
-                <motion.li
-                  key={row.year}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.05 }}
-                  className="rule-b grid grid-cols-12 items-baseline gap-4 pb-4"
-                >
-                  <span className="folio col-span-3 text-[color:var(--stamp)]">{row.year}</span>
-                  <div className="col-span-9 md:col-span-6">
-                    <h3 className="headline text-[22px]">{row.role}</h3>
-                    <p className="deck text-base">{row.note}</p>
-                  </div>
-                  <span className="hidden md:col-span-3 md:block text-right font-mono text-xs text-[color:var(--ink)]">
-                    ENTRY {String(CHRONICLE.length - i).padStart(2, "0")}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-          <aside className="md:col-span-4 border border-[color:var(--rule)] p-5">
-            <div className="smallcaps mb-2 text-[color:var(--stamp)]">A working philosophy</div>
-            <p className="deck text-lg">
-              &ldquo;The best software feels inevitable, as though it could not have
-              been written any other way. My job is to keep editing until it does.&rdquo;
-            </p>
-            <div className="mt-4 flex items-center justify-between">
-              <span className="folio">— M.S.</span>
-              <span className="stamp text-[10px]">Filed · 2026</span>
-            </div>
-
-            <div className="rule-t mt-6 pt-4">
-              <div className="smallcaps mb-3">Beliefs, briefly</div>
-              <ul className="space-y-2 text-[14px] leading-[1.5]">
-                <li>❦ Ship first, refactor from evidence.</li>
-                <li>❦ Offline is a first-class user.</li>
-                <li>❦ Every animation earns its milliseconds.</li>
-                <li>❦ Tests are letters to your future self.</li>
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.9, delay: 0.15 + delay, ease: [0.2, 0.8, 0.2, 1] }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
-function Correspondence() {
-  const [msg, setMsg] = useState("");
+function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <section id="correspondence" className="rule-t bg-[color:var(--surface)]">
-      <div className="mx-auto max-w-[1240px] px-6 py-14">
-        <SectionHeading
-          roman="V"
-          name="Correspondence"
-          note="Letters to the editor, addressed for reply. All are read; most receive an answer."
-        />
-        <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-7 space-y-6">
-            {CORRESPONDENCE.map((c, i) => (
-              <motion.div
-                key={c.tag}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-                className="rule-b pb-6"
-              >
-                <div className="flex items-baseline justify-between">
-                  <span className="smallcaps text-[color:var(--stamp)]">{c.tag}</span>
-                  <span className="folio">LETTER {String(i + 1).padStart(2, "0")}</span>
-                </div>
-                <h3 className="headline mt-2 text-[30px]">{c.title}</h3>
-                <p className="deck mt-2 text-lg">{c.body}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <aside className="md:col-span-5">
-            <div className="rule-thick-t border-x border-b border-[color:var(--rule)] bg-[color:var(--paper)] p-6">
-              <div className="folio text-[color:var(--stamp)]">FORM 1B · PRIVATE POST</div>
-              <h3 className="headline mt-2 text-[38px] leading-none">Address the editor.</h3>
-              <p className="deck mt-2">
-                A few lines on what you're building, and I'll write back inside 48 hours.
-              </p>
-
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const url = `${personalLinks.email.link}?subject=${encodeURIComponent(
-                    "A letter from the paper",
-                  )}&body=${encodeURIComponent(msg || "Hello Shayan,\n\n")}`;
-                  window.location.href = url;
-                }}
-                className="mt-5 space-y-4"
-              >
-                <label className="block">
-                  <span className="smallcaps text-[color:var(--ink)]">Your dispatch</span>
-                  <textarea
-                    value={msg}
-                    onChange={(e) => setMsg(e.target.value)}
-                    rows={5}
-                    placeholder="Dear Shayan — we're building an app that…"
-                    className="mt-2 w-full resize-none border border-[color:var(--rule)] bg-[color:var(--paper)] p-3 font-serif text-[16px] italic text-[color:var(--deep-ink)] outline-none placeholder:text-[color:var(--ink)]/60 focus:border-[color:var(--stamp)]"
-                  />
-                </label>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-[color:var(--ink)]">
-                    Signed with intention · Delivered by hand
-                  </span>
-                  <button type="submit" className="stamp text-xs">Post the letter</button>
-                </div>
-              </form>
-
-              <div className="rule-t mt-6 grid grid-cols-2 gap-4 pt-4">
-                <a href={personalLinks.github.link} className="link-ink font-mono text-sm">
-                  GITHUB · {personalLinks.github.label}
-                </a>
-                <a href={personalLinks.linkedin.link} className="link-ink font-mono text-sm">
-                  LINKEDIN · {personalLinks.linkedin.label}
-                </a>
-              </div>
-            </div>
-            <p className="marginalia mt-3 pl-2">
-              &nbsp;— Or, without ceremony: <a className="link-ink" href={personalLinks.email.link}>{personalLinks.email.label}</a>
-            </p>
-          </aside>
-        </div>
+    <div className="flex items-end justify-between border-b border-foreground/10 pb-6">
+      <div>
+        <div className="font-mono text-xs uppercase tracking-[0.25em] text-foreground/50">{eyebrow}</div>
+        <h2 className="mt-3 max-w-2xl text-3xl font-medium tracking-tight md:text-5xl">{title}</h2>
       </div>
-    </section>
-  );
-}
-
-function Colophon() {
-  return (
-    <footer id="colophon" className="rule-t bg-[color:var(--paper)]">
-      <div className="mx-auto max-w-[1240px] px-6 py-10">
-        <div className="rule-b flex flex-wrap items-baseline justify-between gap-4 pb-3">
-          <div>
-            <div className="folio text-[color:var(--stamp)]">SECTION VI</div>
-            <h2 className="headline mt-1 text-[36px]">Colophon</h2>
-          </div>
-          <p className="deck max-w-md text-right">
-            Set in Instrument Serif &amp; JetBrains Mono. Printed on cream oklch(0.955 0.018 85).
-            Composed in Karachi. Shipped over TLS.
-          </p>
-        </div>
-
-        <div className="mt-6 grid grid-cols-2 gap-6 folio md:grid-cols-4">
-          <div>
-            <div className="smallcaps mb-1">Editor-in-Chief</div>
-            <div className="text-[color:var(--deep-ink)] font-serif text-lg not-italic">Muhammad Shayan</div>
-          </div>
-          <div>
-            <div className="smallcaps mb-1">Correspondents</div>
-            <div className="text-[color:var(--deep-ink)] font-serif text-lg not-italic">One. Same person.</div>
-          </div>
-          <div>
-            <div className="smallcaps mb-1">Print run</div>
-            <div className="text-[color:var(--deep-ink)] font-serif text-lg not-italic">∞ digital impressions</div>
-          </div>
-          <div>
-            <div className="smallcaps mb-1">Next edition</div>
-            <div className="text-[color:var(--deep-ink)] font-serif text-lg not-italic">When there is news.</div>
-          </div>
-        </div>
-
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-          <span className="folio">© {new Date().getFullYear()} · The Shayan Daily · All rights lightly reserved.</span>
-          <span className="stamp text-[10px]">Ex Libris · Karachi</span>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-/* -------------------------------------------------------------- *
- * Root                                                            *
- * -------------------------------------------------------------- */
-
-function Index() {
-  return (
-    <div className="newsprint min-h-screen text-[color:var(--deep-ink)]">
-      <Ticker />
-      <Masthead />
-      <FrontPage />
-      <Dispatches />
-      <Instruments />
-      <Chronicle />
-      <Correspondence />
-      <Colophon />
     </div>
   );
 }
