@@ -937,17 +937,17 @@ function IndexInner() {
           </Tile>
 
           {[
-            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false },
-            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true },
-            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false },
-            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false },
+            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false, color: "oklch(0.78 0.18 210)" },
+            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true, color: "oklch(0.72 0.24 300)" },
+            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false, color: "oklch(0.72 0.24 25)" },
+            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false, color: "oklch(0.78 0.18 210)" },
           ].map((m, i) => {
             const Icon = m.icon;
             return (
               <Tile
                 key={m.label}
                 variant={m.strong ? "strong" : "glass"}
-                className="col-span-3 md:col-span-3 justify-between min-h-[160px]"
+                className={`col-span-3 md:col-span-3 justify-between min-h-[160px] ${m.strong ? "aurora-border" : ""}`}
                 index={i + 2}
               >
                 <div className="flex items-center justify-between text-white/40">
@@ -955,10 +955,13 @@ function IndexInner() {
                   <span className="text-[10px] tracking-[0.24em]">{m.label}</span>
                 </div>
                 <div>
-                  <div className={`font-display text-5xl font-semibold ${m.strong ? "aurora-text" : "text-white"}`}>
+                  <div className={`font-display text-5xl font-semibold leading-none ${m.strong ? "aurora-text" : "text-white"}`}>
                     <Counter to={m.to} suffix={m.suffix} />
                   </div>
-                  <div className="mt-1 text-xs text-white/50">{m.sub}</div>
+                  <div className="mt-2 flex items-center justify-between gap-3">
+                    <span className="text-[11px] text-white/50">{m.sub}</span>
+                    <Sparkline color={m.color} />
+                  </div>
                 </div>
               </Tile>
             );
