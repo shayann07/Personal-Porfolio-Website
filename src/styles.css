@@ -125,6 +125,51 @@
   /* Portfolio is intentionally light — no dark mode overrides. */
 }
 
+/* ==== Light theme override — page brightens, glass stays dark-tinted ==== */
+/* Keeps white-on-glass text legible so glassmorphism reads identically. */
+.light {
+  --paper: oklch(0.97 0.012 260);       /* soft warm paper */
+  --surface: oklch(0.92 0.02 265);      /* elevated surface */
+  --ink: oklch(0.35 0.02 260);
+  --deep-ink: oklch(0.15 0.01 260);
+
+  --background: var(--paper);
+  --foreground: var(--deep-ink);
+}
+/* Aurora blobs read more vivid on light paper */
+.light .aurora-blob { opacity: 0.55; filter: blur(120px); }
+/* Glass tiles: darker translucent so existing text-white remains readable */
+.light .glass {
+  background:
+    linear-gradient(135deg, oklch(0.14 0.02 270 / 0.62) 0%, oklch(0.14 0.02 270 / 0.48) 55%, oklch(0.14 0.02 270 / 0.55) 100%);
+  border: 1px solid oklch(0.14 0.02 270 / 0.22);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.14),
+    inset 0 -1px 0 oklch(0 0 0 / 0.15),
+    0 30px 80px -30px oklch(0 0 0 / 0.35),
+    0 8px 24px -12px oklch(0 0 0 / 0.2);
+}
+.light .glass-strong {
+  background:
+    linear-gradient(135deg, oklch(0.14 0.02 270 / 0.72) 0%, oklch(0.14 0.02 270 / 0.55) 50%, oklch(0.14 0.02 270 / 0.65) 100%);
+  border: 1px solid oklch(0.14 0.02 270 / 0.28);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.2),
+    inset 0 -1px 0 oklch(0 0 0 / 0.18),
+    0 40px 120px -30px oklch(0 0 0 / 0.45),
+    0 12px 32px -12px oklch(0 0 0 / 0.28);
+}
+/* Marquee fades use the page bg — repoint to paper in light mode */
+.light .marquee-fade-l { background: linear-gradient(to right, var(--paper), transparent); }
+.light .marquee-fade-r { background: linear-gradient(to left, var(--paper), transparent); }
+/* Grid overlay is white-on-dark by default; darken it on light bg */
+.light .grid-overlay {
+  background-image:
+    linear-gradient(oklch(0 0 0 / 1) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0 0 0 / 1) 1px, transparent 1px) !important;
+  opacity: 0.06 !important;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
