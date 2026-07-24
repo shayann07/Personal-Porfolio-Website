@@ -404,6 +404,19 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
             <div>
               <div className="display text-white text-[clamp(32px,5vw,80px)] leading-[0.9]">{p.title}</div>
               <p className="mt-2 max-w-md text-sm leading-relaxed text-white/70">{p.desc}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.stack.map((t) => (
+                  <span key={t} className="mono rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{t}</span>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+                {p.metrics.map((m) => (
+                  <div key={m.k}>
+                    <div className="display text-white text-[clamp(18px,1.6vw,22px)] leading-none">{m.v}</div>
+                    <div className="mono mt-1 text-[10px] uppercase tracking-[0.2em] text-white/45">{m.k}</div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <span className="mono text-[11px] uppercase tracking-[0.22em] text-white/60">{p.role}</span>
