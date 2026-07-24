@@ -13,9 +13,7 @@ import {
   ArrowUpRight,
   Code2,
   Cpu,
-  Github,
   Layers,
-  Linkedin,
   Mail,
   MapPin,
   Pause,
@@ -1058,7 +1056,7 @@ function IndexInner() {
               aria-label="LinkedIn profile"
             >
               <div className="flex items-center justify-between text-white/50">
-                <Linkedin className="h-4 w-4" aria-hidden="true" />
+                <span className="font-mono text-xs tracking-widest">in/</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
               </div>
               <div>
@@ -1081,7 +1079,7 @@ function IndexInner() {
               aria-label="GitHub profile"
             >
               <div className="flex items-center gap-4">
-                <Github className="h-5 w-5 text-white/80" aria-hidden="true" />
+                <span className="font-mono text-sm tracking-widest text-white/80">gh/</span>
                 <div>
                   <p className="font-display text-lg font-semibold text-white">
                     {personalLinks.github.label}
