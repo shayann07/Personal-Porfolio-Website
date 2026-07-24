@@ -252,6 +252,9 @@ function Tile({
   as = "div",
   onActivate,
   ariaLabel,
+  tilt = true,
+  sheen = true,
+  frost = true,
 }: {
   children: ReactNode;
   className?: string;
@@ -261,6 +264,9 @@ function Tile({
   as?: "div" | "button" | "article";
   onActivate?: () => void;
   ariaLabel?: string;
+  tilt?: boolean;
+  sheen?: boolean;
+  frost?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { reduced } = useMotionPref();
@@ -269,8 +275,22 @@ function Tile({
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    el.style.setProperty("--mx", `${mx}px`);
+    el.style.setProperty("--my", `${my}px`);
+    if (tilt) {
+      const rx = ((my / r.height) - 0.5) * -6;
+      const ry = ((mx / r.width) - 0.5) * 6;
+      el.style.setProperty("--rx", `${rx}deg`);
+      el.style.setProperty("--ry", `${ry}deg`);
+    }
+  };
+  const onLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--rx", `0deg`);
+    el.style.setProperty("--ry", `0deg`);
   };
 
   const base =
@@ -291,6 +311,7 @@ function Tile({
       aria-label={ariaLabel}
       tabIndex={interactive ? 0 : undefined}
       onMouseMove={reduced ? undefined : onMove}
+      onMouseLeave={reduced ? undefined : onLeave}
       onClick={onActivate}
       onKeyDown={
         interactive
@@ -310,14 +331,19 @@ function Tile({
         delay: reduced ? 0 : Math.min(index, 6) * 0.04,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`spot tile-hover relative flex flex-col overflow-hidden rounded-2xl p-6 ${base} ${
+      className={`spot tile-hover ${sheen ? "sheen" : ""} ${frost ? "frost" : ""} relative flex flex-col overflow-hidden rounded-3xl p-6 ${base} ${
         interactive
           ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           : ""
       } ${className}`}
-      style={{ willChange: "transform, opacity" }}
+      style={{
+        willChange: "transform, opacity",
+        transformStyle: "preserve-3d",
+        transform:
+          "perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))",
+      }}
     >
-      {children}
+      <div className="relative z-[2] flex h-full w-full flex-col">{children}</div>
     </motion.div>
   );
 }
