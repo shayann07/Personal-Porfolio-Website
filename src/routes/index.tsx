@@ -236,7 +236,7 @@ function Hero() {
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="display text-white text-[clamp(44px,14.5vw,260px)]">
+        <h1 className="display text-white text-[clamp(40px,10vw,148px)]">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -244,7 +244,7 @@ function Hero() {
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-              className="inline-grid h-[0.9em] w-[0.9em] max-h-[110px] max-w-[110px] shrink-0 place-items-center rounded-full"
+              className="inline-grid h-[0.85em] w-[0.85em] max-h-[72px] max-w-[72px] shrink-0 place-items-center rounded-full"
               style={{ background: "radial-gradient(circle at 30% 30%, #e6e8ef, #1a1c24)" }}
               aria-hidden
             >
@@ -278,7 +278,7 @@ function Hero() {
             ].map((c) => (
               <div key={c.k} className="tile p-4 min-w-0">
                 <div className="eyebrow">{c.k}</div>
-                <div className="mt-3 display truncate text-white text-[clamp(20px,1.8vw,28px)] leading-none">{c.v}</div>
+                <div className="mt-2 display truncate text-white text-[clamp(16px,1.2vw,20px)] leading-none">{c.v}</div>
                 <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/50">{c.s}</div>
               </div>
             ))}
