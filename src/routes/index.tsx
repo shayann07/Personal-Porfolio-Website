@@ -236,7 +236,7 @@ function Hero() {
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="display text-white text-[clamp(44px,14.5vw,260px)]">
+        <h1 className="display text-white text-[clamp(40px,10vw,148px)]">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -244,7 +244,7 @@ function Hero() {
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-              className="inline-grid h-[0.9em] w-[0.9em] max-h-[110px] max-w-[110px] shrink-0 place-items-center rounded-full"
+              className="inline-grid h-[0.85em] w-[0.85em] max-h-[72px] max-w-[72px] shrink-0 place-items-center rounded-full"
               style={{ background: "radial-gradient(circle at 30% 30%, #e6e8ef, #1a1c24)" }}
               aria-hidden
             >
@@ -278,7 +278,7 @@ function Hero() {
             ].map((c) => (
               <div key={c.k} className="tile p-4 min-w-0">
                 <div className="eyebrow">{c.k}</div>
-                <div className="mt-3 display truncate text-white text-[clamp(20px,1.8vw,28px)] leading-none">{c.v}</div>
+                <div className="mt-2 display truncate text-white text-[clamp(16px,1.2vw,20px)] leading-none">{c.v}</div>
                 <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/50">{c.s}</div>
               </div>
             ))}
@@ -303,8 +303,8 @@ function Marquee() {
     <div className="flex shrink-0 items-center gap-10 pr-10">
       {A.map((t, i) => (
         <span key={i} className="flex items-center gap-10">
-          <span className="display text-[8vw] leading-none text-white/95">{t}</span>
-          <span className="serifital italic text-[8vw] leading-none text-[color:var(--violet)]">✦</span>
+          <span className="display text-[clamp(28px,4.6vw,72px)] leading-none text-white/95">{t}</span>
+          <span className="serifital italic text-[clamp(28px,4.6vw,72px)] leading-none text-[color:var(--violet)]">✦</span>
         </span>
       ))}
     </div>
@@ -313,8 +313,8 @@ function Marquee() {
     <div className="flex shrink-0 items-center gap-10 pr-10">
       {B.map((t, i) => (
         <span key={i} className="flex items-center gap-10">
-          <span className="serifital italic text-[6vw] leading-none text-white/60">{t}</span>
-          <span className="mono text-[6vw] leading-none text-white/25">/</span>
+          <span className="serifital italic text-[clamp(22px,3.4vw,54px)] leading-none text-white/60">{t}</span>
+          <span className="mono text-[clamp(22px,3.4vw,54px)] leading-none text-white/25">/</span>
         </span>
       ))}
     </div>
@@ -333,12 +333,12 @@ function Marquee() {
 
 function WorkList() {
   return (
-    <section id="work" className="relative py-20 md:py-32">
+    <section id="work" className="relative py-16 md:py-24">
       <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-16">
           <div className="min-w-0">
             <div className="chip mb-4"><span className="dot" />Selected Work</div>
-            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+            <h2 className="display text-white text-[clamp(28px,3.6vw,56px)]">
               Recent <span className="serifital italic text-[color:var(--violet)]">shipments.</span>
             </h2>
           </div>
@@ -412,7 +412,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-8">
           <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6">
             <div className="min-w-0 flex-1">
-              <div className="display text-white text-[clamp(28px,5vw,80px)] leading-[0.9]">{p.title}</div>
+              <div className="display text-white text-[clamp(22px,2.8vw,42px)] leading-[0.9]">{p.title}</div>
               <p className="mt-2 max-w-md text-[13px] leading-relaxed text-white/70 md:text-sm">{p.desc}</p>
               <div className="mt-3 flex flex-wrap gap-2 md:mt-4">
                 {p.stack.map((t) => (
@@ -422,7 +422,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
               <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 md:mt-4 md:gap-x-6">
                 {p.metrics.map((m) => (
                   <div key={m.k}>
-                    <div className="display text-white text-[clamp(18px,1.6vw,22px)] leading-none">{m.v}</div>
+                    <div className="display text-white text-[clamp(16px,1.2vw,20px)] leading-none">{m.v}</div>
                     <div className="mono mt-1 text-[10px] uppercase tracking-[0.2em] text-white/45">{m.k}</div>
                   </div>
                 ))}
@@ -455,14 +455,14 @@ function Studio() {
   ];
 
   return (
-    <section id="studio" ref={ref} className="relative overflow-hidden py-20 md:py-40">
+    <section id="studio" ref={ref} className="relative overflow-hidden py-16 md:py-28">
       <div className="glow-blob left-[10%] top-[20%] h-[400px] w-[400px]" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .5 }} />
 
       <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
-            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+            <h2 className="display text-white text-[clamp(28px,3.6vw,56px)]">
                 Mobile, made <span className="serifital italic text-[color:var(--violet)]">calm.</span>
             </h2>
           </div>
@@ -476,7 +476,7 @@ function Studio() {
           <motion.div style={{ y: y1 }} className="col-span-12 md:col-span-7">
             <div className="tile relative p-8 md:p-12">
               <div className="absolute right-6 top-4 serifital text-[140px] leading-none text-white/10">“</div>
-              <div className="serifital text-white/95 text-[clamp(28px,3.4vw,52px)] leading-[1.1]">
+              <div className="serifital text-white/95 text-[clamp(20px,2.2vw,34px)] leading-[1.1]">
                 Great mobile UX is invisible engineering — <span className="italic text-[color:var(--violet)]">offline that just works, sync you never notice, releases that don&apos;t crash.</span>
               </div>
               <div className="mt-10 flex items-center gap-4">
@@ -496,7 +496,7 @@ function Studio() {
             {stats.map((s) => (
               <div key={s.k} className="tile flex flex-col justify-between p-6 aspect-square">
                 <div className="mono text-[11px] uppercase tracking-[0.22em] text-white/50">{s.k}</div>
-                <div className="display text-white text-[clamp(48px,6vw,88px)] leading-none">{s.v}</div>
+                <div className="display text-white text-[clamp(32px,3.6vw,56px)] leading-none">{s.v}</div>
               </div>
             ))}
           </motion.div>
@@ -521,12 +521,12 @@ function Studio() {
 function IndexStack() {
   const [hovered, setHovered] = useState<number | null>(null);
   return (
-    <section id="index" className="relative border-t border-white/10 py-20 md:py-32">
+    <section id="index" className="relative border-t border-white/10 py-16 md:py-24">
       <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />Index · Toolkit</div>
-            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+            <h2 className="display text-white text-[clamp(28px,3.6vw,56px)]">
               Instruments I <span className="serifital italic text-[color:var(--violet)]">reach for.</span>
             </h2>
           </div>
@@ -551,7 +551,7 @@ function IndexStack() {
               style={{ transform: hovered === i ? "translateY(-6px)" : undefined }}
             >
               <span className="num-idx">{String(i + 1).padStart(2, "0")}</span>
-              <span className="display text-white text-[clamp(22px,2.6vw,40px)] leading-none">{s.name}</span>
+              <span className="display text-white text-[clamp(15px,1.4vw,22px)] leading-none">{s.name}</span>
               <span className="mono text-[10.5px] uppercase tracking-[0.22em] text-white/50 group-hover:text-[color:var(--violet)]">/ {s.kind}</span>
             </motion.button>
           ))}
@@ -565,12 +565,12 @@ function IndexStack() {
 
 function Metrics() {
   return (
-    <section id="metrics" className="relative border-t border-white/10 py-20 md:py-32">
+    <section id="metrics" className="relative border-t border-white/10 py-16 md:py-24">
       <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot live" />Command Center</div>
-            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+            <h2 className="display text-white text-[clamp(28px,3.6vw,56px)]">
               Signals from <span className="serifital italic text-[color:var(--violet)]">production.</span>
             </h2>
           </div>
@@ -589,7 +589,7 @@ function Metrics() {
               className="tile p-6 md:p-8"
             >
               <div className="mono text-[10.5px] uppercase tracking-[0.22em] text-white/50">{m.s}</div>
-              <div className="mt-6 display text-white text-[clamp(44px,5.4vw,84px)] leading-none">{m.v}</div>
+              <div className="mt-6 display text-white text-[clamp(30px,3.4vw,52px)] leading-none">{m.v}</div>
               <div className="mono mt-4 text-[11px] uppercase tracking-[0.22em] text-white/70">{m.k}</div>
             </motion.div>
           ))}
@@ -601,12 +601,12 @@ function Metrics() {
 
 function Timeline() {
   return (
-    <section id="story" className="relative border-t border-white/10 py-20 md:py-32">
+    <section id="story" className="relative border-t border-white/10 py-16 md:py-24">
       <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Story</div>
-            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+            <h2 className="display text-white text-[clamp(28px,3.6vw,56px)]">
               Chapters, <span className="serifital italic text-[color:var(--violet)]">in order.</span>
             </h2>
           </div>
@@ -630,7 +630,7 @@ function Timeline() {
                   <span className="mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--violet)]">{c.y}</span>
                   <span className="h-px flex-1 bg-white/10" />
                 </div>
-                <div className="mt-4 display text-white text-[clamp(24px,2.4vw,34px)] leading-tight">{c.t}</div>
+                <div className="mt-4 display text-white text-[clamp(18px,1.6vw,24px)] leading-tight">{c.t}</div>
                 <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/55">{c.o}</div>
                 <ul className="mt-5 space-y-2">
                   {c.b.map((line) => (
@@ -651,12 +651,12 @@ function Timeline() {
 
 function Lab() {
   return (
-    <section id="lab" className="relative border-t border-white/10 py-20 md:py-32">
+    <section id="lab" className="relative border-t border-white/10 py-16 md:py-24">
       <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
-            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+            <h2 className="display text-white text-[clamp(28px,3.6vw,56px)]">
               What I&apos;m <span className="serifital italic text-[color:var(--violet)]">tinkering on.</span>
             </h2>
           </div>
@@ -679,7 +679,7 @@ function Lab() {
                 <span className="chip"><span className="dot" style={{ background: l.tint, boxShadow: `0 0 10px ${l.tint}` }} />{l.s}</span>
                 <span className="num-idx">— {String(i + 1).padStart(2, "0")}</span>
               </div>
-              <div className="relative mt-8 display text-white text-[clamp(24px,2.2vw,32px)] leading-tight">{l.t}</div>
+              <div className="relative mt-8 display text-white text-[clamp(18px,1.5vw,22px)] leading-tight">{l.t}</div>
               <p className="relative mt-3 text-sm leading-relaxed text-white/70">{l.d}</p>
               <div className="relative mt-6 flex flex-wrap gap-2">
                 {l.tech.map((t) => (
@@ -696,13 +696,13 @@ function Lab() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-20 pb-32 md:py-32">
+    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-16 pb-28 md:py-24">
       <div className="glow-blob left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .6 }} />
 
       <div className="relative mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex"><span className="chip"><span className="dot live" />Booking Q3 — Q4 2026</span></div>
-          <h2 className="display text-white text-[clamp(44px,12vw,200px)] leading-[0.86]">
+          <h2 className="display text-white text-[clamp(36px,7vw,104px)] leading-[0.86]">
             <div><SplitReveal text="Let's build" /></div>
             <div><span className="serifital italic text-[color:var(--violet)]"><SplitReveal text="something rare." delay={0.08} /></span></div>
           </h2>
@@ -710,7 +710,7 @@ function Contact() {
           <div className="mt-10 flex flex-col items-center gap-6 md:mt-14">
             <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn max-w-full text-white !px-5 !py-4 md:!px-8 md:!py-[22px]">
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-black md:h-9 md:w-9">✎</span>
-              <span className="display truncate text-[clamp(16px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
+              <span className="display truncate text-[clamp(15px,1.6vw,22px)] leading-none">hello@shayxo.dev</span>
               <span className="mono shrink-0 text-lg md:text-xl">↗</span>
             </a>
 
