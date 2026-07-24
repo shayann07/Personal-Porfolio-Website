@@ -31,9 +31,9 @@
   --text-lg:      clamp(15px, 0.32vw + 13.75px, 18px);
   --text-xl:      clamp(17px, 0.55vw + 15px, 22px);
   --text-h3:      clamp(18px, 0.75vw + 15px, 24px);
-  --text-h2:      clamp(24px, 1.8vw + 16px, 40px);
-  --text-h1:      clamp(32px, 3.6vw + 16px, 64px);
-  --text-display: clamp(42px, 7.4vw + 6px, 104px);
+  --text-h2:      clamp(22px, 1.45vw + 15px, 34px);
+  --text-h1:      clamp(28px, 2.7vw + 15px, 52px);
+  --text-display: clamp(34px, 4.8vw + 8px, 76px);
 
   /* Fluid spacing */
   --space-1: 0.25rem;
@@ -44,7 +44,7 @@
   --space-8: 2rem;
   --space-10: clamp(1.125rem, 1vw + 0.85rem, 1.75rem);
   --space-14: clamp(1.5rem, 1.7vw + 0.9rem, 2.5rem);
-  --space-section: clamp(2.25rem, 3.4vw + 0.75rem, 4.25rem);
+  --space-section: clamp(1.75rem, 2.4vw + 0.75rem, 3.25rem);
   --space-gutter:  clamp(0.875rem, 2vw + 0.35rem, 1.75rem);
 
   --color-background: var(--background);
@@ -223,7 +223,7 @@ body { cursor: none; }
 .marquee-track { animation: marquee 40s linear infinite; will-change: transform; }
 
 /* Char reveal helper */
-.char-mask { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.char-mask { display: inline-block; overflow: visible; vertical-align: bottom; }
 .char-mask > span { display: inline-block; will-change: transform, opacity; }
 
 /* Link underline sweep */
