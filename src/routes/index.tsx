@@ -107,6 +107,7 @@ function MotionPrefProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/* ==========================================================
    Backdrop — aurora blobs with scroll parallax + intensifying blur
    ========================================================== */
 function AuroraBackdrop() {
