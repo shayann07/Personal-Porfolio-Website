@@ -288,14 +288,54 @@ function Hero() {
               transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
               style={{ maskImage: "radial-gradient(circle,transparent 60%,black 65%)" }}
             />
-            {/* orb card — real 3D */}
+            {/* orb card — pure CSS gradient mesh */}
             <div className="relative h-full w-full overflow-hidden rounded-[28px] ring-1 ring-white/10" style={{ background: "radial-gradient(circle at 50% 40%, #1a1030 0%, #050507 70%)" }}>
-              <ClientOnly>
-                <Suspense fallback={null}>
-                  <HeroOrb3D />
-                </Suspense>
-              </ClientOnly>
-              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 60% at 50% 45%, transparent, #05050788 95%)" }} />
+              {/* base gradient mesh */}
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(60% 55% at 30% 30%, #a78bfa66, transparent 60%)," +
+                    "radial-gradient(55% 50% at 75% 65%, #22d3ee55, transparent 65%)," +
+                    "radial-gradient(45% 45% at 60% 20%, #f0abfc44, transparent 70%)",
+                }}
+              />
+              {/* orb sphere */}
+              <motion.div
+                aria-hidden
+                animate={{ rotate: 360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                className="absolute left-1/2 top-1/2 h-[62%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, #a78bfa, #22d3ee, #f0abfc, #a78bfa)",
+                  filter: "blur(2px)",
+                  boxShadow:
+                    "inset -30px -30px 80px rgba(0,0,0,0.55), inset 20px 20px 60px rgba(255,255,255,0.15), 0 40px 120px -20px #a78bfa88",
+                }}
+              />
+              {/* specular highlight */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[62%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(30% 25% at 35% 30%, rgba(255,255,255,0.55), transparent 70%)",
+                }}
+              />
+              {/* grid overlay */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-[0.15]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px)",
+                  backgroundSize: "32px 32px",
+                  maskImage: "radial-gradient(70% 70% at 50% 50%, black, transparent 75%)",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 60% at 50% 45%, transparent, #050507cc 95%)" }} />
               {/* floating stat chips */}
               <div className="absolute left-3 top-3 flex flex-col gap-2">
                 <span className="chip"><span className="dot live" />live</span>
