@@ -222,7 +222,7 @@ function Hero() {
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative flex min-h-[62svh] flex-col justify-center overflow-hidden pb-10 pt-24 md:min-h-[68svh] md:pb-10 md:pt-24">
+    <section id="top" ref={ref} className="relative overflow-hidden pb-8 pt-24 md:pb-10 md:pt-24">
       {/* ambient blobs */}
       <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .55 }} />
       <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .5 }} />
@@ -289,7 +289,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      <motion.div style={{ opacity }} className="pointer-events-none absolute inset-x-0 bottom-6 container-x hidden items-center justify-between micro-eyebrow text-white/50 md:flex">
+      <motion.div style={{ opacity }} className="pointer-events-none container-x mt-8 hidden items-center justify-between micro-eyebrow text-white/50 md:flex">
         <span className="inline-flex items-center gap-2"><span className="tsep" /> Scroll to explore</span>
         <span>Muhammad Shayan · Karachi ⇄ Remote</span>
       </motion.div>
@@ -303,29 +303,29 @@ function Marquee() {
   const A = ["Available for work", "Android engineering", "Flutter apps", "On-device ML", "Offline-first"];
   const B = ["Karachi ⇄ Remote", "Kotlin · Compose", "TFLite · ML Kit", "99%+ crash-free", "40–60% faster"];
   const rowA = (
-    <div className="flex shrink-0 items-center gap-6 pr-6 md:gap-10 md:pr-10">
+    <div className="flex shrink-0 items-center gap-5 pr-5 md:gap-8 md:pr-8">
       {A.map((t, i) => (
-        <span key={i} className="flex items-center gap-6 md:gap-10">
-          <span className="hd-1 leading-none text-white/95">{t}</span>
-          <span className="serifital italic leading-none text-[color:var(--violet)]" style={{ fontSize: "var(--text-h1)" }}>✦</span>
+        <span key={i} className="flex items-center gap-5 md:gap-8">
+          <span className="font-display font-extrabold leading-none text-white/95" style={{ fontSize: "var(--text-h2)", letterSpacing: 0 }}>{t}</span>
+          <span className="serifital italic leading-none text-[color:var(--violet)]" style={{ fontSize: "var(--text-h2)" }}>✦</span>
         </span>
       ))}
     </div>
   );
   const rowB = (
-    <div className="flex shrink-0 items-center gap-6 pr-6 md:gap-10 md:pr-10">
+    <div className="flex shrink-0 items-center gap-5 pr-5 md:gap-8 md:pr-8">
       {B.map((t, i) => (
-        <span key={i} className="flex items-center gap-6 md:gap-10">
-          <span className="serifital italic leading-none text-white/60" style={{ fontSize: "var(--text-h2)" }}>{t}</span>
-          <span className="mono leading-none text-white/25" style={{ fontSize: "var(--text-h2)" }}>/</span>
+        <span key={i} className="flex items-center gap-5 md:gap-8">
+          <span className="serifital italic leading-none text-white/60" style={{ fontSize: "var(--text-h3)" }}>{t}</span>
+          <span className="mono leading-none text-white/25" style={{ fontSize: "var(--text-h3)" }}>/</span>
         </span>
       ))}
     </div>
   );
   return (
-    <section aria-hidden className="relative overflow-hidden border-y border-white/10 py-2.5 md:py-3">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#050507] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#050507] to-transparent" />
+    <section aria-hidden className="relative overflow-hidden border-y border-white/10 py-2 md:py-2.5">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#050507] to-transparent md:w-32" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#050507] to-transparent md:w-32" />
       <div className="marquee-track flex">{rowA}{rowA}</div>
       <div className="marquee-track flex mt-2" style={{ animationDirection: "reverse", animationDuration: "55s" }}>{rowB}{rowB}</div>
     </section>
