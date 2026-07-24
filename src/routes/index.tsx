@@ -11,8 +11,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Mobile engineer designing offline-first, crash-resistant Android & Flutter apps with on-device ML. Selected work, lab, and contact." },
       { property: "og:title", content: "Muhammad Shayan — Android & Flutter Engineer" },
       { property: "og:description", content: "Offline-first, crash-resistant mobile apps with on-device ML. Selected work, lab, and contact." },
-      { property: "og:image", content: "/og-image.png" },
-      { name: "twitter:image", content: "/og-image.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Page,
@@ -217,26 +217,26 @@ function Header() {
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, -160]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const blur = useTransform(scrollYProgress, [0, 1], [0, 8]);
+  const blur = useTransform(scrollYProgress, [0, 1], [0, 4]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden pb-24 pt-24 md:pb-16 md:pt-40">
+    <section id="top" ref={ref} className="relative overflow-hidden pb-6 pt-20 md:pb-10 md:pt-24">
       {/* ambient blobs */}
-      <div className="glow-blob left-[-10%] top-[10%] h-[420px] w-[420px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .7 }} />
-      <div className="glow-blob right-[-8%] top-[35%] h-[380px] w-[380px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .6 }} />
+      <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .55 }} />
+      <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .5 }} />
 
       <motion.div style={{ y, scale, opacity, filter }} className="container-x">
-        <div className="mb-8 flex flex-wrap items-center gap-2 md:mb-10 md:gap-3">
+        <div className="mb-4 flex flex-wrap items-center gap-1.5 md:mb-7 md:gap-2.5">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
           <span className="chip">Android · Flutter · ML</span>
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="h-display text-white">
+        <h1 className="hd-display max-w-[920px] text-white [font-size:clamp(30px,9vw,76px)] md:[font-size:var(--text-display)]">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -255,12 +255,12 @@ function Hero() {
         </h1>
 
         {/* footer grid: intro + orbit cards */}
-        <div className="mt-10 grid grid-cols-12 items-end gap-6 md:mt-16">
+        <div className="mt-5 grid grid-cols-12 items-end gap-3 md:mt-8 md:gap-5">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.9 }}
-            className="col-span-12 max-w-md body-md text-white/70 md:col-span-4"
+            className="col-span-12 max-w-xs body-sm text-white/70 md:col-span-4"
           >
             I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
@@ -269,29 +269,29 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.9 }}
-            className="col-span-12 grid grid-cols-1 gap-3 sm:grid-cols-3 md:col-span-6 md:col-start-7"
+            className="col-span-12 grid grid-cols-3 gap-1.5 sm:gap-2.5 md:col-span-6 md:col-start-7"
           >
             {[
               { k: "Now",   v: "Independent",       s: "Mobile engineer" },
               { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
               { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
-              <div key={c.k} className="tile p-4 min-w-0">
+              <div key={c.k} className="tile min-w-0 p-2.5 md:p-3.5">
                 <div className="micro-eyebrow">{c.k}</div>
                 <div
-                  className="mt-2 truncate text-white"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-lg)", lineHeight: 1.25, letterSpacing: "-0.02em", paddingTop: "0.1em" }}
+                  className="mt-1 truncate text-white md:mt-2"
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-sm)", lineHeight: 1.2, letterSpacing: 0, paddingTop: "0.1em" }}
                 >
                   {c.v}
                 </div>
-                <div className="micro-eyebrow mt-2">{c.s}</div>
+                <div className="micro-eyebrow mt-1 hidden sm:block md:mt-2">{c.s}</div>
               </div>
             ))}
           </motion.div>
         </div>
       </motion.div>
 
-      <motion.div style={{ opacity }} className="pointer-events-none absolute inset-x-0 bottom-6 container-x hidden items-center justify-between micro-eyebrow text-white/50 md:flex">
+      <motion.div style={{ opacity }} className="pointer-events-none container-x mt-8 hidden items-center justify-between micro-eyebrow text-white/50 md:flex">
         <span className="inline-flex items-center gap-2"><span className="tsep" /> Scroll to explore</span>
         <span>Muhammad Shayan · Karachi ⇄ Remote</span>
       </motion.div>
@@ -305,29 +305,29 @@ function Marquee() {
   const A = ["Available for work", "Android engineering", "Flutter apps", "On-device ML", "Offline-first"];
   const B = ["Karachi ⇄ Remote", "Kotlin · Compose", "TFLite · ML Kit", "99%+ crash-free", "40–60% faster"];
   const rowA = (
-    <div className="flex shrink-0 items-center gap-6 pr-6 md:gap-10 md:pr-10">
+    <div className="flex shrink-0 items-center gap-5 pr-5 md:gap-8 md:pr-8">
       {A.map((t, i) => (
-        <span key={i} className="flex items-center gap-6 md:gap-10">
-          <span className="h-1 leading-none text-white/95">{t}</span>
-          <span className="serifital italic leading-none text-[color:var(--violet)]" style={{ fontSize: "var(--text-h1)" }}>✦</span>
+        <span key={i} className="flex items-center gap-5 md:gap-8">
+          <span className="font-display font-extrabold leading-none text-white/95" style={{ fontSize: "var(--text-h2)", letterSpacing: 0 }}>{t}</span>
+          <span className="serifital italic leading-none text-[color:var(--violet)]" style={{ fontSize: "var(--text-h2)" }}>✦</span>
         </span>
       ))}
     </div>
   );
   const rowB = (
-    <div className="flex shrink-0 items-center gap-6 pr-6 md:gap-10 md:pr-10">
+    <div className="flex shrink-0 items-center gap-5 pr-5 md:gap-8 md:pr-8">
       {B.map((t, i) => (
-        <span key={i} className="flex items-center gap-6 md:gap-10">
-          <span className="serifital italic leading-none text-white/60" style={{ fontSize: "var(--text-h2)" }}>{t}</span>
-          <span className="mono leading-none text-white/25" style={{ fontSize: "var(--text-h2)" }}>/</span>
+        <span key={i} className="flex items-center gap-5 md:gap-8">
+          <span className="serifital italic leading-none text-white/60" style={{ fontSize: "var(--text-h3)" }}>{t}</span>
+          <span className="mono leading-none text-white/25" style={{ fontSize: "var(--text-h3)" }}>/</span>
         </span>
       ))}
     </div>
   );
   return (
-    <section aria-hidden className="relative border-y border-white/10 py-5 md:py-6 overflow-hidden">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#050507] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#050507] to-transparent" />
+    <section aria-hidden className="relative hidden overflow-hidden border-y border-white/10 py-2 sm:block md:py-2.5">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#050507] to-transparent md:w-32" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#050507] to-transparent md:w-32" />
       <div className="marquee-track flex">{rowA}{rowA}</div>
       <div className="marquee-track flex mt-2" style={{ animationDirection: "reverse", animationDuration: "55s" }}>{rowB}{rowB}</div>
     </section>
@@ -340,10 +340,10 @@ function WorkList() {
   return (
     <section id="work" className="relative section-y">
       <div className="container-x">
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-16">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div className="min-w-0">
             <div className="chip mb-4"><span className="dot" />Selected Work</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Recent <span className="serifital italic text-[color:var(--violet)]">shipments.</span>
             </h2>
           </div>
@@ -352,7 +352,7 @@ function WorkList() {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-4 md:gap-6">
+        <div className="grid grid-cols-12 gap-3 md:gap-4">
           {PROJECTS.map((p, i) => (
             <ProjectCard key={p.n} p={p} i={i} />
           ))}
@@ -377,11 +377,8 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
   const reset = () => { mx.set(0); my.set(0); };
 
   // staggered layout: alternate wide/narrow, big first card
-  const layout = i === 0
-    ? "col-span-12"
-    : i % 3 === 1 ? "col-span-12 md:col-span-7"
-    : i % 3 === 2 ? "col-span-12 md:col-span-5"
-    : "col-span-12 md:col-span-6";
+  const layout = "col-span-12 sm:col-span-6";
+  const cardSize = "min-h-[228px] sm:min-h-[300px] lg:min-h-[320px]";
 
   return (
     <motion.a
@@ -399,7 +396,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
     >
       <motion.div
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
-        className="tile relative min-h-[460px] overflow-hidden md:aspect-[16/10] md:min-h-0"
+        className={`tile relative overflow-hidden ${cardSize}`}
       >
         {/* image plate */}
         <div className="absolute inset-0">
@@ -408,26 +405,26 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         </div>
 
         {/* top row: index + chip */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-4 md:p-6">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-2 p-3 md:p-4">
           <span className="num-idx">— {p.n}</span>
           <span className="chip max-w-[70%] truncate"><span className="dot shrink-0" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
         </div>
 
         {/* bottom content */}
-        <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6">
+        <div className="absolute inset-x-0 bottom-0 p-3.5 md:p-5">
+          <div className="flex flex-wrap items-end justify-between gap-3 md:gap-5">
             <div className="min-w-0 flex-1">
-              <div className="h-3 text-white">{p.title}</div>
-              <p className="mt-2 max-w-md body-sm text-white/70">{p.desc}</p>
-              <div className="mt-4 flex flex-wrap gap-1.5 md:gap-2">
+              <div className="hd-3 text-white">{p.title}</div>
+              <p className="mt-1 max-w-md body-sm text-white/70 line-clamp-2">{p.desc}</p>
+              <div className="mt-2 flex flex-wrap gap-1 md:mt-3 md:gap-1.5">
                 {p.stack.map((t) => (
                   <span key={t} className="micro-eyebrow rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-white/70">{t}</span>
                 ))}
               </div>
-              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 md:gap-x-6">
+              <div className="mt-2 hidden flex-wrap gap-x-4 gap-y-2 sm:flex md:mt-3 md:gap-x-5">
                 {p.metrics.map((m) => (
                   <div key={m.k}>
-                    <div className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--text-xl)", lineHeight: 1 }}>{m.v}</div>
+                    <div className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--text-lg)", lineHeight: 1.05, letterSpacing: 0 }}>{m.v}</div>
                     <div className="micro-eyebrow mt-1 text-white/45">{m.k}</div>
                   </div>
                 ))}
@@ -435,7 +432,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
             </div>
             <div className="flex w-full items-center justify-between gap-3 md:w-auto md:justify-end">
               <span className="micro-eyebrow text-white/60">{p.role}</span>
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black md:h-11 md:w-11">↗</span>
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black md:h-9 md:w-9">↗</span>
             </div>
           </div>
         </div>
@@ -461,31 +458,31 @@ function Studio() {
 
   return (
     <section id="studio" ref={ref} className="relative overflow-hidden section-y">
-      <div className="glow-blob left-[10%] top-[20%] h-[400px] w-[400px]" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .5 }} />
+      <div className="glow-blob left-[10%] top-[20%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .42 }} />
 
       <div className="container-x">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-14">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
                 Mobile, made <span className="serifital italic text-[color:var(--violet)]">calm.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow max-w-xs">
+          <div className="micro-eyebrow hidden max-w-xs sm:block">
               Android · Flutter · Karachi, PK<br/>Offline-first · Crash-resistant · On-device ML.
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-4">
           {/* pull-quote glass card */}
           <motion.div style={{ y: y1 }} className="col-span-12 md:col-span-7">
-            <div className="tile relative p-7 md:p-12">
-              <div className="absolute right-6 top-4 serifital text-[140px] leading-none text-white/10">“</div>
+            <div className="tile relative p-5 md:p-8">
+                <div className="absolute right-5 top-3 serifital text-[64px] leading-none text-white/10 md:text-[80px]">“</div>
               <div className="serifital text-white/95 leading-[1.15]" style={{ fontSize: "var(--text-h3)" }}>
                 Great mobile UX is invisible engineering — <span className="italic text-[color:var(--violet)]">offline that just works, sync you never notice, releases that don&apos;t crash.</span>
               </div>
-              <div className="mt-8 flex items-center gap-4 md:mt-10">
-                <div className="h-12 w-12 overflow-hidden rounded-full ring-1 ring-white/20">
+              <div className="mt-6 flex items-center gap-3 md:mt-7">
+                <div className="h-10 w-10 overflow-hidden rounded-full ring-1 ring-white/20">
                   <img src="/portrait.jpg" alt="" className="h-full w-full object-cover" />
                 </div>
                 <div>
@@ -497,9 +494,9 @@ function Studio() {
           </motion.div>
 
           {/* stat cluster */}
-          <motion.div style={{ y: y2 }} className="col-span-12 grid grid-cols-2 gap-4 md:col-span-5">
+          <motion.div style={{ y: y2 }} className="col-span-12 grid grid-cols-2 gap-3 md:col-span-5 md:gap-4">
             {stats.map((s) => (
-              <div key={s.k} className="tile flex flex-col justify-between p-5 md:p-6 aspect-square">
+              <div key={s.k} className="tile flex min-h-[110px] flex-col justify-between p-4 md:min-h-[128px] md:p-5">
                 <div className="micro-eyebrow">{s.k}</div>
                 <div className="stat-num text-white">{s.v}</div>
               </div>
@@ -507,11 +504,11 @@ function Studio() {
           </motion.div>
 
           {/* bio strip */}
-          <div className="col-span-12 mt-4 grid grid-cols-12 gap-6 md:mt-6">
-            <p className="col-span-12 body-lg text-white/70 md:col-span-6">
+          <div className="col-span-12 mt-2 grid grid-cols-12 gap-4 md:mt-4 md:gap-6">
+            <p className="col-span-12 body-md text-white/70 md:col-span-6">
               I work end-to-end on mobile products — from Compose UI systems and offline-first data layers to on-device ML inference and CI/CD delivery pipelines.
             </p>
-            <p className="col-span-12 body-lg text-white/70 md:col-span-5 md:col-start-8">
+            <p className="col-span-12 body-md text-white/70 md:col-span-5 md:col-start-8">
               Currently exploring on-device ML for gesture and voice interfaces, and model-optimization workflows that keep inference fast on mid-range Android devices.
             </p>
           </div>
@@ -528,19 +525,19 @@ function IndexStack() {
   return (
     <section id="index" className="relative border-t border-white/10 section-y">
       <div className="container-x">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-14">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />Index · Toolkit</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Instruments I <span className="serifital italic text-[color:var(--violet)]">reach for.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             {STACK.length} systems<br/>Continuously curated
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2.5 md:gap-3">
+        <div className="flex flex-wrap gap-1.5 md:gap-2.5">
           {STACK.map((s, i) => (
             <motion.button
               key={s.name}
@@ -552,12 +549,12 @@ function IndexStack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.03 }}
-              className="tile group flex items-center gap-3 px-4 py-3 md:gap-4 md:px-6 md:py-4"
-              style={{ transform: hovered === i ? "translateY(-6px)" : undefined }}
+              className="tile group flex items-center gap-2 px-2.5 py-2 md:gap-3 md:px-4 md:py-3"
+              style={{ transform: hovered === i ? "translateY(-4px)" : undefined }}
             >
               <span className="num-idx">{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-base)", lineHeight: 1, letterSpacing: "-0.02em" }}>{s.name}</span>
-              <span className="micro-eyebrow group-hover:text-[color:var(--violet)]">/ {s.kind}</span>
+              <span className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-sm)", lineHeight: 1.1, letterSpacing: 0 }}>{s.name}</span>
+              <span className="micro-eyebrow hidden group-hover:text-[color:var(--violet)] sm:inline">/ {s.kind}</span>
             </motion.button>
           ))}
         </div>
@@ -572,14 +569,14 @@ function Metrics() {
   return (
     <section id="metrics" className="relative border-t border-white/10 section-y">
       <div className="container-x">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-14">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot live" />Command Center</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Signals from <span className="serifital italic text-[color:var(--violet)]">production.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             Real-time performance<br/>&amp; reliability metrics
           </div>
         </div>
@@ -591,11 +588,11 @@ function Metrics() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: i * 0.06 }}
-              className="tile p-5 md:p-8"
+              className="tile p-4 md:p-5"
             >
               <div className="micro-eyebrow">{m.s}</div>
-              <div className="stat-num mt-6 text-white">{m.v}</div>
-              <div className="micro-eyebrow mt-4 text-white/70">{m.k}</div>
+              <div className="stat-num mt-4 text-white md:mt-5">{m.v}</div>
+              <div className="micro-eyebrow mt-3 text-white/70">{m.k}</div>
             </motion.div>
           ))}
         </div>
@@ -608,18 +605,18 @@ function Timeline() {
   return (
     <section id="story" className="relative border-t border-white/10 section-y">
       <div className="container-x">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-14">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />The Story</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Chapters, <span className="serifital italic text-[color:var(--violet)]">in order.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             {TIMELINE.length} chapters<br/>2021 — Now
           </div>
         </div>
-        <div className="relative grid grid-cols-12 gap-4 md:gap-6">
+        <div className="relative grid grid-cols-12 gap-3 md:gap-4">
           <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:block" />
           {TIMELINE.map((c, i) => (
             <motion.div
@@ -630,15 +627,15 @@ function Timeline() {
               transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: (i % 3) * 0.05 }}
               className={`col-span-12 md:col-span-6 ${i % 2 ? "md:col-start-7" : ""}`}
             >
-              <div className="tile p-5 md:p-8">
+              <div className="tile p-4 md:p-5">
                 <div className="flex items-center gap-3">
                   <span className="micro-eyebrow text-[color:var(--violet)]">{c.y}</span>
                   <span className="h-px flex-1 bg-white/10" />
                 </div>
-                <div className="mt-4 h-3 text-white">{c.t}</div>
+                <div className="mt-3 hd-3 text-white">{c.t}</div>
                 <div className="micro-eyebrow mt-2 text-white/55">{c.o}</div>
-                <ul className="mt-5 space-y-2.5">
-                  {c.b.map((line) => (
+                <ul className="mt-4 space-y-2">
+                  {c.b.slice(0, 3).map((line) => (
                     <li key={line} className="flex gap-3 body-sm text-white/70">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--violet)]" />
                       <span>{line}</span>
@@ -658,18 +655,18 @@ function Lab() {
   return (
     <section id="lab" className="relative border-t border-white/10 section-y">
       <div className="container-x">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-14">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               What I&apos;m <span className="serifital italic text-[color:var(--violet)]">tinkering on.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             {LAB.length} experiments<br/>Mostly on-device ML
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">
           {LAB.map((l, i) => (
             <motion.div
               key={l.t}
@@ -677,16 +674,16 @@ function Lab() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: i * 0.06 }}
-              className="tile group relative overflow-hidden p-5 md:p-8"
+              className="tile group relative overflow-hidden p-4 md:p-5"
             >
-              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition group-hover:opacity-60" style={{ background: `radial-gradient(circle, ${l.tint}, transparent 70%)` }} />
+              <div className="absolute -right-14 -top-14 h-36 w-36 rounded-full opacity-25 blur-3xl transition group-hover:opacity-50" style={{ background: `radial-gradient(circle, ${l.tint}, transparent 70%)` }} />
               <div className="relative flex items-center justify-between">
                 <span className="chip"><span className="dot" style={{ background: l.tint, boxShadow: `0 0 10px ${l.tint}` }} />{l.s}</span>
                 <span className="num-idx">— {String(i + 1).padStart(2, "0")}</span>
               </div>
-              <div className="relative mt-7 h-3 text-white">{l.t}</div>
-              <p className="relative mt-3 body-sm text-white/70">{l.d}</p>
-              <div className="relative mt-5 flex flex-wrap gap-1.5 md:gap-2">
+              <div className="relative mt-5 hd-3 text-white">{l.t}</div>
+              <p className="relative mt-2 body-sm text-white/70">{l.d}</p>
+              <div className="relative mt-4 flex flex-wrap gap-1.5">
                 {l.tech.map((t) => (
                   <span key={t} className="micro-eyebrow rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-white/70">{t}</span>
                 ))}
@@ -701,21 +698,21 @@ function Lab() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-white/10 section-y pb-28 md:pb-[var(--space-section)]">
-      <div className="glow-blob left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .6 }} />
+    <section id="contact" className="relative overflow-hidden border-t border-white/10 section-y pb-24 md:pb-[var(--space-section)]">
+      <div className="glow-blob left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .45 }} />
 
       <div className="relative container-x">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex"><span className="chip"><span className="dot live" />Booking Q3 — Q4 2026</span></div>
-          <h2 className="h-1 text-white">
+        <div className="mx-auto max-w-3xl text-center">
+          <div className="mb-4 inline-flex"><span className="chip"><span className="dot live" />Booking Q3 — Q4 2026</span></div>
+          <h2 className="hd-1 text-white">
             <div><SplitReveal text="Let's build" /></div>
             <div><span className="serifital italic text-[color:var(--violet)]"><SplitReveal text="something rare." delay={0.08} /></span></div>
           </h2>
 
-          <div className="mt-10 flex flex-col items-center gap-6 md:mt-14">
-            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn max-w-full text-white !px-5 !py-4 md:!px-8 md:!py-[22px]">
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-black md:h-9 md:w-9">✎</span>
-              <span className="min-w-0 truncate" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-lg)", lineHeight: 1, letterSpacing: "-0.02em" }}>hello@shayxo.dev</span>
+          <div className="mt-7 flex flex-col items-center gap-4 md:mt-9">
+            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn max-w-full text-white !px-4 !py-3 md:!px-6 md:!py-4">
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-black md:h-8 md:w-8">✎</span>
+              <span className="min-w-0 truncate" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-base)", lineHeight: 1.1, letterSpacing: 0 }}>hello@shayxo.dev</span>
               <span className="mono shrink-0 text-lg md:text-xl">↗</span>
             </a>
 
@@ -731,21 +728,21 @@ function Contact() {
           </div>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-4 md:gap-4">
+        <div className="mt-9 grid grid-cols-2 gap-3 md:mt-12 md:grid-cols-4 md:gap-4">
           {[
             { k: "Location", v: "Karachi, PK" },
             { k: "Working",  v: "Global · Remote" },
             { k: "Response", v: "< 24 hours" },
             { k: "Timezone", v: "GMT +5" },
           ].map((c) => (
-            <div key={c.k} className="tile p-4 md:p-5">
+            <div key={c.k} className="tile p-3.5 md:p-4">
               <div className="micro-eyebrow">{c.k}</div>
               <div className="mono mt-3 body-sm text-white">{c.v}</div>
             </div>
           ))}
         </div>
 
-        <div className="mt-14 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-8 micro-eyebrow text-white/40">
+        <div className="mt-9 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-6 micro-eyebrow text-white/40">
           <span>© 2026 Muhammad Shayan</span>
           <span>Built kinetic — no template.</span>
           <a className="linkline" href="#top">Back to top ↑</a>
