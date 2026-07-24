@@ -278,7 +278,12 @@ function Hero() {
             ].map((c) => (
               <div key={c.k} className="tile p-4 min-w-0">
                 <div className="micro-eyebrow">{c.k}</div>
-                <div className="mt-2 h-3 truncate text-white">{c.v}</div>
+                <div
+                  className="mt-2 truncate text-white"
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-lg)", lineHeight: 1.25, letterSpacing: "-0.02em", paddingTop: "0.1em" }}
+                >
+                  {c.v}
+                </div>
                 <div className="micro-eyebrow mt-2">{c.s}</div>
               </div>
             ))}
