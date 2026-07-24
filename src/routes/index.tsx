@@ -186,7 +186,7 @@ function useTheme() {
 }
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  const [pref, setPrefState] = useState<ThemePref>("system");
+  const [pref, setPrefState] = useState<ThemePref>("dark");
   const [systemDark, setSystemDark] = useState(true);
 
   useEffect(() => {
@@ -990,6 +990,7 @@ function Index() {
 
 function IndexInner() {
   const [active, setActive] = useState<Project | null>(null);
+  const { reduced } = useMotionPref();
 
   return (
     <div id="top" className="relative min-h-screen overflow-x-hidden bg-paper text-deep-ink">
@@ -1005,353 +1006,381 @@ function IndexInner() {
       <CursorSpot />
       <Nav />
 
-      <main id="main" className="relative mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
-        {/* ============ HERO BENTO ============ */}
-        <section aria-label="Introduction" className="grid grid-cols-6 gap-3 md:grid-cols-12 md:gap-4">
-          <Tile
-            variant="strong"
-            className="col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between"
-            index={0}
-          >
-            <div className="flex items-center gap-2 text-xs font-medium tracking-[0.24em] text-white/50">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              MOBILE ENGINEER · SINCE 2020
-            </div>
-            <div>
-              <h1 className="font-display text-5xl font-semibold leading-[0.95] tracking-tight md:text-7xl">
-                <span className="block text-white/95">Building</span>
-                <span className="aurora-text block italic font-serif">weightless</span>
-                <span className="block text-white/95">mobile software.</span>
-              </h1>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-white/60">
-                Offline-first architecture, on-device ML, and micro-interactions that feel
-                inevitable. Android + Flutter, shipped to millions.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
-              >
-                Start a project
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href="#work"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
-              >
-                See work
-              </a>
-            </div>
-          </Tile>
+      <main id="main" className="relative">
+        {/* ============================================================
+            HERO BAND
+           ============================================================ */}
+        <section
+          aria-label="Introduction"
+          className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 md:px-20"
+        >
+          <div className="pointer-events-none absolute -right-24 -top-24 h-[560px] w-[560px] rounded-full bg-[oklch(0.75_0.16_300/0.28)] blur-[130px]" aria-hidden="true" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 h-[560px] w-[560px] rounded-full bg-[oklch(0.85_0.18_155/0.22)] blur-[130px]" aria-hidden="true" />
 
-          <Tile
-            className="col-span-3 md:col-span-4 md:row-span-2 items-center justify-center text-center min-h-[360px] aurora-border"
-            index={1}
+          <motion.div
+            initial={{ opacity: 0, y: reduced ? 0 : 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduced ? 0 : 1.1, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 mx-auto w-full max-w-6xl"
           >
-            <div className="relative flex h-48 w-48 items-center justify-center">
-              {/* Orbital rings */}
-              <div className="absolute inset-0 rounded-full border border-white/15 orbit-slow" aria-hidden="true">
-                <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-fuchsia-400 shadow-[0_0_16px_4px_oklch(0.72_0.24_300/0.7)]" />
-              </div>
-              <div className="absolute inset-3 rounded-full border border-white/10 orbit-fast" aria-hidden="true">
-                <span className="absolute -right-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_12px_3px_oklch(0.78_0.18_210/0.7)]" />
-              </div>
-              <div className="absolute inset-6 rounded-full border border-dashed border-white/10 orbit-slow" aria-hidden="true" />
-              {/* Aurora halo */}
-              <div className="absolute inset-4 rounded-full bg-linear-to-br from-fuchsia-500 via-violet-500 to-cyan-400 blur-3xl opacity-70 animate-pulse" aria-hidden="true" />
-              {/* Core */}
-              <div className="relative flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-fuchsia-400 via-violet-500 to-cyan-400 font-display text-4xl font-semibold text-black shadow-[inset_0_2px_0_oklch(1_0_0/0.6),0_20px_60px_-10px_oklch(0.72_0.24_300/0.55)]">
-                MS
-              </div>
-            </div>
-            <p className="mt-6 font-serif text-2xl italic text-white/95">Muhammad Shayan</p>
-            <p className="mt-1 text-[10px] tracking-[0.28em] text-white/40">ISLAMABAD · REMOTE</p>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-300 backdrop-blur">
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/[0.06] px-3 py-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.28em] text-emerald-300 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
                 <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/70" />
                 <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-400" />
               </span>
-              Available Q3 · 2026
+              Senior Mobile Engineer · Available Q3 2026
+            </span>
+
+            <h1 className="mt-8 font-display text-6xl font-extrabold leading-[0.92] tracking-tighter text-white md:text-8xl lg:text-9xl">
+              Muhammad
+              <br />
+              <span className="bg-linear-to-r from-[oklch(0.85_0.18_155)] via-[oklch(0.80_0.15_200)] to-[oklch(0.75_0.16_300)] bg-clip-text text-transparent">
+                Shayan<span className="text-white/95">.</span>
+              </span>
+            </h1>
+
+            <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-white/60 md:text-2xl">
+              Architecting scalable mobile systems and immersive digital experiences at the
+              intersection of high-performance native code and fluid UI.
+            </p>
+
+            <div className="mt-12 flex flex-wrap items-center gap-4">
+              <a
+                href="#work"
+                className="group inline-flex items-center gap-2 rounded-full bg-[oklch(0.85_0.18_155)] px-8 py-4 font-display text-sm font-bold text-[oklch(0.17_0.045_275)] transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                View Projects
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-8 py-4 font-display text-sm font-bold text-white backdrop-blur-md transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                Get in Touch
+              </a>
             </div>
-          </Tile>
+          </motion.div>
 
-          {[
-            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false, color: "oklch(0.78 0.18 210)" },
-            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true, color: "oklch(0.72 0.24 300)" },
-            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false, color: "oklch(0.72 0.24 25)" },
-            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false, color: "oklch(0.78 0.18 210)" },
-          ].map((m, i) => {
-            const Icon = m.icon;
-            return (
-              <Tile
-                key={m.label}
-                variant={m.strong ? "strong" : "glass"}
-                className={`col-span-3 md:col-span-3 justify-between min-h-[160px] ${m.strong ? "aurora-border" : ""}`}
-                index={i + 2}
-              >
-                <div className="flex items-center justify-between text-white/40">
-                  <Icon className="h-4 w-4" aria-hidden="true" />
-                  <span className="text-[10px] tracking-[0.24em]">{m.label}</span>
-                </div>
-                <div>
-                  <div className={`font-display text-5xl font-semibold leading-none ${m.strong ? "aurora-text" : "text-white"}`}>
-                    <Counter to={m.to} suffix={m.suffix} />
-                  </div>
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <span className="text-[11px] text-white/50">{m.sub}</span>
-                    <Sparkline color={m.color} />
-                  </div>
-                </div>
-              </Tile>
-            );
-          })}
-        </section>
-
-        {/* ============ WORK BENTO ============ */}
-        <section id="work" aria-label="Selected work" className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-12 md:gap-4">
-          {projects.map((p, i) => {
-            const Icon = p.icon;
-            const span =
-              i === 0
-                ? "md:col-span-7 md:row-span-2 min-h-[420px]"
-                : i === 1
-                  ? "md:col-span-5 min-h-[260px]"
-                  : "md:col-span-5 min-h-[240px]";
-            return (
-              <Tile
-                key={p.title}
-                variant={i === 0 ? "strong" : "glass"}
-                className={`group col-span-6 justify-between ${span}`}
-                index={i}
-                as="article"
-                onActivate={() => setActive(p)}
-                ariaLabel={`Open case study for ${p.title}`}
-              >
-                <div
-                  className={`absolute -top-24 -right-24 h-56 w-56 rounded-full bg-linear-to-br ${p.accent} blur-3xl opacity-70 transition-opacity duration-700 group-hover:opacity-100`}
-                  aria-hidden="true"
-                />
-                <div className="relative">
-                  <div className="flex items-center justify-between">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] tracking-[0.2em] text-white/60">
-                      <Icon className="h-3 w-3" aria-hidden="true" />
-                      {p.tag}
-                    </div>
-                    <ArrowUpRight className="h-4 w-4 text-white/40 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white" />
-                  </div>
-                  <h3
-                    className={`mt-6 font-display font-semibold tracking-tight text-white ${
-                      i === 0 ? "text-5xl md:text-6xl" : "text-3xl"
-                    }`}
-                  >
-                    {p.title}
-                  </h3>
-                  <p className={`mt-3 max-w-md text-sm leading-relaxed text-white/60 ${i === 0 ? "md:text-base" : ""}`}>
-                    {p.body}
-                  </p>
-                </div>
-                <div className="relative mt-8 flex items-end justify-between border-t border-white/10 pt-5">
-                  <div>
-                    <div className={`font-display font-semibold ${i === 0 ? "text-5xl aurora-text" : "text-3xl text-white"}`}>
-                      {p.metric}
-                    </div>
-                    <div className="mt-1 text-[10px] uppercase tracking-[0.24em] text-white/40">
-                      {p.metricLabel}
-                    </div>
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.24em] text-white/40">
-                    View case study →
-                  </div>
-                </div>
-              </Tile>
-            );
-          })}
-        </section>
-
-        {/* ============ STACK + TIMELINE ============ */}
-        <section aria-label="Stack and journey" className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-12 md:gap-4">
-          <Tile
-            id="stack"
-            variant="strong"
-            className="col-span-6 md:col-span-12 min-h-[200px] justify-between overflow-hidden"
-            index={0}
+          {/* scroll cue */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 1 }}
+            className="pointer-events-none absolute inset-x-0 bottom-8 z-10 mx-auto flex w-fit flex-col items-center gap-2 text-white/40"
+            aria-hidden="true"
           >
-            <div className="flex items-center justify-between">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/60">
-                <Cpu className="h-3 w-3" aria-hidden="true" /> TOOLKIT
+            <span className="font-mono text-[10px] uppercase tracking-[0.32em]">Scroll</span>
+            <span className="h-10 w-px bg-linear-to-b from-white/40 to-transparent" />
+          </motion.div>
+        </section>
+
+        {/* ============================================================
+            SELECTED WORK BAND
+           ============================================================ */}
+        <section id="work" aria-label="Selected work" className="relative px-6 py-32 md:px-20 md:py-40">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-20 flex items-end justify-between">
+              <h2 className="font-display text-4xl font-bold text-white md:text-5xl">Selected Work</h2>
+              <div className="font-mono text-sm text-white/40">
+                01 <span className="text-white/25">/</span> {String(projects.length).padStart(2, "0")}
               </div>
-              <p className="hidden font-serif text-lg italic text-white/70 md:block">
-                the daily instruments.
-              </p>
             </div>
-            <div className="relative -mx-6 overflow-hidden" aria-hidden="true">
-              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-linear-to-r from-[oklch(0.14_0.02_270)] to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-linear-to-l from-[oklch(0.14_0.02_270)] to-transparent" />
-              <div className="flex w-max animate-marquee gap-3 whitespace-nowrap">
-                {[...stack, ...stack].map((s, i) => (
+
+            <div className="space-y-32 md:space-y-40">
+              {projects.map((p, i) => {
+                const flip = i % 2 === 1;
+                return (
+                  <motion.article
+                    key={p.id}
+                    initial={{ opacity: 0, y: reduced ? 0 : 60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-120px" }}
+                    transition={{ duration: reduced ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
+                    className="group relative"
+                  >
+                    <div className={`absolute -inset-8 bg-linear-to-r ${p.accent} opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-100`} aria-hidden="true" />
+                    <div className={`relative flex flex-col items-center gap-10 md:flex-row md:gap-16 ${flip ? "md:flex-row-reverse" : ""}`}>
+                      <button
+                        type="button"
+                        onClick={() => setActive(p)}
+                        aria-label={`Open case study for ${p.title}`}
+                        className="relative block w-full overflow-hidden rounded-3xl border border-white/10 bg-[oklch(0.24_0.06_265/0.5)] shadow-[0_40px_120px_-40px_oklch(0_0_0/0.7)] backdrop-blur-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 md:w-3/5"
+                      >
+                        <div className={`relative aspect-video w-full bg-linear-to-br ${p.gallery[0].gradient}`}>
+                          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-display text-6xl font-extrabold tracking-tighter text-white/15">
+                              {p.title}
+                            </span>
+                          </div>
+                          <div className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition group-hover:bg-white/20">
+                            <ArrowUpRight className="h-4 w-4" />
+                          </div>
+                        </div>
+                      </button>
+
+                      <div className="w-full md:w-2/5">
+                        <span className="font-mono text-xs uppercase tracking-[0.28em] text-[oklch(0.75_0.16_300)]">
+                          {p.tag}
+                        </span>
+                        <h3 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl">
+                          {p.title}
+                        </h3>
+                        <p className="mt-6 leading-relaxed text-white/60 md:text-lg">
+                          {p.summary}
+                        </p>
+                        <div className="mt-6 flex flex-wrap gap-2">
+                          {p.tech.slice(0, 4).map((t) => (
+                            <span key={t} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-[11px] text-white/60">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setActive(p)}
+                          className="group/link mt-8 inline-flex items-center gap-2 font-display text-sm font-bold text-[oklch(0.85_0.18_155)] transition-all hover:gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 rounded"
+                        >
+                          Explore Case Study
+                          <span aria-hidden="true">→</span>
+                        </button>
+                      </div>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================================
+            STORY BAND — pull quote
+           ============================================================ */}
+        <section
+          aria-label="The story"
+          className="relative border-y border-white/5 bg-[oklch(0.24_0.06_265/0.3)] px-6 py-40 backdrop-blur-3xl md:px-20"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: reduced ? 0 : 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: reduced ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto max-w-4xl text-center"
+          >
+            <h2 className="font-display text-xl font-semibold text-[oklch(0.75_0.16_300)]">The Story</h2>
+            <p className="mt-8 font-display text-3xl font-light leading-tight text-white/95 md:text-5xl">
+              I build software that balances{" "}
+              <span className="font-serif italic text-white">brutal efficiency</span>{" "}
+              with{" "}
+              <span className="text-[oklch(0.85_0.18_155)]">human-centric design</span>.
+              Six years of breaking things to learn how to build them better.
+            </p>
+          </motion.div>
+        </section>
+
+        {/* ============================================================
+            SKILLS + COMMAND CENTER BAND
+           ============================================================ */}
+        <section id="stack" aria-label="Technical arsenal" className="relative px-6 py-32 md:px-20 md:py-40">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-16 md:grid-cols-2 md:gap-24">
+            <motion.div
+              initial={{ opacity: 0, x: reduced ? 0 : -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: reduced ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h2 className="font-display text-4xl font-bold text-white md:text-5xl">
+                Technical Arsenal
+              </h2>
+              <p className="mt-4 max-w-md text-white/50">
+                The daily instruments — from native mobile runtimes to distributed backends and CI orchestration.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3">
+                {stack.map((s) => (
                   <span
-                    key={i}
-                    className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2 font-display text-sm font-medium text-white/85"
+                    key={s}
+                    className="rounded-full border border-white/10 bg-[oklch(0.24_0.06_265/0.6)] px-5 py-2.5 font-display text-sm text-white/85 backdrop-blur transition hover:border-[oklch(0.85_0.18_155/0.4)] hover:text-white"
                   >
                     {s}
                   </span>
                 ))}
               </div>
-            </div>
-            <ul className="sr-only">
-              {stack.map((s) => <li key={s}>{s}</li>)}
-            </ul>
-          </Tile>
+            </motion.div>
 
-          <Tile id="timeline" className="col-span-6 md:col-span-7 min-h-[320px]" index={1}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/60">
-              <Sparkles className="h-3 w-3" aria-hidden="true" /> JOURNEY
-            </div>
-            <ol className="relative space-y-6 pl-6">
-              <div className="absolute left-[7px] top-1 bottom-1 w-px bg-linear-to-b from-fuchsia-400/60 via-violet-400/40 to-cyan-400/30" aria-hidden="true" />
-              {timeline.map((t) => (
-                <li key={t.range} className="relative">
-                  <span
-                    className={`absolute -left-[22px] top-1 h-3 w-3 rounded-full ${
-                      t.active
-                        ? "bg-linear-to-br from-fuchsia-400 to-cyan-400 animate-pulse-ring"
-                        : "bg-white/25"
-                    }`}
-                    aria-hidden="true"
-                  />
-                  <p className="font-mono text-[10px] tracking-widest text-white/40">{t.range}</p>
-                  <h4 className="mt-1 font-display text-lg font-semibold text-white">{t.role}</h4>
-                  <p className="mt-1 text-sm text-white/55">{t.body}</p>
-                </li>
-              ))}
-            </ol>
-          </Tile>
-
-          <Tile variant="strong" className="col-span-6 md:col-span-5 min-h-[320px] justify-between" index={2}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/60">
-              PHILOSOPHY
-            </div>
-            <blockquote className="font-serif text-3xl italic leading-snug text-white/95 md:text-4xl">
-              &ldquo;The best interface is the one you never notice —
-              <span className="aurora-text"> until it disappoints you.</span>&rdquo;
-            </blockquote>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-white/50">
-                <div className="h-px w-8 bg-white/30" />
-                Design principle
+            <motion.div
+              initial={{ opacity: 0, x: reduced ? 0 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: reduced ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="glass-strong rounded-3xl p-10 md:p-12"
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-lg font-bold text-[oklch(0.85_0.18_155)]">
+                  Command Center
+                </h3>
+                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/40">
+                  Live · v2026
+                </span>
               </div>
-              <span className="font-mono text-[10px] text-white/40">/ms.001</span>
-            </div>
-          </Tile>
+              <div className="mt-10 grid grid-cols-2 gap-y-10">
+                {[
+                  { to: 2.4, suffix: "k+", label: "GitHub commits", color: "oklch(0.85 0.18 155)" },
+                  { to: 99.9, suffix: "%", label: "System uptime", color: "oklch(0.75 0.16 300)" },
+                  { to: 24, suffix: "", label: "Shipped apps", color: "oklch(0.80 0.15 200)" },
+                  { to: 6, suffix: "y", label: "Experience", color: "oklch(0.85 0.18 155)" },
+                ].map((m) => (
+                  <div key={m.label}>
+                    <div className="font-display text-4xl font-extrabold leading-none text-white md:text-5xl">
+                      <Counter to={m.to} suffix={m.suffix} />
+                    </div>
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <span className="text-[10px] uppercase tracking-[0.24em] text-white/40">
+                        {m.label}
+                      </span>
+                      <Sparkline color={m.color} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </section>
 
-        {/* ============ CONTACT BENTO ============ */}
-        <section id="contact" aria-label="Contact" className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-12 md:gap-4">
-          <Tile
-            variant="strong"
-            className="group relative col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between aurora-border"
-            index={0}
-          >
-            <div className="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-linear-to-br from-fuchsia-500/50 via-violet-500/40 to-cyan-400/40 blur-3xl" aria-hidden="true" />
-            <div className="pointer-events-none absolute -top-24 left-10 h-48 w-48 rounded-full bg-cyan-400/25 blur-3xl" aria-hidden="true" />
-            <div className="flex items-center justify-between">
-              <div className="relative inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/70 backdrop-blur">
-                <Mail className="h-3 w-3" aria-hidden="true" /> LET&apos;S BUILD
-              </div>
-              <Waveform />
-            </div>
-            <div className="relative">
-              <h3 className="font-display text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
-                Have an idea that
-                <br />
-                <span className="aurora-text italic font-serif">needs to ship?</span>
-              </h3>
-              <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/60 md:text-base">
-                I take on a small number of engagements per quarter — architecture reviews,
-                greenfield builds, and rescue projects.
+        {/* ============================================================
+            LAB BAND
+           ============================================================ */}
+        <section
+          id="timeline"
+          aria-label="The lab"
+          className="relative bg-[oklch(0.24_0.06_265/0.15)] px-6 py-32 md:px-20 md:py-40"
+        >
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-16 flex items-end justify-between">
+              <h2 className="font-display text-4xl font-bold text-white md:text-5xl">The Lab</h2>
+              <p className="hidden max-w-xs text-right text-sm text-white/40 md:block">
+                Small experiments, side quests, and open-source tools shipped between contracts.
               </p>
             </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {[
+                {
+                  title: "AetherDB",
+                  body: "In-memory key-value store optimized for ephemeral edge caching.",
+                  dot: "oklch(0.85 0.18 155)",
+                },
+                {
+                  title: "Glitch Engine",
+                  body: "Real-time image manipulation using WebGL and custom shaders.",
+                  dot: "oklch(0.75 0.16 300)",
+                },
+                {
+                  title: "Flux CLI",
+                  body: "Minimalist deployment orchestrator for serverless edge functions.",
+                  dot: "oklch(0.80 0.15 200)",
+                },
+              ].map((lab, i) => (
+                <motion.div
+                  key={lab.title}
+                  initial={{ opacity: 0, y: reduced ? 0 : 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{
+                    duration: reduced ? 0 : 0.7,
+                    delay: reduced ? 0 : i * 0.08,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="group rounded-3xl border border-white/5 bg-[oklch(0.24_0.06_265/0.5)] p-8 backdrop-blur-xl transition hover:border-[oklch(0.85_0.18_155/0.3)]"
+                >
+                  <div
+                    className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
+                    style={{ background: `color-mix(in oklch, ${lab.dot} 15%, transparent)` }}
+                  >
+                    <span className="h-2 w-2 rounded-full" style={{ background: lab.dot }} />
+                  </div>
+                  <h4 className="font-display text-lg font-bold text-white">{lab.title}</h4>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60">{lab.body}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Journey timeline underneath */}
+            <div className="mt-24">
+              <h3 className="mb-10 font-display text-xl font-bold uppercase tracking-[0.24em] text-white/40">
+                Journey
+              </h3>
+              <ol className="relative space-y-8 pl-6">
+                <div className="absolute left-[7px] top-1 bottom-1 w-px bg-linear-to-b from-[oklch(0.85_0.18_155/0.6)] via-[oklch(0.80_0.15_200/0.4)] to-[oklch(0.75_0.16_300/0.3)]" aria-hidden="true" />
+                {timeline.map((t) => (
+                  <li key={t.range} className="relative">
+                    <span
+                      className={`absolute -left-[22px] top-1.5 h-3 w-3 rounded-full ${
+                        t.active
+                          ? "bg-linear-to-br from-[oklch(0.85_0.18_155)] to-[oklch(0.75_0.16_300)] animate-pulse-ring"
+                          : "bg-white/25"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/40">{t.range}</p>
+                    <h4 className="mt-1 font-display text-xl font-bold text-white">{t.role}</h4>
+                    <p className="mt-1 text-sm text-white/55">{t.body}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================================
+            CONTACT BAND
+           ============================================================ */}
+        <section id="contact" aria-label="Contact" className="relative overflow-hidden px-6 py-48 text-center md:px-20">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[oklch(0.85_0.18_155/0.12)] blur-[130px]" aria-hidden="true" />
+          <motion.div
+            initial={{ opacity: 0, y: reduced ? 0 : 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: reduced ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 mx-auto max-w-4xl"
+          >
+            <h2 className="font-display text-5xl font-extrabold tracking-tighter text-white md:text-8xl">
+              Let&apos;s{" "}
+              <span className="text-[oklch(0.85_0.18_155)]">Build</span>{" "}
+              Together.
+            </h2>
+            <p className="mx-auto mt-10 max-w-2xl text-lg text-white/60 md:text-xl">
+              Available for select architecture consulting, greenfield builds, and high-impact
+              full-time roles.
+            </p>
             <a
               href={personalLinks.email.link}
-              className="relative inline-flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black shadow-[0_10px_40px_-8px_oklch(0.72_0.24_300/0.55)] transition hover:shadow-[0_20px_60px_-8px_oklch(0.72_0.24_300/0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+              className="mt-14 inline-block border-b-4 border-[oklch(0.75_0.16_300)] pb-4 font-display text-3xl font-bold text-white transition-colors hover:text-[oklch(0.75_0.16_300)] md:text-5xl"
               aria-label={`Email ${personalLinks.email.label}`}
             >
-              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/60 to-transparent transition-transform duration-700 group-hover:translate-x-full" aria-hidden="true" />
-              <Mail className="relative h-3.5 w-3.5" aria-hidden="true" />
-              <span className="relative">{personalLinks.email.label}</span>
-              <ArrowUpRight className="relative h-3.5 w-3.5" aria-hidden="true" />
+              {personalLinks.email.label}
             </a>
-          </Tile>
-
-          <Tile className="col-span-3 md:col-span-4 min-h-[172px] justify-between" index={1}>
-            <div className="flex items-center justify-between text-white/40">
-              <MapPin className="h-4 w-4" aria-hidden="true" />
-              <span className="text-[10px] tracking-[0.24em]">BASED</span>
-            </div>
-            <div>
-              <p className="font-display text-2xl font-semibold text-white">Islamabad</p>
-              <p className="text-xs text-white/50">Pakistan · UTC+5</p>
-            </div>
-          </Tile>
-
-          <Tile
-            variant="glass"
-            className="group col-span-3 md:col-span-4 min-h-[172px] justify-between"
-            index={2}
-          >
-            <a
-              href={personalLinks.linkedin.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-full flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 rounded-xl"
-              aria-label="LinkedIn profile"
-            >
-              <div className="flex items-center justify-between text-white/50">
-                <span className="font-mono text-xs tracking-widest">in/</span>
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-              </div>
-              <div>
-                <p className="font-display text-xl font-semibold text-white">LinkedIn</p>
-                <p className="text-xs text-white/50">{personalLinks.linkedin.label}</p>
-              </div>
-            </a>
-          </Tile>
-
-          <Tile
-            variant="glass"
-            className="group col-span-6 md:col-span-12 min-h-[120px] flex-row items-center justify-between"
-            index={3}
-          >
-            <a
-              href={personalLinks.github.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 rounded-xl"
-              aria-label="GitHub profile"
-            >
-              <div className="flex items-center gap-4">
-                <span className="font-mono text-sm tracking-widest text-white/80">gh/</span>
-                <div>
-                  <p className="font-display text-lg font-semibold text-white">
-                    {personalLinks.github.label}
-                  </p>
-                  <p className="text-xs text-white/50">Open-source · experiments · dotfiles</p>
-                </div>
-              </div>
-              <div className="hidden items-center gap-2 text-xs text-white/50 md:flex">
-                Visit repository
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-              </div>
-            </a>
-          </Tile>
+          </motion.div>
         </section>
       </main>
 
-      <footer className="relative mt-12 border-t border-white/5" role="contentinfo">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-2 px-6 py-8 text-xs text-white/50 md:flex-row md:items-center">
-          <p className="font-mono">© 2026 Muhammad Shayan — Crafted in Islamabad.</p>
-          <p className="font-mono uppercase tracking-[0.24em]">Obsidian Aurora · v2026.3</p>
+      {/* ============================================================
+          FOOTER
+         ============================================================ */}
+      <footer className="relative border-t border-white/5 px-6 py-12 md:px-20" role="contentinfo">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-sm text-white/50 md:flex-row">
+          <div className="font-mono">© 2026 Muhammad Shayan. All rights reserved.</div>
+          <div className="flex gap-8 font-mono">
+            <a href={personalLinks.github.link} target="_blank" rel="noopener noreferrer" className="transition hover:text-white">Github</a>
+            <a href={personalLinks.linkedin.link} target="_blank" rel="noopener noreferrer" className="transition hover:text-white">LinkedIn</a>
+            <a href={personalLinks.email.link} className="transition hover:text-white">Email</a>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="absolute inset-0 animate-ping rounded-full bg-[oklch(0.85_0.18_155/0.7)]" />
+              <span className="relative h-2 w-2 rounded-full bg-[oklch(0.85_0.18_155)]" />
+            </span>
+            <span>Ready for new challenges</span>
+          </div>
         </div>
       </footer>
 
