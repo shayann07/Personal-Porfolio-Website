@@ -275,3 +275,27 @@
 @media (prefers-reduced-motion: reduce) {
   .spin-y, .spin-x, .spin-xy, .blob-a, .blob-b, .blob-c, .floaty, .floaty-slow, .marquee-track, .shimmer::after { animation: none !important; }
 }
+
+/* Low motion intensity opt-out */
+html[data-motion="low"] .spin-y,
+html[data-motion="low"] .spin-x,
+html[data-motion="low"] .spin-xy,
+html[data-motion="low"] .blob-a,
+html[data-motion="low"] .blob-b,
+html[data-motion="low"] .blob-c,
+html[data-motion="low"] .floaty,
+html[data-motion="low"] .floaty-slow,
+html[data-motion="low"] .marquee-track,
+html[data-motion="low"] .shimmer::after { animation: none !important; }
+html[data-motion="low"] .tile { backdrop-filter: blur(12px) saturate(120%); }
+html[data-motion="low"] .blob { filter: blur(80px); opacity: 0.4; }
+
+/* Fixed grain overlay */
+.grain-fixed {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+}
+
+/* Deeper tile hover — dynamic lighting via mix-blend */
+.tile { contain: layout paint; }
