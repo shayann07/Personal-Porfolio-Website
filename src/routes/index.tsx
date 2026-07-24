@@ -1,19 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { Cursor } from "@/components/Cursor";
-import projLedger from "@/assets/proj-ledger.jpg";
-import projLeaf from "@/assets/proj-leaf.jpg";
-import projPulse from "@/assets/proj-pulse.jpg";
-import projMedi from "@/assets/proj-medi.jpg";
-const HeroOrb3D = lazy(() => import("@/components/HeroOrb3D").then(m => ({ default: m.HeroOrb3D })));
-
-function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [m, setM] = useState(false);
-  useEffect(() => setM(true), []);
-  return m ? <>{children}</> : null;
-}
 
 export const Route = createFileRoute("/")({
   head: () => ({
