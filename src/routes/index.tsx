@@ -222,7 +222,7 @@ function Hero() {
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative flex min-h-[78svh] flex-col justify-center overflow-hidden pb-14 pt-24 md:min-h-[82svh] md:pb-12 md:pt-28">
+    <section id="top" ref={ref} className="relative flex min-h-[62svh] flex-col justify-center overflow-hidden pb-10 pt-24 md:min-h-[68svh] md:pb-10 md:pt-24">
       {/* ambient blobs */}
       <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .55 }} />
       <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .5 }} />
@@ -234,7 +234,7 @@ function Hero() {
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="hd-display max-w-[1180px] text-white">
+        <h1 className="hd-display max-w-[920px] text-white">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -253,12 +253,12 @@ function Hero() {
         </h1>
 
         {/* footer grid: intro + orbit cards */}
-        <div className="mt-7 grid grid-cols-12 items-end gap-4 md:mt-10 md:gap-5">
+        <div className="mt-6 grid grid-cols-12 items-end gap-4 md:mt-8 md:gap-5">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.9 }}
-            className="col-span-12 max-w-sm body-md text-white/70 md:col-span-4"
+            className="col-span-12 max-w-xs body-sm text-white/70 md:col-span-4"
           >
             I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
@@ -323,7 +323,7 @@ function Marquee() {
     </div>
   );
   return (
-    <section aria-hidden className="relative overflow-hidden border-y border-white/10 py-3 md:py-4">
+    <section aria-hidden className="relative overflow-hidden border-y border-white/10 py-2.5 md:py-3">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#050507] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#050507] to-transparent" />
       <div className="marquee-track flex">{rowA}{rowA}</div>
@@ -375,12 +375,8 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
   const reset = () => { mx.set(0); my.set(0); };
 
   // staggered layout: alternate wide/narrow, big first card
-  const layout = i === 0
-    ? "col-span-12"
-    : i % 3 === 1 ? "col-span-12 md:col-span-7"
-    : i % 3 === 2 ? "col-span-12 md:col-span-5"
-    : "col-span-12 md:col-span-6";
-  const cardSize = i === 0 ? "min-h-[320px] md:min-h-[400px]" : "min-h-[300px] md:min-h-[350px]";
+  const layout = "col-span-12 sm:col-span-6";
+  const cardSize = "min-h-[280px] sm:min-h-[320px] lg:min-h-[340px]";
 
   return (
     <motion.a
@@ -407,13 +403,13 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         </div>
 
         {/* top row: index + chip */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-3.5 md:p-5">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-3.5 md:p-4">
           <span className="num-idx">— {p.n}</span>
           <span className="chip max-w-[70%] truncate"><span className="dot shrink-0" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
         </div>
 
         {/* bottom content */}
-        <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
           <div className="flex flex-wrap items-end justify-between gap-3 md:gap-5">
             <div className="min-w-0 flex-1">
               <div className="hd-3 text-white">{p.title}</div>
@@ -479,7 +475,7 @@ function Studio() {
           {/* pull-quote glass card */}
           <motion.div style={{ y: y1 }} className="col-span-12 md:col-span-7">
             <div className="tile relative p-5 md:p-8">
-              <div className="absolute right-5 top-3 serifital text-[80px] leading-none text-white/10 md:text-[96px]">“</div>
+                <div className="absolute right-5 top-3 serifital text-[64px] leading-none text-white/10 md:text-[80px]">“</div>
               <div className="serifital text-white/95 leading-[1.15]" style={{ fontSize: "var(--text-h3)" }}>
                 Great mobile UX is invisible engineering — <span className="italic text-[color:var(--violet)]">offline that just works, sync you never notice, releases that don&apos;t crash.</span>
               </div>
@@ -498,7 +494,7 @@ function Studio() {
           {/* stat cluster */}
           <motion.div style={{ y: y2 }} className="col-span-12 grid grid-cols-2 gap-3 md:col-span-5 md:gap-4">
             {stats.map((s) => (
-              <div key={s.k} className="tile flex min-h-[130px] flex-col justify-between p-4 md:min-h-[150px] md:p-5">
+              <div key={s.k} className="tile flex min-h-[110px] flex-col justify-between p-4 md:min-h-[128px] md:p-5">
                 <div className="micro-eyebrow">{s.k}</div>
                 <div className="stat-num text-white">{s.v}</div>
               </div>
