@@ -303,8 +303,8 @@ function Marquee() {
     <div className="flex shrink-0 items-center gap-10 pr-10">
       {A.map((t, i) => (
         <span key={i} className="flex items-center gap-10">
-          <span className="display text-[8vw] leading-none text-white/95">{t}</span>
-          <span className="serifital italic text-[8vw] leading-none text-[color:var(--violet)]">✦</span>
+          <span className="display text-[clamp(28px,4.6vw,72px)] leading-none text-white/95">{t}</span>
+          <span className="serifital italic text-[clamp(28px,4.6vw,72px)] leading-none text-[color:var(--violet)]">✦</span>
         </span>
       ))}
     </div>
@@ -313,8 +313,8 @@ function Marquee() {
     <div className="flex shrink-0 items-center gap-10 pr-10">
       {B.map((t, i) => (
         <span key={i} className="flex items-center gap-10">
-          <span className="serifital italic text-[6vw] leading-none text-white/60">{t}</span>
-          <span className="mono text-[6vw] leading-none text-white/25">/</span>
+          <span className="serifital italic text-[clamp(22px,3.4vw,54px)] leading-none text-white/60">{t}</span>
+          <span className="mono text-[clamp(22px,3.4vw,54px)] leading-none text-white/25">/</span>
         </span>
       ))}
     </div>
