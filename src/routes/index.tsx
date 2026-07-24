@@ -927,10 +927,10 @@ function IndexInner() {
             </div>
             <p className="mt-6 font-serif text-2xl italic text-white/95">Muhammad Shayan</p>
             <p className="mt-1 text-[10px] tracking-[0.28em] text-white/40">ISLAMABAD · REMOTE</p>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-300 backdrop-blur">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-amber-300 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-                <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/70" />
-                <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="absolute inset-0 animate-ping rounded-full bg-amber-400/70" />
+                <span className="relative h-1.5 w-1.5 rounded-full bg-amber-400" />
               </span>
               Available Q3 · 2026
             </div>
