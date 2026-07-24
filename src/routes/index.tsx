@@ -11,6 +11,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Mobile engineer designing offline-first, crash-resistant Android & Flutter apps with on-device ML. Selected work, lab, and contact." },
       { property: "og:title", content: "Muhammad Shayan — Android & Flutter Engineer" },
       { property: "og:description", content: "Offline-first, crash-resistant mobile apps with on-device ML. Selected work, lab, and contact." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Page,
