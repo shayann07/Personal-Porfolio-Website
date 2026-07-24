@@ -8,7 +8,6 @@ import {
   useTransform,
   useMotionTemplate,
   useReducedMotion,
-  useMotionValueEvent,
   type MotionValue,
 } from "framer-motion";
 import { ArrowUpRight, Mail, FileDown, MapPin, Sparkles, Gauge, Zap } from "lucide-react";
@@ -130,12 +129,14 @@ function Tile3D({
   const lift = useMotionValue(0);
   const sLift = useSpring(lift, { stiffness: 180, damping: 22 });
 
-  const yOffset = parallax ?? useMotionValue(0);
-
+  const fallbackY = useMotionValue(0);
+  const yOffset = parallax ?? fallbackY;
+  const shadowBlur = useTransform(sLift, v => 40 + v * 1.6);
+  const shadowY = useTransform(sLift, v => 20 + v * 0.9);
   const transform = useMotionTemplate`perspective(1400px) translate3d(0, ${yOffset}px, ${sLift}px) rotateX(${srx}deg) rotateY(${sry}deg)`;
   const glow = useMotionTemplate`radial-gradient(500px circle at ${gx}% ${gy}%, rgba(167,139,250,0.35), rgba(56,189,248,0.12) 35%, transparent 65%)`;
   const sheen = useMotionTemplate`linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.14) ${gx}%, transparent 60%)`;
-  const shadow = useMotionTemplate`0 ${sLift}px ${useTransform(sLift, v => 40 + v * 1.6)}px -20px rgba(120,80,255,0.5), 0 30px 80px -30px rgba(0,0,0,0.7)`;
+  const shadow = useMotionTemplate`0 ${shadowY}px ${shadowBlur}px -20px rgba(120,80,255,0.5), 0 30px 80px -30px rgba(0,0,0,0.7)`;
 
   const onMove = useRafPointer((cx, cy, el) => {
     const r = el.getBoundingClientRect();
@@ -183,8 +184,10 @@ function Cube3D({ size = 200, rotate }: { size?: number; rotate?: MotionValue<nu
     { t: `rotateX(-90deg) translateZ(${half}px)` },
   ];
   const spin = !reduced && intensity === "high";
-  const scrollRot = rotate ?? useMotionValue(0);
-  const transform = useMotionTemplate`rotateY(${scrollRot}deg) rotateX(${useTransform(scrollRot, v => v * 0.4)}deg)`;
+  const fallback = useMotionValue(0);
+  const scrollRot = rotate ?? fallback;
+  const rotXVal = useTransform(scrollRot, v => v * 0.4);
+  const transform = useMotionTemplate`rotateY(${scrollRot}deg) rotateX(${rotXVal}deg)`;
   return (
     <motion.div
       className={spin ? "spin-xy" : ""}
