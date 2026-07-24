@@ -234,7 +234,7 @@ function Hero() {
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="h-display max-w-[1180px] text-white">
+        <h1 className="hd-display max-w-[1180px] text-white">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -306,7 +306,7 @@ function Marquee() {
     <div className="flex shrink-0 items-center gap-6 pr-6 md:gap-10 md:pr-10">
       {A.map((t, i) => (
         <span key={i} className="flex items-center gap-6 md:gap-10">
-          <span className="h-1 leading-none text-white/95">{t}</span>
+          <span className="hd-1 leading-none text-white/95">{t}</span>
           <span className="serifital italic leading-none text-[color:var(--violet)]" style={{ fontSize: "var(--text-h1)" }}>✦</span>
         </span>
       ))}
@@ -341,7 +341,7 @@ function WorkList() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div className="min-w-0">
             <div className="chip mb-4"><span className="dot" />Selected Work</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Recent <span className="serifital italic text-[color:var(--violet)]">shipments.</span>
             </h2>
           </div>
@@ -416,7 +416,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
           <div className="flex flex-wrap items-end justify-between gap-3 md:gap-5">
             <div className="min-w-0 flex-1">
-              <div className="h-3 text-white">{p.title}</div>
+              <div className="hd-3 text-white">{p.title}</div>
               <p className="mt-1.5 max-w-md body-sm text-white/70">{p.desc}</p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {p.stack.map((t) => (
@@ -466,7 +466,7 @@ function Studio() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
                 Mobile, made <span className="serifital italic text-[color:var(--violet)]">calm.</span>
             </h2>
           </div>
@@ -530,7 +530,7 @@ function IndexStack() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />Index · Toolkit</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Instruments I <span className="serifital italic text-[color:var(--violet)]">reach for.</span>
             </h2>
           </div>
@@ -574,7 +574,7 @@ function Metrics() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot live" />Command Center</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Signals from <span className="serifital italic text-[color:var(--violet)]">production.</span>
             </h2>
           </div>
@@ -610,7 +610,7 @@ function Timeline() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />The Story</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               Chapters, <span className="serifital italic text-[color:var(--violet)]">in order.</span>
             </h2>
           </div>
@@ -634,7 +634,7 @@ function Timeline() {
                   <span className="micro-eyebrow text-[color:var(--violet)]">{c.y}</span>
                   <span className="h-px flex-1 bg-white/10" />
                 </div>
-                <div className="mt-3 h-3 text-white">{c.t}</div>
+                <div className="mt-3 hd-3 text-white">{c.t}</div>
                 <div className="micro-eyebrow mt-2 text-white/55">{c.o}</div>
                 <ul className="mt-4 space-y-2">
                   {c.b.map((line) => (
@@ -660,7 +660,7 @@ function Lab() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div>
             <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
-            <h2 className="h-2 text-white">
+            <h2 className="hd-2 text-white">
               What I&apos;m <span className="serifital italic text-[color:var(--violet)]">tinkering on.</span>
             </h2>
           </div>
@@ -683,7 +683,7 @@ function Lab() {
                 <span className="chip"><span className="dot" style={{ background: l.tint, boxShadow: `0 0 10px ${l.tint}` }} />{l.s}</span>
                 <span className="num-idx">— {String(i + 1).padStart(2, "0")}</span>
               </div>
-              <div className="relative mt-5 h-3 text-white">{l.t}</div>
+              <div className="relative mt-5 hd-3 text-white">{l.t}</div>
               <p className="relative mt-2 body-sm text-white/70">{l.d}</p>
               <div className="relative mt-4 flex flex-wrap gap-1.5">
                 {l.tech.map((t) => (
@@ -706,7 +706,7 @@ function Contact() {
       <div className="relative container-x">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 inline-flex"><span className="chip"><span className="dot live" />Booking Q3 — Q4 2026</span></div>
-          <h2 className="h-1 text-white">
+          <h2 className="hd-1 text-white">
             <div><SplitReveal text="Let's build" /></div>
             <div><span className="serifital italic text-[color:var(--violet)]"><SplitReveal text="something rare." delay={0.08} /></span></div>
           </h2>
