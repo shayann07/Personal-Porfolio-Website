@@ -467,7 +467,7 @@ function Studio() {
             <div className="tile relative p-8 md:p-12">
               <div className="absolute right-6 top-4 serifital text-[140px] leading-none text-white/10">“</div>
               <div className="serifital text-white/95 text-[clamp(28px,3.4vw,52px)] leading-[1.1]">
-                Interfaces should feel like instruments — <span className="italic text-[color:var(--violet)]">precise, tactile, alive.</span>
+                Great mobile UX is invisible engineering — <span className="italic text-[color:var(--violet)]">offline that just works, sync you never notice, releases that don&apos;t crash.</span>
               </div>
               <div className="mt-10 flex items-center gap-4">
                 <div className="h-12 w-12 overflow-hidden rounded-full ring-1 ring-white/20">
@@ -475,7 +475,7 @@ function Studio() {
                 </div>
                 <div>
                   <div className="mono text-[12px] uppercase tracking-[0.22em] text-white">Muhammad Shayan</div>
-                  <div className="mono text-[11px] uppercase tracking-[0.22em] text-white/50">Design Engineer · Est. 2019</div>
+                  <div className="mono text-[11px] uppercase tracking-[0.22em] text-white/50">Android &amp; Flutter Engineer</div>
                 </div>
               </div>
             </div>
@@ -494,10 +494,10 @@ function Studio() {
           {/* bio strip */}
           <div className="col-span-12 mt-6 grid grid-cols-12 gap-6">
             <p className="col-span-12 text-lg leading-relaxed text-white/70 md:col-span-6">
-              I work at the seam of interface, motion, and systems — shipping products end-to-end from typographic systems to WebGL shaders.
+              I work end-to-end on mobile products — from Compose UI systems and offline-first data layers to on-device ML inference and CI/CD delivery pipelines.
             </p>
             <p className="col-span-12 text-lg leading-relaxed text-white/70 md:col-span-5 md:col-start-8">
-              Currently exploring real-time rendering, generative type, and interaction models that feel physically responsive.
+              Currently exploring on-device ML for gesture and voice interfaces, and model-optimization workflows that keep inference fast on mid-range Android devices.
             </p>
           </div>
         </div>
