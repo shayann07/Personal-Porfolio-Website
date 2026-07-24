@@ -477,10 +477,38 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
         className={`tile relative overflow-hidden ${cardSize}`}
       >
-        {/* image plate */}
-        <div className="absolute inset-0">
-          <img src={p.img} alt="" className="h-full w-full object-cover opacity-60 transition duration-[900ms] group-hover:scale-[1.04] group-hover:opacity-80" />
-          <div className="absolute inset-0" style={{ background: `radial-gradient(60% 60% at 70% 30%, ${p.tint}33, transparent 70%), linear-gradient(180deg, #05050700 0%, #050507ee 100%)` }} />
+        {/* gradient art plate */}
+        <div aria-hidden className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 transition duration-[900ms] group-hover:scale-[1.06]"
+            style={{
+              background:
+                `radial-gradient(60% 60% at 20% 20%, ${p.tint}55, transparent 65%),` +
+                `radial-gradient(55% 55% at 80% 30%, ${p.accent}44, transparent 70%),` +
+                `radial-gradient(70% 65% at 60% 90%, ${p.tint}33, transparent 70%),` +
+                `linear-gradient(135deg, #0b0b14 0%, #050507 100%)`,
+            }}
+          />
+          {/* orbit ring accent */}
+          <div
+            className="absolute -right-16 -top-16 h-56 w-56 rounded-full border opacity-40 md:h-72 md:w-72"
+            style={{ borderColor: `${p.tint}55` }}
+          />
+          <div
+            className="absolute -right-8 -top-8 h-32 w-32 rounded-full border opacity-30 md:h-40 md:w-40"
+            style={{ borderColor: `${p.accent}66` }}
+          />
+          {/* grid overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
+              backgroundSize: "36px 36px",
+            }}
+          />
+          {/* vignette for text legibility */}
+          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #05050700 0%, #050507ee 100%)" }} />
         </div>
 
         {/* top row: index + chip */}
