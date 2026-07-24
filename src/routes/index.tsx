@@ -567,18 +567,17 @@ function Contact() {
           </h2>
 
           <div className="mt-14 flex flex-col items-center gap-6">
-            <a href="mailto:hello@muhammadshayan.dev" data-cursor="Write" className="pill-btn text-white">
+            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn text-white">
               <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-black">✎</span>
-              <span className="display text-[clamp(22px,2.6vw,36px)] leading-none">hello@muhammadshayan.dev</span>
+              <span className="display text-[clamp(22px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
               <span className="mono text-xl">↗</span>
             </a>
 
             <div className="flex flex-wrap justify-center gap-3">
               {[
-                { l: "GitHub",   h: "https://github.com" },
-                { l: "LinkedIn", h: "https://linkedin.com" },
-                { l: "X",        h: "https://x.com" },
-                { l: "Résumé",   h: "/muhammad_shayan_cv.pdf" },
+                { l: "GitHub @shayann07",   h: "https://github.com/shayann07" },
+                { l: "LinkedIn /in/shayann07", h: "https://www.linkedin.com/in/shayann07" },
+                { l: "Résumé (PDF)",        h: "/muhammad_shayan_cv.pdf" },
               ].map((s) => (
                 <a key={s.l} href={s.h} data-cursor={s.l} className="chip hover:border-white/30 hover:text-white">{s.l} ↗</a>
               ))}
