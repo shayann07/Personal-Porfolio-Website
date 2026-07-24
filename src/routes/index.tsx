@@ -333,10 +333,10 @@ function Marquee() {
 
 function WorkList() {
   return (
-    <section id="work" className="relative py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
-        <div className="mb-16 flex items-end justify-between">
-          <div>
+    <section id="work" className="relative py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-16">
+          <div className="min-w-0">
             <div className="chip mb-4"><span className="dot" />Selected Work</div>
             <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
               Recent <span className="serifital italic text-[color:var(--violet)]">shipments.</span>
@@ -347,7 +347,7 @@ function WorkList() {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-4 md:gap-6">
           {PROJECTS.map((p, i) => (
             <ProjectCard key={p.n} p={p} i={i} />
           ))}
@@ -394,7 +394,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
     >
       <motion.div
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
-        className="tile relative aspect-[16/10] overflow-hidden"
+        className="tile relative min-h-[440px] overflow-hidden md:aspect-[16/10] md:min-h-0"
       >
         {/* image plate */}
         <div className="absolute inset-0">
@@ -403,23 +403,23 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         </div>
 
         {/* top row: index + chip */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-4 md:p-6">
           <span className="num-idx">— {p.n}</span>
-          <span className="chip"><span className="dot" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
+          <span className="chip max-w-[70%] truncate"><span className="dot shrink-0" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
         </div>
 
         {/* bottom content */}
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <div className="display text-white text-[clamp(32px,5vw,80px)] leading-[0.9]">{p.title}</div>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-white/70">{p.desc}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6">
+            <div className="min-w-0 flex-1">
+              <div className="display text-white text-[clamp(28px,5vw,80px)] leading-[0.9]">{p.title}</div>
+              <p className="mt-2 max-w-md text-[13px] leading-relaxed text-white/70 md:text-sm">{p.desc}</p>
+              <div className="mt-3 flex flex-wrap gap-2 md:mt-4">
                 {p.stack.map((t) => (
                   <span key={t} className="mono rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{t}</span>
                 ))}
               </div>
-              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 md:mt-4 md:gap-x-6">
                 {p.metrics.map((m) => (
                   <div key={m.k}>
                     <div className="display text-white text-[clamp(18px,1.6vw,22px)] leading-none">{m.v}</div>
@@ -428,9 +428,9 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="mono text-[11px] uppercase tracking-[0.22em] text-white/60">{p.role}</span>
-              <span className="grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black">↗</span>
+            <div className="flex w-full items-center justify-between gap-3 md:w-auto md:justify-end">
+              <span className="mono text-[10px] uppercase tracking-[0.22em] text-white/60 md:text-[11px]">{p.role}</span>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black md:h-11 md:w-11">↗</span>
             </div>
           </div>
         </div>
