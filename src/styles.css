@@ -155,6 +155,88 @@ body { cursor: none; }
 /* Focus */
 :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 4px; }
 
+/* ==================== component atoms ==================== */
+
+/* Frosted glass surface */
+.glass {
+  background: linear-gradient(180deg, color-mix(in oklab, white 6%, transparent), color-mix(in oklab, white 2%, transparent));
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklab, white 10%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 12%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, black 30%, transparent),
+    0 30px 80px -30px color-mix(in oklab, var(--violet) 40%, transparent);
+}
+.glass-strong {
+  background: linear-gradient(180deg, color-mix(in oklab, white 10%, transparent), color-mix(in oklab, white 3%, transparent));
+  backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
+}
+
+/* Chip / pill */
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border-radius: 999px;
+  font-family: var(--font-mono); font-size: 10.5px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: color-mix(in oklab, white 75%, transparent);
+  background: color-mix(in oklab, white 5%, transparent);
+  border: 1px solid color-mix(in oklab, white 12%, transparent);
+  backdrop-filter: blur(10px);
+}
+.chip .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--violet); box-shadow: 0 0 12px var(--violet); }
+.chip .dot.live { background: #4ade80; box-shadow: 0 0 12px #4ade80; animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.3); } }
+
+/* Tile with iridescent edge */
+.tile {
+  position: relative; border-radius: 20px; overflow: hidden;
+  background: linear-gradient(180deg, color-mix(in oklab, white 5%, transparent), color-mix(in oklab, white 1.5%, transparent));
+  border: 1px solid color-mix(in oklab, white 10%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  transition: transform .6s cubic-bezier(.2,.7,.2,1), border-color .4s;
+}
+.tile::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+  background: conic-gradient(from 140deg, transparent 0%, color-mix(in oklab, var(--violet) 60%, transparent) 25%, transparent 50%, #67e8f9aa 75%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: .35; transition: opacity .5s;
+}
+.tile:hover::before { opacity: .9; }
+.tile:hover { transform: translateY(-4px); border-color: color-mix(in oklab, white 18%, transparent); }
+
+/* Big pill button */
+.pill-btn {
+  position: relative; display: inline-flex; align-items: center; gap: 14px;
+  padding: 22px 32px; border-radius: 999px;
+  background: linear-gradient(180deg, color-mix(in oklab, white 10%, transparent), color-mix(in oklab, white 3%, transparent));
+  border: 1px solid color-mix(in oklab, white 16%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .4s;
+  box-shadow: 0 20px 60px -20px color-mix(in oklab, var(--violet) 40%, transparent);
+}
+.pill-btn:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--violet) 60%, transparent);
+  box-shadow: 0 30px 80px -20px color-mix(in oklab, var(--violet) 70%, transparent);
+}
+
+/* Ambient glow blob */
+.glow-blob {
+  position: absolute; border-radius: 999px; filter: blur(80px);
+  pointer-events: none; opacity: .5;
+}
+
+/* Number index */
+.num-idx {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em;
+  color: color-mix(in oklab, white 45%, transparent);
+}
+
+/* Ticker separator */
+.tsep { width: 6px; height: 6px; border-radius: 999px; background: color-mix(in oklab, var(--violet) 80%, transparent); display: inline-block; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .marquee-track { animation: none !important; }
