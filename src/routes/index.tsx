@@ -77,7 +77,7 @@ function Waveform({ bars = 24 }: { bars?: number }) {
   );
 }
 
-function Sparkline({ color = "oklch(0.72 0.24 300)" }: { color?: string }) {
+function Sparkline({ color = "oklch(0.55 0.18 18)" }: { color?: string }) {
   const points = "0,20 12,14 24,17 36,10 48,13 60,6 72,9 84,3 96,7";
   return (
     <svg viewBox="0 0 96 24" className="h-6 w-24" aria-hidden="true">
@@ -120,7 +120,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Muhammad Shayan — Senior Mobile Engineer" },
       { name: "twitter:image", content: "/og-image.png" },
-      { name: "theme-color", content: "#0a0a12" },
+      { name: "theme-color", content: "#0f0b0c" },
     ],
     links: [{ rel: "canonical", href: "https://shayxo.dev" }],
   }),
@@ -202,7 +202,7 @@ function AuroraBackdrop() {
           width: "60vw",
           height: "60vw",
           background:
-            "radial-gradient(circle, oklch(0.72 0.24 300 / 0.9), transparent 60%)",
+            "radial-gradient(circle, oklch(0.45 0.16 15 / 0.9), transparent 60%)",
           animation: reduced ? "none" : "aurora-drift 24s ease-in-out infinite",
           y: reduced ? 0 : y1,
           opacity,
@@ -217,7 +217,7 @@ function AuroraBackdrop() {
           width: "55vw",
           height: "55vw",
           background:
-            "radial-gradient(circle, oklch(0.78 0.18 210 / 0.85), transparent 60%)",
+            "radial-gradient(circle, oklch(0.62 0.14 40 / 0.75), transparent 60%)",
           animation: reduced ? "none" : "aurora-drift-2 28s ease-in-out infinite",
           y: reduced ? 0 : y2,
           opacity,
@@ -232,7 +232,7 @@ function AuroraBackdrop() {
           width: "50vw",
           height: "50vw",
           background:
-            "radial-gradient(circle, oklch(0.72 0.24 25 / 0.7), transparent 60%)",
+            "radial-gradient(circle, oklch(0.92 0.05 85 / 0.35), transparent 60%)",
           animation: reduced ? "none" : "aurora-drift 32s ease-in-out infinite reverse",
           y: reduced ? 0 : y3,
           opacity,
@@ -296,7 +296,7 @@ function CursorSpot() {
         x: sx,
         y: sy,
         background:
-          "radial-gradient(closest-side, oklch(0.72 0.24 300 / 0.18), transparent 70%)",
+          "radial-gradient(closest-side, oklch(0.55 0.18 18 / 0.28), transparent 70%)",
         willChange: "transform",
       }}
     />
@@ -937,10 +937,10 @@ function IndexInner() {
           </Tile>
 
           {[
-            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false, color: "oklch(0.78 0.18 210)" },
-            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true, color: "oklch(0.72 0.24 300)" },
-            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false, color: "oklch(0.72 0.24 25)" },
-            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false, color: "oklch(0.78 0.18 210)" },
+            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false, color: "oklch(0.92 0.05 85)" },
+            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true, color: "oklch(0.55 0.18 18)" },
+            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false, color: "oklch(0.62 0.14 40)" },
+            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false, color: "oklch(0.92 0.05 85)" },
           ].map((m, i) => {
             const Icon = m.icon;
             return (
