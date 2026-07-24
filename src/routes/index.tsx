@@ -553,6 +553,137 @@ function IndexStack() {
 
 /* --------------------------------- contact ---------------------------- */
 
+function Metrics() {
+  return (
+    <section id="metrics" className="relative border-t border-white/10 py-32">
+      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="chip mb-4"><span className="dot live" />Command Center</div>
+            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+              Signals from <span className="serifital italic text-[color:var(--violet)]">production.</span>
+            </h2>
+          </div>
+          <div className="mono text-right text-[11px] uppercase tracking-[0.24em] text-white/50">
+            Real-time performance<br/>&amp; reliability metrics
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {METRICS.map((m, i) => (
+            <motion.div
+              key={m.k}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: i * 0.06 }}
+              className="tile p-6 md:p-8"
+            >
+              <div className="mono text-[10.5px] uppercase tracking-[0.22em] text-white/50">{m.s}</div>
+              <div className="mt-6 display text-white text-[clamp(44px,5.4vw,84px)] leading-none">{m.v}</div>
+              <div className="mono mt-4 text-[11px] uppercase tracking-[0.22em] text-white/70">{m.k}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Timeline() {
+  return (
+    <section id="story" className="relative border-t border-white/10 py-32">
+      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="chip mb-4"><span className="dot" />The Story</div>
+            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+              Chapters, <span className="serifital italic text-[color:var(--violet)]">in order.</span>
+            </h2>
+          </div>
+          <div className="mono text-right text-[11px] uppercase tracking-[0.24em] text-white/50">
+            {TIMELINE.length} chapters<br/>2021 — Now
+          </div>
+        </div>
+        <div className="relative grid grid-cols-12 gap-6">
+          <div className="pointer-events-none absolute inset-y-0 left-6 w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:left-1/2" />
+          {TIMELINE.map((c, i) => (
+            <motion.div
+              key={c.t}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: (i % 3) * 0.05 }}
+              className={`col-span-12 md:col-span-6 ${i % 2 ? "md:col-start-7" : ""}`}
+            >
+              <div className="tile p-6 md:p-8">
+                <div className="flex items-center gap-3">
+                  <span className="mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--violet)]">{c.y}</span>
+                  <span className="h-px flex-1 bg-white/10" />
+                </div>
+                <div className="mt-4 display text-white text-[clamp(24px,2.4vw,34px)] leading-tight">{c.t}</div>
+                <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/55">{c.o}</div>
+                <ul className="mt-5 space-y-2">
+                  {c.b.map((line) => (
+                    <li key={line} className="flex gap-3 text-sm text-white/70">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--violet)]" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Lab() {
+  return (
+    <section id="lab" className="relative border-t border-white/10 py-32">
+      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
+            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+              What I&apos;m <span className="serifital italic text-[color:var(--violet)]">tinkering on.</span>
+            </h2>
+          </div>
+          <div className="mono text-right text-[11px] uppercase tracking-[0.24em] text-white/50">
+            {LAB.length} experiments<br/>Mostly on-device ML
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {LAB.map((l, i) => (
+            <motion.div
+              key={l.t}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: i * 0.06 }}
+              className="tile group relative overflow-hidden p-6 md:p-8"
+            >
+              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition group-hover:opacity-60" style={{ background: `radial-gradient(circle, ${l.tint}, transparent 70%)` }} />
+              <div className="relative flex items-center justify-between">
+                <span className="chip"><span className="dot" style={{ background: l.tint, boxShadow: `0 0 10px ${l.tint}` }} />{l.s}</span>
+                <span className="num-idx">— {String(i + 1).padStart(2, "0")}</span>
+              </div>
+              <div className="relative mt-8 display text-white text-[clamp(24px,2.2vw,32px)] leading-tight">{l.t}</div>
+              <p className="relative mt-3 text-sm leading-relaxed text-white/70">{l.d}</p>
+              <div className="relative mt-6 flex flex-wrap gap-2">
+                {l.tech.map((t) => (
+                  <span key={t} className="mono rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{t}</span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden border-t border-white/10 py-32">
@@ -621,7 +752,10 @@ function Page() {
         <Hero />
         <Marquee />
         <WorkList />
+        <Metrics />
         <Studio />
+        <Timeline />
+        <Lab />
         <IndexStack />
         <Contact />
       </main>
