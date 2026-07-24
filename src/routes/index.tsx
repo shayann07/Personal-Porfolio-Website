@@ -187,7 +187,7 @@ function Header() {
       {/* Center pill nav */}
       <nav className="fixed left-1/2 top-6 z-40 hidden -translate-x-1/2 md:top-8 md:block">
         <div className="glass-strong flex items-center gap-1 rounded-full p-1.5">
-          {[["Work","#work"],["Studio","#studio"],["Index","#index"],["Contact","#contact"]].map(([l,h]) => (
+          {[["Work","#work"],["Signals","#metrics"],["Story","#story"],["Lab","#lab"],["Stack","#index"],["Contact","#contact"]].map(([l,h]) => (
             <a key={l} href={h} data-cursor="Jump" className="mono rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/70 transition hover:bg-white/10 hover:text-white">
               {l}
             </a>
