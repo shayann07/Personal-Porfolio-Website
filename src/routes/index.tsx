@@ -6,8 +6,6 @@ import {
   MapPin,
   Sparkles,
   Zap,
-  Github,
-  Linkedin,
   Code2,
   Cpu,
   Layers,
@@ -105,11 +103,13 @@ function Tile({
   className = "",
   variant = "glass",
   index = 0,
+  id,
 }: {
   children: React.ReactNode;
   className?: string;
   variant?: "glass" | "strong" | "solid";
   index?: number;
+  id?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -127,6 +127,7 @@ function Tile({
   return (
     <motion.div
       ref={ref}
+      id={id}
       onMouseMove={onMove}
       initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
