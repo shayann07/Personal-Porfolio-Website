@@ -172,6 +172,122 @@ function MotionPrefProvider({ children }: { children: ReactNode }) {
 }
 
 /* ==========================================================
+   Theme (system / light / dark) — applies .light or .dark on <html>
+   ========================================================== */
+type ThemePref = "system" | "light" | "dark";
+const ThemeCtx = createContext<{
+  pref: ThemePref;
+  resolved: "light" | "dark";
+  setPref: (p: ThemePref) => void;
+}>({ pref: "system", resolved: "dark", setPref: () => {} });
+
+function useTheme() {
+  return useContext(ThemeCtx);
+}
+
+function ThemeProvider({ children }: { children: ReactNode }) {
+  const [pref, setPrefState] = useState<ThemePref>("system");
+  const [systemDark, setSystemDark] = useState(true);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("theme-pref") as ThemePref | null;
+      if (v === "system" || v === "light" || v === "dark") setPrefState(v);
+    } catch { /* ignore */ }
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const sync = () => setSystemDark(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const resolved: "light" | "dark" =
+    pref === "system" ? (systemDark ? "dark" : "light") : pref;
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(resolved);
+  }, [resolved]);
+
+  const setPref = useCallback((p: ThemePref) => {
+    setPrefState(p);
+    try { localStorage.setItem("theme-pref", p); } catch { /* ignore */ }
+  }, []);
+
+  const value = useMemo(() => ({ pref, resolved, setPref }), [pref, resolved, setPref]);
+  return <ThemeCtx.Provider value={value}>{children}</ThemeCtx.Provider>;
+}
+
+function ThemeToggle() {
+  const { pref, setPref } = useTheme();
+  const next: ThemePref = pref === "system" ? "light" : pref === "light" ? "dark" : "system";
+  const Icon = pref === "system" ? Monitor : pref === "light" ? Sun : Moon;
+  return (
+    <button
+      type="button"
+      onClick={() => setPref(next)}
+      aria-label={`Theme: ${pref}. Switch to ${next}.`}
+      title={`Theme: ${pref} — click for ${next}`}
+      className="fixed bottom-4 right-36 z-40 inline-flex items-center gap-2 rounded-full glass px-3 py-2 text-[11px] font-medium text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+    >
+      <Icon className="h-3 w-3" />
+      <span className="capitalize">{pref}</span>
+    </button>
+  );
+}
+
+/* ==========================================================
+   Perf HUD — dev-only FPS + frame-time sampler
+   ========================================================== */
+function PerfHUD() {
+  const [stats, setStats] = useState({ fps: 0, ms: 0, p99: 0 });
+  useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+    const samples: number[] = [];
+    let acc = 0;
+    let frames = 0;
+
+    const tick = (t: number) => {
+      const dt = t - last;
+      last = t;
+      samples.push(dt);
+      if (samples.length > 120) samples.shift();
+      acc += dt;
+      frames++;
+      if (acc >= 500) {
+        const fps = Math.round((frames / acc) * 1000);
+        const ms = +(acc / frames).toFixed(2);
+        const sorted = [...samples].sort((a, b) => a - b);
+        const p99 = +(sorted[Math.floor(sorted.length * 0.99)] ?? ms).toFixed(2);
+        setStats({ fps, ms, p99 });
+        acc = 0;
+        frames = 0;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const good = stats.fps >= 55;
+  const okay = stats.fps >= 40;
+  const color = good ? "text-emerald-300" : okay ? "text-amber-300" : "text-rose-300";
+  return (
+    <div
+      aria-hidden="true"
+      className="fixed bottom-4 left-4 z-40 flex items-center gap-3 rounded-full glass px-3 py-2 font-mono text-[10px] leading-none tracking-wider text-white/70"
+    >
+      <span className={`font-semibold ${color}`}>{stats.fps} fps</span>
+      <span className="h-2 w-px bg-white/20" />
+      <span>{stats.ms.toFixed(1)}ms</span>
+      <span className="text-white/40">p99 {stats.p99.toFixed(1)}</span>
+    </div>
+  );
+}
+
+/* ==========================================================
    Backdrop — aurora blobs with scroll parallax + intensifying blur
    ========================================================== */
 function AuroraBackdrop() {
