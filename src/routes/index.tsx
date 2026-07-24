@@ -1,13 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { Cursor } from "@/components/Cursor";
 import projLedger from "@/assets/proj-ledger.jpg";
 import projLeaf from "@/assets/proj-leaf.jpg";
 import projPulse from "@/assets/proj-pulse.jpg";
 import projMedi from "@/assets/proj-medi.jpg";
-import heroOrb from "@/assets/hero-orb.jpg";
+const HeroOrb3D = lazy(() => import("@/components/HeroOrb3D").then(m => ({ default: m.HeroOrb3D })));
+
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [m, setM] = useState(false);
+  useEffect(() => setM(true), []);
+  return m ? <>{children}</> : null;
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -293,10 +299,14 @@ function Hero() {
               transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
               style={{ maskImage: "radial-gradient(circle,transparent 60%,black 65%)" }}
             />
-            {/* orb card */}
-            <div className="relative h-full w-full overflow-hidden rounded-[28px] ring-1 ring-white/10">
-              <img src={heroOrb} alt="" width={1200} height={1400} className="h-full w-full scale-110 object-cover" />
-              <div className="absolute inset-0" style={{ background: "radial-gradient(60% 50% at 50% 40%, transparent, #05050799 90%)" }} />
+            {/* orb card — real 3D */}
+            <div className="relative h-full w-full overflow-hidden rounded-[28px] ring-1 ring-white/10" style={{ background: "radial-gradient(circle at 50% 40%, #1a1030 0%, #050507 70%)" }}>
+              <ClientOnly>
+                <Suspense fallback={null}>
+                  <HeroOrb3D />
+                </Suspense>
+              </ClientOnly>
+              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 60% at 50% 45%, transparent, #05050788 95%)" }} />
               {/* floating stat chips */}
               <div className="absolute left-3 top-3 flex flex-col gap-2">
                 <span className="chip"><span className="dot live" />live</span>
