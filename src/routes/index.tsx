@@ -466,7 +466,7 @@ function Studio() {
                 Mobile, made <span className="serifital italic text-[color:var(--violet)]">calm.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow max-w-xs">
+          <div className="micro-eyebrow hidden max-w-xs sm:block">
               Android · Flutter · Karachi, PK<br/>Offline-first · Crash-resistant · On-device ML.
           </div>
         </div>
@@ -530,12 +530,12 @@ function IndexStack() {
               Instruments I <span className="serifital italic text-[color:var(--violet)]">reach for.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             {STACK.length} systems<br/>Continuously curated
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 md:gap-2.5">
+        <div className="flex flex-wrap gap-1.5 md:gap-2.5">
           {STACK.map((s, i) => (
             <motion.button
               key={s.name}
@@ -547,12 +547,12 @@ function IndexStack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.03 }}
-              className="tile group flex items-center gap-2.5 px-3 py-2.5 md:gap-3 md:px-4 md:py-3"
+              className="tile group flex items-center gap-2 px-2.5 py-2 md:gap-3 md:px-4 md:py-3"
               style={{ transform: hovered === i ? "translateY(-4px)" : undefined }}
             >
               <span className="num-idx">{String(i + 1).padStart(2, "0")}</span>
               <span className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-sm)", lineHeight: 1.1, letterSpacing: 0 }}>{s.name}</span>
-              <span className="micro-eyebrow group-hover:text-[color:var(--violet)]">/ {s.kind}</span>
+              <span className="micro-eyebrow hidden group-hover:text-[color:var(--violet)] sm:inline">/ {s.kind}</span>
             </motion.button>
           ))}
         </div>
@@ -574,7 +574,7 @@ function Metrics() {
               Signals from <span className="serifital italic text-[color:var(--violet)]">production.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             Real-time performance<br/>&amp; reliability metrics
           </div>
         </div>
@@ -610,7 +610,7 @@ function Timeline() {
               Chapters, <span className="serifital italic text-[color:var(--violet)]">in order.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             {TIMELINE.length} chapters<br/>2021 — Now
           </div>
         </div>
@@ -633,7 +633,7 @@ function Timeline() {
                 <div className="mt-3 hd-3 text-white">{c.t}</div>
                 <div className="micro-eyebrow mt-2 text-white/55">{c.o}</div>
                 <ul className="mt-4 space-y-2">
-                  {c.b.map((line) => (
+                  {c.b.slice(0, 3).map((line) => (
                     <li key={line} className="flex gap-3 body-sm text-white/70">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--violet)]" />
                       <span>{line}</span>
@@ -660,7 +660,7 @@ function Lab() {
               What I&apos;m <span className="serifital italic text-[color:var(--violet)]">tinkering on.</span>
             </h2>
           </div>
-          <div className="micro-eyebrow text-right">
+          <div className="micro-eyebrow hidden text-right sm:block">
             {LAB.length} experiments<br/>Mostly on-device ML
           </div>
         </div>
