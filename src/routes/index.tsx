@@ -222,13 +222,13 @@ function Hero() {
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative overflow-hidden pb-8 pt-24 md:pb-10 md:pt-24">
+    <section id="top" ref={ref} className="relative overflow-hidden pb-6 pt-20 md:pb-10 md:pt-24">
       {/* ambient blobs */}
       <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .55 }} />
       <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .5 }} />
 
       <motion.div style={{ y, scale, opacity, filter }} className="container-x">
-        <div className="mb-5 flex flex-wrap items-center gap-2 md:mb-7 md:gap-2.5">
+        <div className="mb-4 flex flex-wrap items-center gap-1.5 md:mb-7 md:gap-2.5">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
           <span className="chip">Android · Flutter · ML</span>
           <span className="chip">Karachi ⇄ Remote</span>
@@ -253,7 +253,7 @@ function Hero() {
         </h1>
 
         {/* footer grid: intro + orbit cards */}
-        <div className="mt-6 grid grid-cols-12 items-end gap-4 md:mt-8 md:gap-5">
+        <div className="mt-5 grid grid-cols-12 items-end gap-3 md:mt-8 md:gap-5">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -267,22 +267,22 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.9 }}
-            className="col-span-12 grid grid-cols-1 gap-2.5 sm:grid-cols-3 md:col-span-6 md:col-start-7"
+            className="col-span-12 grid grid-cols-3 gap-1.5 sm:gap-2.5 md:col-span-6 md:col-start-7"
           >
             {[
               { k: "Now",   v: "Independent",       s: "Mobile engineer" },
               { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
               { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
-              <div key={c.k} className="tile min-w-0 p-3 md:p-3.5">
+              <div key={c.k} className="tile min-w-0 p-2.5 md:p-3.5">
                 <div className="micro-eyebrow">{c.k}</div>
                 <div
-                  className="mt-2 truncate text-white"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-base)", lineHeight: 1.25, letterSpacing: 0, paddingTop: "0.1em" }}
+                  className="mt-1 truncate text-white md:mt-2"
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-sm)", lineHeight: 1.2, letterSpacing: 0, paddingTop: "0.1em" }}
                 >
                   {c.v}
                 </div>
-                <div className="micro-eyebrow mt-2">{c.s}</div>
+                <div className="micro-eyebrow mt-1 hidden sm:block md:mt-2">{c.s}</div>
               </div>
             ))}
           </motion.div>
@@ -376,7 +376,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
 
   // staggered layout: alternate wide/narrow, big first card
   const layout = "col-span-12 sm:col-span-6";
-  const cardSize = "min-h-[280px] sm:min-h-[320px] lg:min-h-[340px]";
+  const cardSize = "min-h-[228px] sm:min-h-[300px] lg:min-h-[320px]";
 
   return (
     <motion.a
@@ -403,23 +403,23 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         </div>
 
         {/* top row: index + chip */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-3.5 md:p-4">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-2 p-3 md:p-4">
           <span className="num-idx">— {p.n}</span>
           <span className="chip max-w-[70%] truncate"><span className="dot shrink-0" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
         </div>
 
         {/* bottom content */}
-        <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
+        <div className="absolute inset-x-0 bottom-0 p-3.5 md:p-5">
           <div className="flex flex-wrap items-end justify-between gap-3 md:gap-5">
             <div className="min-w-0 flex-1">
               <div className="hd-3 text-white">{p.title}</div>
-              <p className="mt-1.5 max-w-md body-sm text-white/70">{p.desc}</p>
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <p className="mt-1 max-w-md body-sm text-white/70 line-clamp-2">{p.desc}</p>
+              <div className="mt-2 flex flex-wrap gap-1 md:mt-3 md:gap-1.5">
                 {p.stack.map((t) => (
                   <span key={t} className="micro-eyebrow rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-white/70">{t}</span>
                 ))}
               </div>
-              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 md:gap-x-5">
+              <div className="mt-2 hidden flex-wrap gap-x-4 gap-y-2 sm:flex md:mt-3 md:gap-x-5">
                 {p.metrics.map((m) => (
                   <div key={m.k}>
                     <div className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--text-lg)", lineHeight: 1.05, letterSpacing: 0 }}>{m.v}</div>
