@@ -107,14 +107,6 @@ function MotionPrefProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/* ==========================================================
-   Scroll-driven parallax context (single global useScroll)
-   ========================================================== */
-const ScrollCtx = createContext<{ scrollY: ReturnType<typeof useMotionValue<number>> } | null>(
-  null,
-);
-
-/* ==========================================================
    Backdrop — aurora blobs with scroll parallax + intensifying blur
    ========================================================== */
 function AuroraBackdrop() {
@@ -720,7 +712,6 @@ function Nav() {
       className="sticky top-4 z-40 mx-auto mt-4 flex w-[min(1100px,94%)] items-center justify-between rounded-full border border-white/10 px-5 py-3 shadow-[0_20px_60px_-30px_oklch(0_0_0/0.6)]"
       style={{
         backdropFilter: filter,
-        WebkitBackdropFilter: filter as unknown as string,
         background,
         willChange: "backdrop-filter, background",
       }}
