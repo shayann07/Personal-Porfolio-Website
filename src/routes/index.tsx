@@ -178,10 +178,10 @@ function Header() {
   return (
     <>
       {/* Top-left mark */}
-      <div className="fixed left-6 top-6 z-40 md:left-10 md:top-8">
-        <a href="#top" data-cursor="Home" className="glass inline-flex items-center gap-3 rounded-full px-3.5 py-2 text-white">
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-white text-[10px] font-bold text-black">S</span>
-          <span className="mono text-[11px] uppercase tracking-[0.22em]">Shayan / DE</span>
+      <div className="fixed left-4 top-4 z-40 md:left-10 md:top-8">
+        <a href="#top" data-cursor="Home" className="glass inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-white md:gap-3 md:px-3.5 md:py-2">
+          <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-[10px] font-bold text-black md:h-6 md:w-6">S</span>
+          <span className="mono text-[10px] uppercase tracking-[0.22em] md:text-[11px]">Shayan / DE</span>
         </a>
       </div>
       {/* Center pill nav */}
@@ -195,9 +195,19 @@ function Header() {
         </div>
       </nav>
       {/* Top-right status */}
-      <div className="fixed right-6 top-6 z-40 md:right-10 md:top-8">
+      <div className="fixed right-4 top-4 z-40 md:right-10 md:top-8">
         <span className="chip"><span className="dot live" />KHI · <span className="tabular-nums text-white">{time || "--:--:--"}</span></span>
       </div>
+      {/* Mobile bottom nav */}
+      <nav className="fixed bottom-3 left-1/2 z-40 -translate-x-1/2 md:hidden">
+        <div className="glass-strong flex max-w-[calc(100vw-1.5rem)] items-center gap-0.5 overflow-x-auto rounded-full p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {[["Work","#work"],["Signals","#metrics"],["Story","#story"],["Lab","#lab"],["Stack","#index"],["Contact","#contact"]].map(([l,h]) => (
+            <a key={l} href={h} className="mono shrink-0 rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/75 transition hover:bg-white/10 hover:text-white">
+              {l}
+            </a>
+          ))}
+        </div>
+      </nav>
     </>
   );
 }
