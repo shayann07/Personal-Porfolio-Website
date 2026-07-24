@@ -980,9 +980,11 @@ function Nav() {
    ========================================================== */
 function Index() {
   return (
-    <MotionPrefProvider>
-      <IndexInner />
-    </MotionPrefProvider>
+    <ThemeProvider>
+      <MotionPrefProvider>
+        <IndexInner />
+      </MotionPrefProvider>
+    </ThemeProvider>
   );
 }
 
@@ -1354,6 +1356,8 @@ function IndexInner() {
       </footer>
 
       <MotionToggle />
+      <ThemeToggle />
+      {import.meta.env.DEV ? <PerfHUD /> : null}
       <ProjectModal project={active} onClose={() => setActive(null)} />
     </div>
   );
