@@ -178,10 +178,10 @@ function Header() {
   return (
     <>
       {/* Top-left mark */}
-      <div className="fixed left-6 top-6 z-40 md:left-10 md:top-8">
-        <a href="#top" data-cursor="Home" className="glass inline-flex items-center gap-3 rounded-full px-3.5 py-2 text-white">
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-white text-[10px] font-bold text-black">S</span>
-          <span className="mono text-[11px] uppercase tracking-[0.22em]">Shayan / DE</span>
+      <div className="fixed left-4 top-4 z-40 md:left-10 md:top-8">
+        <a href="#top" data-cursor="Home" className="glass inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-white md:gap-3 md:px-3.5 md:py-2">
+          <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-[10px] font-bold text-black md:h-6 md:w-6">S</span>
+          <span className="mono text-[10px] uppercase tracking-[0.22em] md:text-[11px]">Shayan / DE</span>
         </a>
       </div>
       {/* Center pill nav */}
@@ -195,9 +195,19 @@ function Header() {
         </div>
       </nav>
       {/* Top-right status */}
-      <div className="fixed right-6 top-6 z-40 md:right-10 md:top-8">
+      <div className="fixed right-4 top-4 z-40 md:right-10 md:top-8">
         <span className="chip"><span className="dot live" />KHI · <span className="tabular-nums text-white">{time || "--:--:--"}</span></span>
       </div>
+      {/* Mobile bottom nav */}
+      <nav className="fixed bottom-3 left-1/2 z-40 -translate-x-1/2 md:hidden">
+        <div className="glass-strong flex max-w-[calc(100vw-1.5rem)] items-center gap-0.5 overflow-x-auto rounded-full p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {[["Work","#work"],["Signals","#metrics"],["Story","#story"],["Lab","#lab"],["Stack","#index"],["Contact","#contact"]].map(([l,h]) => (
+            <a key={l} href={h} className="mono shrink-0 rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/75 transition hover:bg-white/10 hover:text-white">
+              {l}
+            </a>
+          ))}
+        </div>
+      </nav>
     </>
   );
 }
@@ -214,27 +224,27 @@ function Hero() {
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative flex min-h-screen flex-col justify-between overflow-hidden pb-16 pt-36 md:pt-40">
+    <section id="top" ref={ref} className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden pb-24 pt-28 md:pb-16 md:pt-40">
       {/* ambient blobs */}
       <div className="glow-blob left-[-10%] top-[10%] h-[420px] w-[420px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .7 }} />
       <div className="glow-blob right-[-8%] top-[35%] h-[380px] w-[380px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .6 }} />
 
-      <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-6 md:px-10">
-        <div className="mb-10 flex flex-wrap items-center gap-3">
+      <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-4 md:px-10">
+        <div className="mb-8 flex flex-wrap items-center gap-2 md:mb-10 md:gap-3">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
           <span className="chip">Android · Flutter · ML</span>
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="display text-white text-[clamp(56px,14.5vw,260px)]">
+        <h1 className="display text-white text-[clamp(44px,14.5vw,260px)]">
           <div><SplitEnter text="Muhammad" /></div>
-          <div className="flex items-center gap-[2vw] pl-[6vw]">
+          <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
             <motion.span
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-              className="inline-grid h-[1em] w-[1em] max-h-[110px] max-w-[110px] place-items-center rounded-full"
+              className="inline-grid h-[0.9em] w-[0.9em] max-h-[110px] max-w-[110px] shrink-0 place-items-center rounded-full"
               style={{ background: "radial-gradient(circle at 30% 30%, #e6e8ef, #1a1c24)" }}
               aria-hidden
             >
@@ -245,12 +255,12 @@ function Hero() {
         </h1>
 
         {/* footer grid: intro + orbit cards */}
-        <div className="mt-16 grid grid-cols-12 items-end gap-6">
+        <div className="mt-10 grid grid-cols-12 items-end gap-6 md:mt-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.9 }}
-            className="col-span-12 max-w-md text-base leading-relaxed text-white/70 md:col-span-4"
+            className="col-span-12 max-w-md text-sm leading-relaxed text-white/70 md:col-span-4 md:text-base"
           >
             I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
@@ -259,16 +269,16 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.9 }}
-            className="col-span-12 grid grid-cols-3 gap-3 md:col-span-6 md:col-start-7"
+            className="col-span-12 grid grid-cols-1 gap-3 sm:grid-cols-3 md:col-span-6 md:col-start-7"
           >
             {[
               { k: "Now",   v: "Independent",       s: "Mobile engineer" },
               { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
               { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
-              <div key={c.k} className="tile p-4">
+              <div key={c.k} className="tile p-4 min-w-0">
                 <div className="eyebrow">{c.k}</div>
-                <div className="mt-3 display text-white text-[clamp(20px,1.8vw,28px)] leading-none">{c.v}</div>
+                <div className="mt-3 display truncate text-white text-[clamp(20px,1.8vw,28px)] leading-none">{c.v}</div>
                 <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/50">{c.s}</div>
               </div>
             ))}
@@ -276,7 +286,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      <motion.div style={{ opacity }} className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto flex max-w-[1800px] items-center justify-between px-6 mono text-[11px] tracking-[0.24em] uppercase text-white/50 md:px-10">
+      <motion.div style={{ opacity }} className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto hidden max-w-[1800px] items-center justify-between px-6 mono text-[11px] tracking-[0.24em] uppercase text-white/50 md:flex md:px-10">
         <span className="inline-flex items-center gap-2"><span className="tsep" /> Scroll to explore</span>
         <span>Muhammad Shayan · Karachi ⇄ Remote</span>
       </motion.div>
@@ -323,10 +333,10 @@ function Marquee() {
 
 function WorkList() {
   return (
-    <section id="work" className="relative py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
-        <div className="mb-16 flex items-end justify-between">
-          <div>
+    <section id="work" className="relative py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-16">
+          <div className="min-w-0">
             <div className="chip mb-4"><span className="dot" />Selected Work</div>
             <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
               Recent <span className="serifital italic text-[color:var(--violet)]">shipments.</span>
@@ -337,7 +347,7 @@ function WorkList() {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-4 md:gap-6">
           {PROJECTS.map((p, i) => (
             <ProjectCard key={p.n} p={p} i={i} />
           ))}
@@ -384,7 +394,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
     >
       <motion.div
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
-        className="tile relative aspect-[16/10] overflow-hidden"
+        className="tile relative min-h-[440px] overflow-hidden md:aspect-[16/10] md:min-h-0"
       >
         {/* image plate */}
         <div className="absolute inset-0">
@@ -393,23 +403,23 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         </div>
 
         {/* top row: index + chip */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-4 md:p-6">
           <span className="num-idx">— {p.n}</span>
-          <span className="chip"><span className="dot" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
+          <span className="chip max-w-[70%] truncate"><span className="dot shrink-0" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
         </div>
 
         {/* bottom content */}
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <div className="display text-white text-[clamp(32px,5vw,80px)] leading-[0.9]">{p.title}</div>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-white/70">{p.desc}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6">
+            <div className="min-w-0 flex-1">
+              <div className="display text-white text-[clamp(28px,5vw,80px)] leading-[0.9]">{p.title}</div>
+              <p className="mt-2 max-w-md text-[13px] leading-relaxed text-white/70 md:text-sm">{p.desc}</p>
+              <div className="mt-3 flex flex-wrap gap-2 md:mt-4">
                 {p.stack.map((t) => (
                   <span key={t} className="mono rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{t}</span>
                 ))}
               </div>
-              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 md:mt-4 md:gap-x-6">
                 {p.metrics.map((m) => (
                   <div key={m.k}>
                     <div className="display text-white text-[clamp(18px,1.6vw,22px)] leading-none">{m.v}</div>
@@ -418,9 +428,9 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="mono text-[11px] uppercase tracking-[0.22em] text-white/60">{p.role}</span>
-              <span className="grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black">↗</span>
+            <div className="flex w-full items-center justify-between gap-3 md:w-auto md:justify-end">
+              <span className="mono text-[10px] uppercase tracking-[0.22em] text-white/60 md:text-[11px]">{p.role}</span>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black md:h-11 md:w-11">↗</span>
             </div>
           </div>
         </div>
@@ -445,10 +455,10 @@ function Studio() {
   ];
 
   return (
-    <section id="studio" ref={ref} className="relative overflow-hidden py-32 md:py-40">
+    <section id="studio" ref={ref} className="relative overflow-hidden py-20 md:py-40">
       <div className="glow-blob left-[10%] top-[20%] h-[400px] w-[400px]" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .5 }} />
 
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
@@ -511,8 +521,8 @@ function Studio() {
 function IndexStack() {
   const [hovered, setHovered] = useState<number | null>(null);
   return (
-    <section id="index" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="index" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />Index · Toolkit</div>
@@ -555,8 +565,8 @@ function IndexStack() {
 
 function Metrics() {
   return (
-    <section id="metrics" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="metrics" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot live" />Command Center</div>
@@ -591,8 +601,8 @@ function Metrics() {
 
 function Timeline() {
   return (
-    <section id="story" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="story" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Story</div>
@@ -604,8 +614,8 @@ function Timeline() {
             {TIMELINE.length} chapters<br/>2021 — Now
           </div>
         </div>
-        <div className="relative grid grid-cols-12 gap-6">
-          <div className="pointer-events-none absolute inset-y-0 left-6 w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:left-1/2" />
+        <div className="relative grid grid-cols-12 gap-4 md:gap-6">
+          <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:block" />
           {TIMELINE.map((c, i) => (
             <motion.div
               key={c.t}
@@ -641,8 +651,8 @@ function Timeline() {
 
 function Lab() {
   return (
-    <section id="lab" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="lab" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
@@ -686,22 +696,22 @@ function Lab() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-32">
+    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-20 pb-32 md:py-32">
       <div className="glow-blob left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .6 }} />
 
-      <div className="relative mx-auto max-w-[1800px] px-6 md:px-10">
+      <div className="relative mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex"><span className="chip"><span className="dot live" />Booking Q3 — Q4 2026</span></div>
-          <h2 className="display text-white text-[clamp(56px,12vw,200px)] leading-[0.86]">
+          <h2 className="display text-white text-[clamp(44px,12vw,200px)] leading-[0.86]">
             <div><SplitReveal text="Let's build" /></div>
             <div><span className="serifital italic text-[color:var(--violet)]"><SplitReveal text="something rare." delay={0.08} /></span></div>
           </h2>
 
-          <div className="mt-14 flex flex-col items-center gap-6">
-            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn text-white">
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-black">✎</span>
-              <span className="display text-[clamp(22px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
-              <span className="mono text-xl">↗</span>
+          <div className="mt-10 flex flex-col items-center gap-6 md:mt-14">
+            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn max-w-full text-white !px-5 !py-4 md:!px-8 md:!py-[22px]">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-black md:h-9 md:w-9">✎</span>
+              <span className="display truncate text-[clamp(16px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
+              <span className="mono shrink-0 text-lg md:text-xl">↗</span>
             </a>
 
             <div className="flex flex-wrap justify-center gap-3">
@@ -716,7 +726,7 @@ function Contact() {
           </div>
         </div>
 
-        <div className="mt-24 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-3 md:mt-24 md:grid-cols-4 md:gap-4">
           {[
             { k: "Location", v: "Karachi, PK" },
             { k: "Working",  v: "Global · Remote" },
