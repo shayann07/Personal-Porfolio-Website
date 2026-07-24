@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Fullscreen WebGL shader — flowing violet aurora noise with mouse influence.
- * Falls back gracefully when WebGL is unavailable.
+ * Fullscreen WebGL shader — cosmic black nebular field with soft mouse bloom.
+ * Monochrome palette (void → graphite → dusk → platinum) with a tight vignette
+ * so contrast stays even as tiles scroll over it.
  */
 export function ShaderBackground() {
   const ref = useRef<HTMLCanvasElement | null>(null);
@@ -38,31 +39,37 @@ export function ShaderBackground() {
         vec2 uv = (gl_FragCoord.xy - 0.5*u_res)/min(u_res.x,u_res.y);
         vec2 m = (u_mouse - 0.5*u_res)/min(u_res.x,u_res.y);
 
-        float t = u_t*0.06;
-        vec2 q = uv*1.6;
+        float t = u_t*0.045;
+        vec2 q = uv*1.35;
         q += 0.5*vec2(fbm(q + t), fbm(q - t + 3.1));
         float n = fbm(q + vec2(t, -t));
 
-        // distance-from-mouse warp
-        float md = exp(-2.2*length(uv - m));
-        n += md*0.35;
+        // soft radial bloom around the mouse (small, contained)
+        float md = exp(-3.2*length(uv - m));
+        float bloom = md*0.22;
 
-        // palette: cosmic black -> graphite -> platinum
-        vec3 c0 = vec3(0.020, 0.020, 0.028);      // #050507 void
-        vec3 c1 = vec3(0.075, 0.078, 0.090);      // graphite
-        vec3 c2 = vec3(0.28, 0.29, 0.33);         // dusk steel
-        vec3 c3 = vec3(0.90, 0.91, 0.94);         // platinum highlight
+        // cosmic black monochrome palette (cool blue-neutral)
+        vec3 c0 = vec3(0.016, 0.016, 0.022);   // #040406 void
+        vec3 c1 = vec3(0.050, 0.052, 0.062);   // near-black graphite
+        vec3 c2 = vec3(0.170, 0.178, 0.200);   // dusk steel
+        vec3 c3 = vec3(0.640, 0.660, 0.700);   // muted platinum (no white blowout)
 
-        vec3 col = mix(c0, c1, smoothstep(0.30, 0.62, n));
-        col = mix(col, c2, smoothstep(0.60, 0.86, n)*0.85);
-        col = mix(col, c3, smoothstep(0.92, 1.00, n)*0.35);
+        vec3 col = mix(c0, c1, smoothstep(0.28, 0.60, n));
+        col = mix(col, c2, smoothstep(0.62, 0.88, n)*0.70);
+        col = mix(col, c3, smoothstep(0.94, 1.00, n)*0.20);
 
-        // subtle vignette
-        float v = smoothstep(1.2, 0.2, length(uv));
-        col *= mix(0.55, 1.0, v);
+        // apply mouse bloom as an additive lift, not a warp — keeps hover consistent
+        col += vec3(0.60, 0.64, 0.72) * bloom;
 
-        // grain
-        col += (hash(gl_FragCoord.xy + u_t) - 0.5)*0.03;
+        // tighter vignette so section edges stay dark and readable
+        float v = smoothstep(1.15, 0.15, length(uv));
+        col *= mix(0.42, 1.0, v);
+
+        // cool neutral grain
+        col += (hash(gl_FragCoord.xy + u_t) - 0.5)*0.022;
+
+        // clamp platinum highlights so scrolling tiles never blow out contrast
+        col = min(col, vec3(0.78));
 
         gl_FragColor = vec4(col, 1.0);
       }
