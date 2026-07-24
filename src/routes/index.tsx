@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, GithubIcon, LinkedinIcon, Mail, MapPin } from "lucide-react";
 import { personalLinks } from "@/config/personalLinks";
 import { CV_URL } from "@/config/links";
 
@@ -175,14 +175,17 @@ function Tile({
   className = "",
   variant = "surface",
   index = 0,
+  id,
 }: {
   children: React.ReactNode;
   className?: string;
   variant?: "surface" | "ink";
   index?: number;
+  id?: string;
 }) {
   return (
     <motion.div
+      id={id}
       custom={index}
       variants={fadeUp}
       initial="hidden"
@@ -459,7 +462,7 @@ function Index() {
 
             <Tile className="group col-span-2 md:col-span-3 md:row-span-1 flex-row items-center justify-between" index={3}>
               <div className="flex items-center gap-3">
-                <Linkedin className="h-4 w-4 text-ink" />
+                <LinkedinIcon className="h-4 w-4 text-ink" />
                 <a
                   href={personalLinks.linkedin.link}
                   target="_blank"
@@ -474,7 +477,7 @@ function Index() {
 
             <Tile className="group col-span-2 md:col-span-3 md:row-span-1 flex-row items-center justify-between" index={4}>
               <div className="flex items-center gap-3">
-                <Github className="h-4 w-4 text-ink" />
+                <GithubIcon className="h-4 w-4 text-ink" />
                 <a
                   href={personalLinks.github.link}
                   target="_blank"
