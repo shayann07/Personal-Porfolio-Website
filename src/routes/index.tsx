@@ -602,7 +602,7 @@ function Index() {
               className="flex h-full flex-col justify-between"
             >
               <div className="flex items-center justify-between text-white/50">
-                <Linkedin className="h-5 w-5" />
+                <span className="font-mono text-xs tracking-widest">in/</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
               </div>
               <div>
@@ -624,7 +624,7 @@ function Index() {
               className="flex w-full items-center justify-between gap-4"
             >
               <div className="flex items-center gap-4">
-                <Github className="h-6 w-6 text-white/80" />
+                <span className="font-mono text-sm tracking-widest text-white/80">gh/</span>
                 <div>
                   <p className="font-display text-lg font-semibold text-white">
                     {personalLinks.github.label}
