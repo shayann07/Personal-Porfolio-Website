@@ -35,7 +35,7 @@ export const FooterBackground = () => {
             transition={{
               duration: duration,
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
               delay: delay,
             }}
           />

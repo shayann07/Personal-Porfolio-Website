@@ -4,7 +4,7 @@ export const fadeIn: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { duration: 0.5, ease: "easeOut" }
+        transition: { duration: 0.5, ease: "easeOut" as const }
     },
 };
 
@@ -13,7 +13,7 @@ export const slideDown: Variants = {
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.4, ease: "easeOut" }
+        transition: { duration: 0.4, ease: "easeOut" as const }
     },
 };
 
@@ -23,7 +23,7 @@ export const slideUp: Variants = {
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: { duration: 0.5, ease: "easeOut" }
+        transition: { duration: 0.5, ease: "easeOut" as const }
     },
 };
 
@@ -33,7 +33,7 @@ export const slideInLeft: Variants = {
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: { duration: 0.5, ease: "easeOut" }
+        transition: { duration: 0.5, ease: "easeOut" as const }
     },
 };
 
@@ -43,7 +43,7 @@ export const slideInRight: Variants = {
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: { duration: 0.5, ease: "easeOut" }
+        transition: { duration: 0.5, ease: "easeOut" as const }
     },
 };
 
@@ -52,7 +52,7 @@ export const scaleUp: Variants = {
     visible: {
         opacity: 1,
         scale: 1,
-        transition: { duration: 0.4, ease: "easeOut" }
+        transition: { duration: 0.4, ease: "easeOut" as const }
     },
 };
 

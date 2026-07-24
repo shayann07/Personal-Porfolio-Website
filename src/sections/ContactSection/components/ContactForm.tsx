@@ -161,7 +161,7 @@ export const ContactForm = () => {
             ref={ref}
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.98 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" as const }}
             className="max-w-3xl mx-auto md:px-0"
         >
             {/* Form Card */}

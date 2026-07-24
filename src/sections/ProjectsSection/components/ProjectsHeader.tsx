@@ -9,7 +9,7 @@ export const ProjectsHeader = () => {
       ref={ref}
       initial={{ opacity: 0, scale: 0.97, y: 20 }}
       animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.97, y: 20 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: "easeOut" as const }}
       className="box-border caret-transparent outline-[oklab(0.708_0_0_/_0.5)] text-center mb-16"
     >
       <div className="box-border caret-transparent inline-block outline-[oklab(0.708_0_0_/_0.5)] mb-6">

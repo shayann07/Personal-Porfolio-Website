@@ -38,7 +38,7 @@ export const CardParticles = ({ forceShow = false }: { forceShow?: boolean }) =>
                         transition={{
                             duration: duration,
                             repeat: Infinity,
-                            ease: "easeInOut",
+                            ease: "easeInOut" as const,
                             delay: delay,
                         }}
                     />

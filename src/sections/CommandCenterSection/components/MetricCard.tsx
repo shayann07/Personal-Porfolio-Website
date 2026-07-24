@@ -89,7 +89,7 @@ export const MetricCard = (props: MetricCardProps) => {
               key={index}
               initial={{ height: 0 }}
               variants={{
-                visible: { height: `${height}%`, transition: { duration: 0.6, ease: "easeOut" } }
+                visible: { height: `${height}%`, transition: { duration: 0.6, ease: "easeOut" as const } }
               }}
               className="box-border caret-transparent basis-[0%] grow outline-[oklab(0.708_0_0_/_0.5)] rounded-sm"
               style={{
