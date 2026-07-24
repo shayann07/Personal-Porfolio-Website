@@ -77,14 +77,14 @@
 :root {
   --radius: 0.5rem;
 
-  /* Obsidian Aurora palette — deep noir with iridescent accents */
-  --paper: oklch(0.08 0.015 265);        /* near-black indigo */
-  --surface: oklch(0.14 0.02 270);       /* elevated glass */
-  --ink: oklch(0.75 0.03 260);           /* muted foreground */
-  --deep-ink: oklch(0.98 0.005 260);     /* bright white */
-  --aurora-1: oklch(0.72 0.24 300);      /* violet */
-  --aurora-2: oklch(0.78 0.18 210);      /* cyan */
-  --aurora-3: oklch(0.72 0.24 25);       /* magenta-coral */
+  /* Bordeaux Noir palette — oxblood + warm ivory on obsidian */
+  --paper: oklch(0.10 0.012 20);          /* near-black warm charcoal */
+  --surface: oklch(0.16 0.018 20);        /* elevated glass */
+  --ink: oklch(0.78 0.02 60);             /* muted ivory foreground */
+  --deep-ink: oklch(0.96 0.02 80);        /* warm ivory */
+  --aurora-1: oklch(0.45 0.16 15);        /* deep oxblood */
+  --aurora-2: oklch(0.92 0.05 85);        /* champagne ivory */
+  --aurora-3: oklch(0.62 0.14 40);        /* copper */
 
   --background: var(--paper);
   --foreground: var(--deep-ink);
@@ -142,9 +142,9 @@
     overscroll-behavior-y: none;
   }
 
-  ::selection {
-    background-color: var(--deep-ink);
-    color: var(--paper);
+::selection {
+    background-color: oklch(0.45 0.16 15);
+    color: oklch(0.96 0.02 80);
   }
 }
 
