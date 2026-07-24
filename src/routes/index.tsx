@@ -224,27 +224,27 @@ function Hero() {
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative flex min-h-screen flex-col justify-between overflow-hidden pb-16 pt-36 md:pt-40">
+    <section id="top" ref={ref} className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden pb-24 pt-28 md:pb-16 md:pt-40">
       {/* ambient blobs */}
       <div className="glow-blob left-[-10%] top-[10%] h-[420px] w-[420px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .7 }} />
       <div className="glow-blob right-[-8%] top-[35%] h-[380px] w-[380px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .6 }} />
 
-      <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-6 md:px-10">
-        <div className="mb-10 flex flex-wrap items-center gap-3">
+      <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-4 md:px-10">
+        <div className="mb-8 flex flex-wrap items-center gap-2 md:mb-10 md:gap-3">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
           <span className="chip">Android · Flutter · ML</span>
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="display text-white text-[clamp(56px,14.5vw,260px)]">
+        <h1 className="display text-white text-[clamp(44px,14.5vw,260px)]">
           <div><SplitEnter text="Muhammad" /></div>
-          <div className="flex items-center gap-[2vw] pl-[6vw]">
+          <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
             <motion.span
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-              className="inline-grid h-[1em] w-[1em] max-h-[110px] max-w-[110px] place-items-center rounded-full"
+              className="inline-grid h-[0.9em] w-[0.9em] max-h-[110px] max-w-[110px] shrink-0 place-items-center rounded-full"
               style={{ background: "radial-gradient(circle at 30% 30%, #e6e8ef, #1a1c24)" }}
               aria-hidden
             >
@@ -255,12 +255,12 @@ function Hero() {
         </h1>
 
         {/* footer grid: intro + orbit cards */}
-        <div className="mt-16 grid grid-cols-12 items-end gap-6">
+        <div className="mt-10 grid grid-cols-12 items-end gap-6 md:mt-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.9 }}
-            className="col-span-12 max-w-md text-base leading-relaxed text-white/70 md:col-span-4"
+            className="col-span-12 max-w-md text-sm leading-relaxed text-white/70 md:col-span-4 md:text-base"
           >
             I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
@@ -269,16 +269,16 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.9 }}
-            className="col-span-12 grid grid-cols-3 gap-3 md:col-span-6 md:col-start-7"
+            className="col-span-12 grid grid-cols-1 gap-3 sm:grid-cols-3 md:col-span-6 md:col-start-7"
           >
             {[
               { k: "Now",   v: "Independent",       s: "Mobile engineer" },
               { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
               { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
-              <div key={c.k} className="tile p-4">
+              <div key={c.k} className="tile p-4 min-w-0">
                 <div className="eyebrow">{c.k}</div>
-                <div className="mt-3 display text-white text-[clamp(20px,1.8vw,28px)] leading-none">{c.v}</div>
+                <div className="mt-3 display truncate text-white text-[clamp(20px,1.8vw,28px)] leading-none">{c.v}</div>
                 <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/50">{c.s}</div>
               </div>
             ))}
@@ -286,7 +286,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      <motion.div style={{ opacity }} className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto flex max-w-[1800px] items-center justify-between px-6 mono text-[11px] tracking-[0.24em] uppercase text-white/50 md:px-10">
+      <motion.div style={{ opacity }} className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto hidden max-w-[1800px] items-center justify-between px-6 mono text-[11px] tracking-[0.24em] uppercase text-white/50 md:flex md:px-10">
         <span className="inline-flex items-center gap-2"><span className="tsep" /> Scroll to explore</span>
         <span>Muhammad Shayan · Karachi ⇄ Remote</span>
       </motion.div>
