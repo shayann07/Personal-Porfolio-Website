@@ -20,6 +20,9 @@ import {
   Play,
   Rocket,
   Sparkles,
+  Monitor,
+  Moon,
+  Sun,
   X,
   Zap,
 } from "lucide-react";
@@ -165,6 +168,122 @@ function MotionPrefProvider({ children }: { children: ReactNode }) {
     <MotionPrefCtx.Provider value={value}>
       <MotionConfig reducedMotion={reduced ? "always" : "never"}>{children}</MotionConfig>
     </MotionPrefCtx.Provider>
+  );
+}
+
+/* ==========================================================
+   Theme (system / light / dark) — applies .light or .dark on <html>
+   ========================================================== */
+type ThemePref = "system" | "light" | "dark";
+const ThemeCtx = createContext<{
+  pref: ThemePref;
+  resolved: "light" | "dark";
+  setPref: (p: ThemePref) => void;
+}>({ pref: "system", resolved: "dark", setPref: () => {} });
+
+function useTheme() {
+  return useContext(ThemeCtx);
+}
+
+function ThemeProvider({ children }: { children: ReactNode }) {
+  const [pref, setPrefState] = useState<ThemePref>("system");
+  const [systemDark, setSystemDark] = useState(true);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("theme-pref") as ThemePref | null;
+      if (v === "system" || v === "light" || v === "dark") setPrefState(v);
+    } catch { /* ignore */ }
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const sync = () => setSystemDark(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const resolved: "light" | "dark" =
+    pref === "system" ? (systemDark ? "dark" : "light") : pref;
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(resolved);
+  }, [resolved]);
+
+  const setPref = useCallback((p: ThemePref) => {
+    setPrefState(p);
+    try { localStorage.setItem("theme-pref", p); } catch { /* ignore */ }
+  }, []);
+
+  const value = useMemo(() => ({ pref, resolved, setPref }), [pref, resolved, setPref]);
+  return <ThemeCtx.Provider value={value}>{children}</ThemeCtx.Provider>;
+}
+
+function ThemeToggle() {
+  const { pref, setPref } = useTheme();
+  const next: ThemePref = pref === "system" ? "light" : pref === "light" ? "dark" : "system";
+  const Icon = pref === "system" ? Monitor : pref === "light" ? Sun : Moon;
+  return (
+    <button
+      type="button"
+      onClick={() => setPref(next)}
+      aria-label={`Theme: ${pref}. Switch to ${next}.`}
+      title={`Theme: ${pref} — click for ${next}`}
+      className="fixed bottom-4 right-36 z-40 inline-flex items-center gap-2 rounded-full glass px-3 py-2 text-[11px] font-medium text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+    >
+      <Icon className="h-3 w-3" />
+      <span className="capitalize">{pref}</span>
+    </button>
+  );
+}
+
+/* ==========================================================
+   Perf HUD — dev-only FPS + frame-time sampler
+   ========================================================== */
+function PerfHUD() {
+  const [stats, setStats] = useState({ fps: 0, ms: 0, p99: 0 });
+  useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+    const samples: number[] = [];
+    let acc = 0;
+    let frames = 0;
+
+    const tick = (t: number) => {
+      const dt = t - last;
+      last = t;
+      samples.push(dt);
+      if (samples.length > 120) samples.shift();
+      acc += dt;
+      frames++;
+      if (acc >= 500) {
+        const fps = Math.round((frames / acc) * 1000);
+        const ms = +(acc / frames).toFixed(2);
+        const sorted = [...samples].sort((a, b) => a - b);
+        const p99 = +(sorted[Math.floor(sorted.length * 0.99)] ?? ms).toFixed(2);
+        setStats({ fps, ms, p99 });
+        acc = 0;
+        frames = 0;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const good = stats.fps >= 55;
+  const okay = stats.fps >= 40;
+  const color = good ? "text-emerald-300" : okay ? "text-amber-300" : "text-rose-300";
+  return (
+    <div
+      aria-hidden="true"
+      className="fixed bottom-4 left-4 z-40 flex items-center gap-3 rounded-full glass px-3 py-2 font-mono text-[10px] leading-none tracking-wider text-white/70"
+    >
+      <span className={`font-semibold ${color}`}>{stats.fps} fps</span>
+      <span className="h-2 w-px bg-white/20" />
+      <span>{stats.ms.toFixed(1)}ms</span>
+      <span className="text-white/40">p99 {stats.p99.toFixed(1)}</span>
+    </div>
   );
 }
 
@@ -596,8 +715,20 @@ function ProjectModal({
   useEffect(() => {
     if (!project) return;
     lastFocused.current = document.activeElement as HTMLElement | null;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // Scroll-lock via position:fixed — preserves scroll offset across open/close
+    // and avoids the layout jump that overflow:hidden causes on iOS.
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
     // focus close on next tick
     const t = setTimeout(() => closeRef.current?.focus(), 40);
 
@@ -625,9 +756,14 @@ function ProjectModal({
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      window.scrollTo(0, scrollY);
       clearTimeout(t);
-      lastFocused.current?.focus?.();
+      // Restore focus after paint so scroll restoration lands first
+      requestAnimationFrame(() => lastFocused.current?.focus?.());
     };
   }, [project, onClose]);
 
@@ -639,16 +775,17 @@ function ProjectModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduced ? 0 : 0.25 }}
+          transition={{ duration: reduced ? 0 : 0.2, ease: "easeOut" }}
           aria-hidden={false}
         >
           <motion.button
             aria-label="Close project details"
-            className="absolute inset-0 bg-black/70 backdrop-blur-md"
+            className="absolute inset-0 bg-black/75"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            style={{ willChange: "opacity" }}
           />
           <motion.div
             ref={dialogRef}
@@ -656,10 +793,11 @@ function ProjectModal({
             aria-modal="true"
             aria-labelledby={`modal-${project.id}-title`}
             className="glass-strong relative z-10 w-full max-w-3xl overflow-hidden rounded-3xl"
-            initial={{ y: reduced ? 0 : 40, opacity: 0, scale: reduced ? 1 : 0.98 }}
+            initial={{ y: reduced ? 0 : 24, opacity: 0, scale: reduced ? 1 : 0.985 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: reduced ? 0 : 20, opacity: 0, scale: reduced ? 1 : 0.98 }}
-            transition={{ duration: reduced ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ y: reduced ? 0 : 12, opacity: 0, scale: reduced ? 1 : 0.985 }}
+            transition={{ duration: reduced ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+            style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
           >
             <div className={`relative h-40 w-full bg-linear-to-br ${project.accent}`}>
               <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
@@ -842,9 +980,11 @@ function Nav() {
    ========================================================== */
 function Index() {
   return (
-    <MotionPrefProvider>
-      <IndexInner />
-    </MotionPrefProvider>
+    <ThemeProvider>
+      <MotionPrefProvider>
+        <IndexInner />
+      </MotionPrefProvider>
+    </ThemeProvider>
   );
 }
 
@@ -1216,6 +1356,8 @@ function IndexInner() {
       </footer>
 
       <MotionToggle />
+      <ThemeToggle />
+      {import.meta.env.DEV ? <PerfHUD /> : null}
       <ProjectModal project={active} onClose={() => setActive(null)} />
     </div>
   );
