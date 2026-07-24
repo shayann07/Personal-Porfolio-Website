@@ -47,11 +47,11 @@ export function ShaderBackground() {
         float md = exp(-2.2*length(uv - m));
         n += md*0.35;
 
-        // palette: deep obsidian -> violet -> soft lilac
-        vec3 c0 = vec3(0.035, 0.035, 0.075);      // #090913
-        vec3 c1 = vec3(0.16, 0.09, 0.35);         // deep violet
-        vec3 c2 = vec3(0.66, 0.55, 1.0);          // #a78bfa
-        vec3 c3 = vec3(0.94, 0.94, 0.98);
+        // palette: cosmic black -> graphite -> platinum
+        vec3 c0 = vec3(0.020, 0.020, 0.028);      // #050507 void
+        vec3 c1 = vec3(0.075, 0.078, 0.090);      // graphite
+        vec3 c2 = vec3(0.28, 0.29, 0.33);         // dusk steel
+        vec3 c3 = vec3(0.90, 0.91, 0.94);         // platinum highlight
 
         vec3 col = mix(c0, c1, smoothstep(0.30, 0.62, n));
         col = mix(col, c2, smoothstep(0.60, 0.86, n)*0.85);
@@ -133,7 +133,7 @@ export function ShaderBackground() {
       ref={ref}
       aria-hidden
       className="fixed inset-0 -z-10 h-screen w-screen"
-      style={{ background: "#0a0a12" }}
+      style={{ background: "#050507" }}
     />
   );
 }

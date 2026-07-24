@@ -21,11 +21,11 @@ export const Route = createFileRoute("/")({
 /* -------------------------------- data -------------------------------- */
 
 const PROJECTS = [
-  { n: "01", title: "Aetheris",    tag: "Fintech · 2025",       role: "Design + Build",         img: "/portrait.jpg", href: "#", tint: "#a78bfa", desc: "Realtime treasury console with kinetic data surfaces." },
-  { n: "02", title: "Nova Studio", tag: "Creative tool · 2025", role: "Product design",         img: "/portrait.jpg", href: "#", tint: "#67e8f9", desc: "Node-based motion editor for the browser." },
-  { n: "03", title: "Orbit",       tag: "AI platform · 2024",   role: "Frontend engineering",   img: "/portrait.jpg", href: "#", tint: "#f472b6", desc: "Agentic workflows with a streaming, glassy UI." },
-  { n: "04", title: "Halcyon",     tag: "Health · 2024",        role: "Design engineering",     img: "/portrait.jpg", href: "#", tint: "#facc15", desc: "Clinical dashboards that feel calm under load." },
-  { n: "05", title: "Meridian",    tag: "SaaS · 2023",          role: "Interface systems",      img: "/portrait.jpg", href: "#", tint: "#4ade80", desc: "Design-system tooling for a 40-person product org." },
+  { n: "01", title: "Aetheris",    tag: "Fintech · 2025",       role: "Design + Build",         img: "/portrait.jpg", href: "#", tint: "#e6e8ef", desc: "Realtime treasury console with kinetic data surfaces." },
+  { n: "02", title: "Nova Studio", tag: "Creative tool · 2025", role: "Product design",         img: "/portrait.jpg", href: "#", tint: "#c9ccd6", desc: "Node-based motion editor for the browser." },
+  { n: "03", title: "Orbit",       tag: "AI platform · 2024",   role: "Frontend engineering",   img: "/portrait.jpg", href: "#", tint: "#9aa0b0", desc: "Agentic workflows with a streaming, glassy UI." },
+  { n: "04", title: "Halcyon",     tag: "Health · 2024",        role: "Design engineering",     img: "/portrait.jpg", href: "#", tint: "#7a8090", desc: "Clinical dashboards that feel calm under load." },
+  { n: "05", title: "Meridian",    tag: "SaaS · 2023",          role: "Interface systems",      img: "/portrait.jpg", href: "#", tint: "#525663", desc: "Design-system tooling for a 40-person product org." },
 ];
 
 const STACK: { name: string; kind: string }[] = [
@@ -144,8 +144,8 @@ function Hero() {
   return (
     <section id="top" ref={ref} className="relative flex min-h-screen flex-col justify-between overflow-hidden pb-16 pt-36 md:pt-40">
       {/* ambient blobs */}
-      <div className="glow-blob left-[-10%] top-[10%] h-[420px] w-[420px]" style={{ background: "radial-gradient(circle, #a78bfa 0%, transparent 60%)" }} />
-      <div className="glow-blob right-[-8%] top-[35%] h-[380px] w-[380px]" style={{ background: "radial-gradient(circle, #67e8f9 0%, transparent 60%)", opacity: .35 }} />
+      <div className="glow-blob left-[-10%] top-[10%] h-[420px] w-[420px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .7 }} />
+      <div className="glow-blob right-[-8%] top-[35%] h-[380px] w-[380px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .6 }} />
 
       <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-6 md:px-10">
         <div className="mb-10 flex flex-wrap items-center gap-3">
@@ -163,7 +163,7 @@ function Hero() {
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
               className="inline-grid h-[1em] w-[1em] max-h-[110px] max-w-[110px] place-items-center rounded-full"
-              style={{ background: "radial-gradient(circle at 30% 30%, #a78bfa, #4c1d95)" }}
+              style={{ background: "radial-gradient(circle at 30% 30%, #e6e8ef, #1a1c24)" }}
               aria-hidden
             >
               <span className="text-[0.4em] font-black text-white">✦</span>
@@ -239,8 +239,8 @@ function Marquee() {
   );
   return (
     <section aria-hidden className="relative border-y border-white/10 py-6 overflow-hidden">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#0a0a12] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#0a0a12] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#050507] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#050507] to-transparent" />
       <div className="marquee-track flex">{rowA}{rowA}</div>
       <div className="marquee-track flex mt-2" style={{ animationDirection: "reverse", animationDuration: "55s" }}>{rowB}{rowB}</div>
     </section>
@@ -317,7 +317,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         {/* image plate */}
         <div className="absolute inset-0">
           <img src={p.img} alt="" className="h-full w-full object-cover opacity-60 transition duration-[900ms] group-hover:scale-[1.04] group-hover:opacity-80" />
-          <div className="absolute inset-0" style={{ background: `radial-gradient(60% 60% at 70% 30%, ${p.tint}55, transparent 70%), linear-gradient(180deg, #0a0a1200 0%, #0a0a12ee 100%)` }} />
+          <div className="absolute inset-0" style={{ background: `radial-gradient(60% 60% at 70% 30%, ${p.tint}33, transparent 70%), linear-gradient(180deg, #05050700 0%, #050507ee 100%)` }} />
         </div>
 
         {/* top row: index + chip */}
@@ -361,7 +361,7 @@ function Studio() {
 
   return (
     <section id="studio" ref={ref} className="relative overflow-hidden py-32 md:py-40">
-      <div className="glow-blob left-[10%] top-[20%] h-[400px] w-[400px]" style={{ background: "radial-gradient(circle, #a78bfa, transparent 60%)", opacity: .35 }} />
+      <div className="glow-blob left-[10%] top-[20%] h-[400px] w-[400px]" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .5 }} />
 
       <div className="mx-auto max-w-[1800px] px-6 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
@@ -471,7 +471,7 @@ function IndexStack() {
 function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden border-t border-white/10 py-32">
-      <div className="glow-blob left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #a78bfa, transparent 60%)", opacity: .45 }} />
+      <div className="glow-blob left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .6 }} />
 
       <div className="relative mx-auto max-w-[1800px] px-6 md:px-10">
         <div className="mx-auto max-w-4xl text-center">
