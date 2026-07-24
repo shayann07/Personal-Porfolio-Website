@@ -20,6 +20,9 @@ import {
   Play,
   Rocket,
   Sparkles,
+  Monitor,
+  Moon,
+  Sun,
   X,
   Zap,
 } from "lucide-react";
