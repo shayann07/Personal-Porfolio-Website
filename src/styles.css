@@ -20,7 +20,7 @@
 
 @theme inline {
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
@@ -77,14 +77,14 @@
 :root {
   --radius: 0.5rem;
 
-  /* Obsidian Aurora palette — deep noir with iridescent accents */
-  --paper: oklch(0.08 0.015 265);        /* near-black indigo */
-  --surface: oklch(0.14 0.02 270);       /* elevated glass */
-  --ink: oklch(0.75 0.03 260);           /* muted foreground */
+  /* Glass Aurora palette — deep indigo base with mint + violet accents */
+  --paper: oklch(0.17 0.045 275);        /* #1a1a2e — indigo base */
+  --surface: oklch(0.24 0.06 265);       /* #16213e — elevated surface */
+  --ink: oklch(0.72 0.03 260);           /* muted foreground */
   --deep-ink: oklch(0.98 0.005 260);     /* bright white */
-  --aurora-1: oklch(0.72 0.24 300);      /* violet */
-  --aurora-2: oklch(0.78 0.18 210);      /* cyan */
-  --aurora-3: oklch(0.72 0.24 25);       /* magenta-coral */
+  --aurora-1: oklch(0.85 0.18 155);      /* #4ade80 — mint */
+  --aurora-2: oklch(0.75 0.16 300);      /* #a78bfa — violet */
+  --aurora-3: oklch(0.80 0.15 200);      /* cyan bridge */
 
   --background: var(--paper);
   --foreground: var(--deep-ink);
