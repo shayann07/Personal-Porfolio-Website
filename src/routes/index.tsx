@@ -715,8 +715,20 @@ function ProjectModal({
   useEffect(() => {
     if (!project) return;
     lastFocused.current = document.activeElement as HTMLElement | null;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // Scroll-lock via position:fixed — preserves scroll offset across open/close
+    // and avoids the layout jump that overflow:hidden causes on iOS.
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
     // focus close on next tick
     const t = setTimeout(() => closeRef.current?.focus(), 40);
 
@@ -744,9 +756,14 @@ function ProjectModal({
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      window.scrollTo(0, scrollY);
       clearTimeout(t);
-      lastFocused.current?.focus?.();
+      // Restore focus after paint so scroll restoration lands first
+      requestAnimationFrame(() => lastFocused.current?.focus?.());
     };
   }, [project, onClose]);
 
@@ -758,16 +775,17 @@ function ProjectModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduced ? 0 : 0.25 }}
+          transition={{ duration: reduced ? 0 : 0.2, ease: "easeOut" }}
           aria-hidden={false}
         >
           <motion.button
             aria-label="Close project details"
-            className="absolute inset-0 bg-black/70 backdrop-blur-md"
+            className="absolute inset-0 bg-black/75"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            style={{ willChange: "opacity" }}
           />
           <motion.div
             ref={dialogRef}
@@ -775,10 +793,11 @@ function ProjectModal({
             aria-modal="true"
             aria-labelledby={`modal-${project.id}-title`}
             className="glass-strong relative z-10 w-full max-w-3xl overflow-hidden rounded-3xl"
-            initial={{ y: reduced ? 0 : 40, opacity: 0, scale: reduced ? 1 : 0.98 }}
+            initial={{ y: reduced ? 0 : 24, opacity: 0, scale: reduced ? 1 : 0.985 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: reduced ? 0 : 20, opacity: 0, scale: reduced ? 1 : 0.98 }}
-            transition={{ duration: reduced ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ y: reduced ? 0 : 12, opacity: 0, scale: reduced ? 1 : 0.985 }}
+            transition={{ duration: reduced ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+            style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
           >
             <div className={`relative h-40 w-full bg-linear-to-br ${project.accent}`}>
               <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
