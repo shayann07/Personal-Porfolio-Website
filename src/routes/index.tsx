@@ -186,7 +186,7 @@ function useTheme() {
 }
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  const [pref, setPrefState] = useState<ThemePref>("system");
+  const [pref, setPrefState] = useState<ThemePref>("dark");
   const [systemDark, setSystemDark] = useState(true);
 
   useEffect(() => {
