@@ -1110,12 +1110,16 @@ function IndexInner() {
         <section id="contact" aria-label="Contact" className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-12 md:gap-4">
           <Tile
             variant="strong"
-            className="group relative col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between"
+            className="group relative col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between aurora-border"
             index={0}
           >
-            <div className="absolute -bottom-32 -right-32 h-80 w-80 rounded-full bg-linear-to-br from-fuchsia-500/40 via-violet-500/40 to-cyan-400/40 blur-3xl" aria-hidden="true" />
-            <div className="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/60">
-              <Mail className="h-3 w-3" aria-hidden="true" /> LET&apos;S BUILD
+            <div className="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-linear-to-br from-fuchsia-500/50 via-violet-500/40 to-cyan-400/40 blur-3xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -top-24 left-10 h-48 w-48 rounded-full bg-cyan-400/25 blur-3xl" aria-hidden="true" />
+            <div className="flex items-center justify-between">
+              <div className="relative inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/70 backdrop-blur">
+                <Mail className="h-3 w-3" aria-hidden="true" /> LET&apos;S BUILD
+              </div>
+              <Waveform />
             </div>
             <div className="relative">
               <h3 className="font-display text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
@@ -1130,12 +1134,13 @@ function IndexInner() {
             </div>
             <a
               href={personalLinks.email.link}
-              className="relative inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+              className="relative inline-flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black shadow-[0_10px_40px_-8px_oklch(0.72_0.24_300/0.55)] transition hover:shadow-[0_20px_60px_-8px_oklch(0.72_0.24_300/0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
               aria-label={`Email ${personalLinks.email.label}`}
             >
-              <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-              {personalLinks.email.label}
-              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/60 to-transparent transition-transform duration-700 group-hover:translate-x-full" aria-hidden="true" />
+              <Mail className="relative h-3.5 w-3.5" aria-hidden="true" />
+              <span className="relative">{personalLinks.email.label}</span>
+              <ArrowUpRight className="relative h-3.5 w-3.5" aria-hidden="true" />
             </a>
           </Tile>
 
