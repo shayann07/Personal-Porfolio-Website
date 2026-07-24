@@ -3,6 +3,11 @@ import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTrans
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { Cursor } from "@/components/Cursor";
+import projLedger from "@/assets/proj-ledger.jpg";
+import projLeaf from "@/assets/proj-leaf.jpg";
+import projPulse from "@/assets/proj-pulse.jpg";
+import projMedi from "@/assets/proj-medi.jpg";
+import heroOrb from "@/assets/hero-orb.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,28 +28,28 @@ export const Route = createFileRoute("/")({
 const PROJECTS = [
   {
     n: "01", title: "AI Trust Ledger", tag: "Fintech · Android · 2025", role: "Kotlin · Firebase · MVVM",
-    img: "/portrait.jpg", href: "#", tint: "#7dd3fc",
+    img: projLedger, href: "#", tint: "#7dd3fc",
     desc: "Investment platform with automated ROI cycles and real-time portfolio tracking.",
     stack: ["Kotlin", "Firebase", "MVVM", "Coroutines"],
     metrics: [{ k: "Users", v: "5K+" }, { k: "Crash-free", v: "99.8%" }, { k: "Rating", v: "4.7★" }],
   },
   {
     n: "02", title: "LeafBloom", tag: "On-device ML · 2025", role: "TFLite · Compose · CameraX",
-    img: "/portrait.jpg", href: "#", tint: "#86efac",
+    img: projLeaf, href: "#", tint: "#86efac",
     desc: "AI-powered plant disease diagnosis running on-device via TensorFlow Lite.",
     stack: ["TFLite", "Compose", "CameraX", "Room"],
     metrics: [{ k: "Accuracy", v: "95%" }, { k: "Response", v: "<2s" }, { k: "Models", v: "12" }],
   },
   {
     n: "03", title: "GitPulse", tag: "Flutter · Dev tool · 2024", role: "Flutter · GraphQL · OAuth",
-    img: "/portrait.jpg", href: "#", tint: "#a5b4fc",
+    img: projPulse, href: "#", tint: "#a5b4fc",
     desc: "Developer productivity tracker with GitHub sync and contribution analytics.",
     stack: ["Flutter", "OAuth", "GraphQL", "Riverpod"],
     metrics: [{ k: "Syncs", v: "Real-time" }, { k: "APIs", v: "5+" }, { k: "Charts", v: "15" }],
   },
   {
     n: "04", title: "Medicare", tag: "HealthTech · 2024", role: "Flutter · Firebase · Stripe",
-    img: "/portrait.jpg", href: "#", tint: "#fca5a5",
+    img: projMedi, href: "#", tint: "#fca5a5",
     desc: "Tele-health & pharmacy platform — appointments, chat, payments and pharmacy flows in one app.",
     stack: ["Flutter", "Firebase", "Stripe", "Riverpod"],
     metrics: [{ k: "Rating", v: "4.8★" }, { k: "Resolution", v: "97%" }, { k: "Follow-up", v: "93%" }],
