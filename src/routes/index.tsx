@@ -11,8 +11,6 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Mobile engineer designing offline-first, crash-resistant Android & Flutter apps with on-device ML. Selected work, lab, and contact." },
       { property: "og:title", content: "Muhammad Shayan — Android & Flutter Engineer" },
       { property: "og:description", content: "Offline-first, crash-resistant mobile apps with on-device ML. Selected work, lab, and contact." },
-      { property: "og:image", content: "/og-image.png" },
-      { name: "twitter:image", content: "/og-image.png" },
     ],
   }),
   component: Page,
@@ -217,26 +215,26 @@ function Header() {
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, -160]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const blur = useTransform(scrollYProgress, [0, 1], [0, 8]);
+  const blur = useTransform(scrollYProgress, [0, 1], [0, 4]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden pb-24 pt-24 md:pb-16 md:pt-40">
+    <section id="top" ref={ref} className="relative flex min-h-[78svh] flex-col justify-center overflow-hidden pb-14 pt-24 md:min-h-[82svh] md:pb-12 md:pt-28">
       {/* ambient blobs */}
-      <div className="glow-blob left-[-10%] top-[10%] h-[420px] w-[420px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .7 }} />
-      <div className="glow-blob right-[-8%] top-[35%] h-[380px] w-[380px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .6 }} />
+      <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .55 }} />
+      <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .5 }} />
 
       <motion.div style={{ y, scale, opacity, filter }} className="container-x">
-        <div className="mb-8 flex flex-wrap items-center gap-2 md:mb-10 md:gap-3">
+        <div className="mb-5 flex flex-wrap items-center gap-2 md:mb-7 md:gap-2.5">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
           <span className="chip">Android · Flutter · ML</span>
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="h-display text-white">
+        <h1 className="h-display max-w-[1180px] text-white">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -255,12 +253,12 @@ function Hero() {
         </h1>
 
         {/* footer grid: intro + orbit cards */}
-        <div className="mt-10 grid grid-cols-12 items-end gap-6 md:mt-16">
+        <div className="mt-7 grid grid-cols-12 items-end gap-4 md:mt-10 md:gap-5">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.9 }}
-            className="col-span-12 max-w-md body-md text-white/70 md:col-span-4"
+            className="col-span-12 max-w-sm body-md text-white/70 md:col-span-4"
           >
             I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
@@ -269,18 +267,18 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.9 }}
-            className="col-span-12 grid grid-cols-1 gap-3 sm:grid-cols-3 md:col-span-6 md:col-start-7"
+            className="col-span-12 grid grid-cols-1 gap-2.5 sm:grid-cols-3 md:col-span-6 md:col-start-7"
           >
             {[
               { k: "Now",   v: "Independent",       s: "Mobile engineer" },
               { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
               { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
-              <div key={c.k} className="tile p-4 min-w-0">
+              <div key={c.k} className="tile min-w-0 p-3 md:p-3.5">
                 <div className="micro-eyebrow">{c.k}</div>
                 <div
                   className="mt-2 truncate text-white"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-lg)", lineHeight: 1.25, letterSpacing: "-0.02em", paddingTop: "0.1em" }}
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-base)", lineHeight: 1.25, letterSpacing: 0, paddingTop: "0.1em" }}
                 >
                   {c.v}
                 </div>
@@ -325,7 +323,7 @@ function Marquee() {
     </div>
   );
   return (
-    <section aria-hidden className="relative border-y border-white/10 py-5 md:py-6 overflow-hidden">
+    <section aria-hidden className="relative overflow-hidden border-y border-white/10 py-3 md:py-4">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#050507] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#050507] to-transparent" />
       <div className="marquee-track flex">{rowA}{rowA}</div>
@@ -340,7 +338,7 @@ function WorkList() {
   return (
     <section id="work" className="relative section-y">
       <div className="container-x">
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-16">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-10">
           <div className="min-w-0">
             <div className="chip mb-4"><span className="dot" />Selected Work</div>
             <h2 className="h-2 text-white">
@@ -352,7 +350,7 @@ function WorkList() {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-4 md:gap-6">
+        <div className="grid grid-cols-12 gap-3 md:gap-4">
           {PROJECTS.map((p, i) => (
             <ProjectCard key={p.n} p={p} i={i} />
           ))}
@@ -382,6 +380,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
     : i % 3 === 1 ? "col-span-12 md:col-span-7"
     : i % 3 === 2 ? "col-span-12 md:col-span-5"
     : "col-span-12 md:col-span-6";
+  const cardSize = i === 0 ? "min-h-[320px] md:min-h-[400px]" : "min-h-[300px] md:min-h-[350px]";
 
   return (
     <motion.a
@@ -399,7 +398,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
     >
       <motion.div
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
-        className="tile relative min-h-[460px] overflow-hidden md:aspect-[16/10] md:min-h-0"
+        className={`tile relative overflow-hidden ${cardSize}`}
       >
         {/* image plate */}
         <div className="absolute inset-0">
@@ -408,26 +407,26 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         </div>
 
         {/* top row: index + chip */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-4 md:p-6">
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-3.5 md:p-5">
           <span className="num-idx">— {p.n}</span>
           <span className="chip max-w-[70%] truncate"><span className="dot shrink-0" style={{ background: p.tint, boxShadow: `0 0 12px ${p.tint}` }} />{p.tag}</span>
         </div>
 
         {/* bottom content */}
-        <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3 md:gap-5">
             <div className="min-w-0 flex-1">
               <div className="h-3 text-white">{p.title}</div>
-              <p className="mt-2 max-w-md body-sm text-white/70">{p.desc}</p>
-              <div className="mt-4 flex flex-wrap gap-1.5 md:gap-2">
+              <p className="mt-1.5 max-w-md body-sm text-white/70">{p.desc}</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
                 {p.stack.map((t) => (
                   <span key={t} className="micro-eyebrow rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-white/70">{t}</span>
                 ))}
               </div>
-              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 md:gap-x-6">
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 md:gap-x-5">
                 {p.metrics.map((m) => (
                   <div key={m.k}>
-                    <div className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--text-xl)", lineHeight: 1 }}>{m.v}</div>
+                    <div className="text-white" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--text-lg)", lineHeight: 1.05, letterSpacing: 0 }}>{m.v}</div>
                     <div className="micro-eyebrow mt-1 text-white/45">{m.k}</div>
                   </div>
                 ))}
@@ -435,7 +434,7 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
             </div>
             <div className="flex w-full items-center justify-between gap-3 md:w-auto md:justify-end">
               <span className="micro-eyebrow text-white/60">{p.role}</span>
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black md:h-11 md:w-11">↗</span>
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition group-hover:bg-white group-hover:text-black md:h-9 md:w-9">↗</span>
             </div>
           </div>
         </div>
