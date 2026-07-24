@@ -7,10 +7,10 @@ import { Cursor } from "@/components/Cursor";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Muhammad Shayan — Design Engineer & Interfaces for the Web" },
-      { name: "description", content: "Design engineer building kinetic, high-fidelity interfaces. Selected work, experiments, and contact." },
-      { property: "og:title", content: "Muhammad Shayan — Design Engineer" },
-      { property: "og:description", content: "Design engineer building kinetic, high-fidelity interfaces." },
+      { title: "Muhammad Shayan — Android & Flutter Engineer" },
+      { name: "description", content: "Mobile engineer designing offline-first, crash-resistant Android & Flutter apps with on-device ML. Selected work, lab, and contact." },
+      { property: "og:title", content: "Muhammad Shayan — Android & Flutter Engineer" },
+      { property: "og:description", content: "Offline-first, crash-resistant mobile apps with on-device ML. Selected work, lab, and contact." },
       { property: "og:image", content: "/og-image.png" },
       { name: "twitter:image", content: "/og-image.png" },
     ],
@@ -21,24 +21,96 @@ export const Route = createFileRoute("/")({
 /* -------------------------------- data -------------------------------- */
 
 const PROJECTS = [
-  { n: "01", title: "Aetheris",    tag: "Fintech · 2025",       role: "Design + Build",         img: "/portrait.jpg", href: "#", tint: "#e6e8ef", desc: "Realtime treasury console with kinetic data surfaces." },
-  { n: "02", title: "Nova Studio", tag: "Creative tool · 2025", role: "Product design",         img: "/portrait.jpg", href: "#", tint: "#c9ccd6", desc: "Node-based motion editor for the browser." },
-  { n: "03", title: "Orbit",       tag: "AI platform · 2024",   role: "Frontend engineering",   img: "/portrait.jpg", href: "#", tint: "#9aa0b0", desc: "Agentic workflows with a streaming, glassy UI." },
-  { n: "04", title: "Halcyon",     tag: "Health · 2024",        role: "Design engineering",     img: "/portrait.jpg", href: "#", tint: "#7a8090", desc: "Clinical dashboards that feel calm under load." },
-  { n: "05", title: "Meridian",    tag: "SaaS · 2023",          role: "Interface systems",      img: "/portrait.jpg", href: "#", tint: "#525663", desc: "Design-system tooling for a 40-person product org." },
+  {
+    n: "01", title: "AI Trust Ledger", tag: "Fintech · Android · 2025", role: "Kotlin · Firebase · MVVM",
+    img: "/portrait.jpg", href: "#", tint: "#7dd3fc",
+    desc: "Investment platform with automated ROI cycles and real-time portfolio tracking.",
+    stack: ["Kotlin", "Firebase", "MVVM", "Coroutines"],
+    metrics: [{ k: "Users", v: "5K+" }, { k: "Crash-free", v: "99.8%" }, { k: "Rating", v: "4.7★" }],
+  },
+  {
+    n: "02", title: "LeafBloom", tag: "On-device ML · 2025", role: "TFLite · Compose · CameraX",
+    img: "/portrait.jpg", href: "#", tint: "#86efac",
+    desc: "AI-powered plant disease diagnosis running on-device via TensorFlow Lite.",
+    stack: ["TFLite", "Compose", "CameraX", "Room"],
+    metrics: [{ k: "Accuracy", v: "95%" }, { k: "Response", v: "<2s" }, { k: "Models", v: "12" }],
+  },
+  {
+    n: "03", title: "GitPulse", tag: "Flutter · Dev tool · 2024", role: "Flutter · GraphQL · OAuth",
+    img: "/portrait.jpg", href: "#", tint: "#a5b4fc",
+    desc: "Developer productivity tracker with GitHub sync and contribution analytics.",
+    stack: ["Flutter", "OAuth", "GraphQL", "Riverpod"],
+    metrics: [{ k: "Syncs", v: "Real-time" }, { k: "APIs", v: "5+" }, { k: "Charts", v: "15" }],
+  },
+  {
+    n: "04", title: "Medicare", tag: "HealthTech · 2024", role: "Flutter · Firebase · Stripe",
+    img: "/portrait.jpg", href: "#", tint: "#fca5a5",
+    desc: "Tele-health & pharmacy platform — appointments, chat, payments and pharmacy flows in one app.",
+    stack: ["Flutter", "Firebase", "Stripe", "Riverpod"],
+    metrics: [{ k: "Rating", v: "4.8★" }, { k: "Resolution", v: "97%" }, { k: "Follow-up", v: "93%" }],
+  },
 ];
 
 const STACK: { name: string; kind: string }[] = [
-  { name: "React",      kind: "daily" },
-  { name: "TypeScript", kind: "primary" },
-  { name: "Motion",     kind: "motion" },
-  { name: "GLSL",       kind: "shaders" },
-  { name: "Three.js",   kind: "3d/rt" },
-  { name: "Tailwind",   kind: "styling" },
-  { name: "Node",       kind: "runtime" },
-  { name: "Rust",       kind: "systems" },
-  { name: "Figma",      kind: "ux" },
-  { name: "Blender",    kind: "3d" },
+  { name: "Kotlin",          kind: "daily" },
+  { name: "Jetpack Compose", kind: "ui" },
+  { name: "Flutter",         kind: "cross-platform" },
+  { name: "Dart",            kind: "language" },
+  { name: "Java",            kind: "legacy/interop" },
+  { name: "MVVM · Clean",    kind: "architecture" },
+  { name: "Coroutines",      kind: "concurrency" },
+  { name: "Firebase",        kind: "backend" },
+  { name: "Retrofit",        kind: "rest" },
+  { name: "GraphQL · Apollo",kind: "queries" },
+  { name: "Room · SQLite",   kind: "persistence" },
+  { name: "TensorFlow Lite", kind: "on-device ml" },
+  { name: "ML Kit",          kind: "vision" },
+  { name: "Git · CI/CD",     kind: "delivery" },
+  { name: "Fastlane",        kind: "release" },
+  { name: "JUnit · Espresso",kind: "testing" },
+];
+
+const METRICS = [
+  { v: "3+",     k: "Production apps shipped", s: "Live on stores" },
+  { v: "10k+",   k: "Total installs",          s: "Across all apps" },
+  { v: "40–60%", k: "Performance gains",       s: "Optimization work" },
+  { v: "99%+",   k: "Crash-free releases",     s: "Production stability" },
+];
+
+const TIMELINE = [
+  {
+    y: "2024 → Now", t: "Independent Mobile Engineer", o: "Independent",
+    b: [
+      "3 production apps shipped with 10k+ combined installs",
+      "Architected offline-first sync using Room + Firestore",
+      "99.5% crash-free builds across all releases",
+      "CI/CD pipelines with automated testing",
+    ],
+  },
+  {
+    y: "2025", t: "Android Developer Intern", o: "Appverse Technologies",
+    b: [
+      "Modular Jetpack Compose UI with MVVM architecture",
+      "Integrated REST & GraphQL with Retrofit + Apollo",
+      "Contributed to CI/CD workflow improvements",
+      "Optimized app performance for 40–60% gains",
+    ],
+  },
+  {
+    y: "2021 – 2025", t: "BS Software Engineering", o: "University of Sargodha",
+    b: [
+      "Specialized in mobile development & software architecture",
+      "Multiple Android projects with ML integration",
+      "Deep focus on algorithms, systems design, mobile frameworks",
+      "Graduated with honors in mobile app development",
+    ],
+  },
+];
+
+const LAB = [
+  { t: "ML Gesture Recognition", s: "In Progress", d: "Real-time hand gesture detection using TensorFlow Lite for intuitive app controls.", tech: ["TFLite", "Kotlin", "ML Kit", "CameraX"], tint: "#7dd3fc" },
+  { t: "ML Model Optimizer",     s: "Research",    d: "Compress and optimize TensorFlow Lite models for mobile deployment.",                tech: ["TFLite", "Python", "Quantization"],  tint: "#c4b5fd" },
+  { t: "Voice Command Layer",    s: "In Progress", d: "Privacy-first voice recognition with on-device processing and ML inference.",         tech: ["TFLite", "Audio", "On-device"],      tint: "#fdba74" },
 ];
 
 /* --------------------------- kinetic helpers -------------------------- */
@@ -115,7 +187,7 @@ function Header() {
       {/* Center pill nav */}
       <nav className="fixed left-1/2 top-6 z-40 hidden -translate-x-1/2 md:top-8 md:block">
         <div className="glass-strong flex items-center gap-1 rounded-full p-1.5">
-          {[["Work","#work"],["Studio","#studio"],["Index","#index"],["Contact","#contact"]].map(([l,h]) => (
+          {[["Work","#work"],["Signals","#metrics"],["Story","#story"],["Lab","#lab"],["Stack","#index"],["Contact","#contact"]].map(([l,h]) => (
             <a key={l} href={h} data-cursor="Jump" className="mono rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/70 transition hover:bg-white/10 hover:text-white">
               {l}
             </a>
@@ -150,14 +222,14 @@ function Hero() {
       <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-6 md:px-10">
         <div className="mb-10 flex flex-wrap items-center gap-3">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
-          <span className="chip">Portfolio / Vol. 26</span>
-          <span className="chip">v2026.4</span>
+          <span className="chip">Android · Flutter · ML</span>
+          <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
         <h1 className="display text-white text-[clamp(56px,14.5vw,260px)]">
-          <div><SplitEnter text="Design" /></div>
+          <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[6vw]">
-            <span className="serifital italic text-white/95"><SplitEnter text="engineer" delay={0.08} /></span>
+            <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
             <motion.span
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -169,7 +241,7 @@ function Hero() {
               <span className="text-[0.4em] font-black text-white">✦</span>
             </motion.span>
           </div>
-          <div><SplitEnter text="for the web." delay={0.16} /></div>
+          <div><SplitEnter text="mobile, made calm." delay={0.16} /></div>
         </h1>
 
         {/* footer grid: intro + orbit cards */}
@@ -180,7 +252,7 @@ function Hero() {
             transition={{ delay: 0.6, duration: 0.9 }}
             className="col-span-12 max-w-md text-base leading-relaxed text-white/70 md:col-span-4"
           >
-            I build kinetic, high-fidelity product interfaces at the seam of design and engineering — motion systems, real-time UI, WebGL.
+            I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
 
           <motion.div
@@ -190,9 +262,9 @@ function Hero() {
             className="col-span-12 grid grid-cols-3 gap-3 md:col-span-6 md:col-start-7"
           >
             {[
-              { k: "Now",   v: "Aetheris",        s: "Design engineer" },
-              { k: "Focus", v: "Motion · WebGL",  s: "Realtime UI" },
-              { k: "Since", v: "2019",            s: "40+ products" },
+              { k: "Now",   v: "Independent",       s: "Mobile engineer" },
+              { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
+              { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
               <div key={c.k} className="tile p-4">
                 <div className="eyebrow">{c.k}</div>
@@ -215,8 +287,8 @@ function Hero() {
 /* -------------------------------- marquee ----------------------------- */
 
 function Marquee() {
-  const A = ["Available for work", "Kinetic interfaces", "Realtime motion", "WebGL", "Design systems"];
-  const B = ["Karachi ⇄ Remote", "React · TypeScript", "GLSL · Three.js", "Vol. 26", "2019 — 2026"];
+  const A = ["Available for work", "Android engineering", "Flutter apps", "On-device ML", "Offline-first"];
+  const B = ["Karachi ⇄ Remote", "Kotlin · Compose", "TFLite · ML Kit", "99%+ crash-free", "40–60% faster"];
   const rowA = (
     <div className="flex shrink-0 items-center gap-10 pr-10">
       {A.map((t, i) => (
@@ -332,6 +404,19 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
             <div>
               <div className="display text-white text-[clamp(32px,5vw,80px)] leading-[0.9]">{p.title}</div>
               <p className="mt-2 max-w-md text-sm leading-relaxed text-white/70">{p.desc}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.stack.map((t) => (
+                  <span key={t} className="mono rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{t}</span>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+                {p.metrics.map((m) => (
+                  <div key={m.k}>
+                    <div className="display text-white text-[clamp(18px,1.6vw,22px)] leading-none">{m.v}</div>
+                    <div className="mono mt-1 text-[10px] uppercase tracking-[0.2em] text-white/45">{m.k}</div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <span className="mono text-[11px] uppercase tracking-[0.22em] text-white/60">{p.role}</span>
@@ -353,10 +438,10 @@ function Studio() {
   const y2 = useTransform(scrollYProgress, [0, 1], [110, -40]);
 
   const stats = [
-    { k: "Years shipping", v: "7" },
-    { k: "Products",       v: "40+" },
-    { k: "Teams",          v: "12" },
-    { k: "Coffee / week",  v: "∞" },
+    { k: "Apps shipped",   v: "3+" },
+    { k: "Installs",       v: "10k+" },
+    { k: "Crash-free",     v: "99%+" },
+    { k: "Perf gains",     v: "40–60%" },
   ];
 
   return (
@@ -368,11 +453,11 @@ function Studio() {
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
             <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
-              A studio of <span className="serifital italic text-[color:var(--violet)]">one.</span>
+                Mobile, made <span className="serifital italic text-[color:var(--violet)]">calm.</span>
             </h2>
           </div>
           <div className="mono max-w-xs text-[12px] uppercase tracking-[0.22em] text-white/50">
-            Design engineer · Karachi, PK<br/>Working with teams worldwide since 2019.
+              Android · Flutter · Karachi, PK<br/>Offline-first · Crash-resistant · On-device ML.
           </div>
         </div>
 
@@ -382,7 +467,7 @@ function Studio() {
             <div className="tile relative p-8 md:p-12">
               <div className="absolute right-6 top-4 serifital text-[140px] leading-none text-white/10">“</div>
               <div className="serifital text-white/95 text-[clamp(28px,3.4vw,52px)] leading-[1.1]">
-                Interfaces should feel like instruments — <span className="italic text-[color:var(--violet)]">precise, tactile, alive.</span>
+                Great mobile UX is invisible engineering — <span className="italic text-[color:var(--violet)]">offline that just works, sync you never notice, releases that don&apos;t crash.</span>
               </div>
               <div className="mt-10 flex items-center gap-4">
                 <div className="h-12 w-12 overflow-hidden rounded-full ring-1 ring-white/20">
@@ -390,7 +475,7 @@ function Studio() {
                 </div>
                 <div>
                   <div className="mono text-[12px] uppercase tracking-[0.22em] text-white">Muhammad Shayan</div>
-                  <div className="mono text-[11px] uppercase tracking-[0.22em] text-white/50">Design Engineer · Est. 2019</div>
+                  <div className="mono text-[11px] uppercase tracking-[0.22em] text-white/50">Android &amp; Flutter Engineer</div>
                 </div>
               </div>
             </div>
@@ -409,10 +494,10 @@ function Studio() {
           {/* bio strip */}
           <div className="col-span-12 mt-6 grid grid-cols-12 gap-6">
             <p className="col-span-12 text-lg leading-relaxed text-white/70 md:col-span-6">
-              I work at the seam of interface, motion, and systems — shipping products end-to-end from typographic systems to WebGL shaders.
+              I work end-to-end on mobile products — from Compose UI systems and offline-first data layers to on-device ML inference and CI/CD delivery pipelines.
             </p>
             <p className="col-span-12 text-lg leading-relaxed text-white/70 md:col-span-5 md:col-start-8">
-              Currently exploring real-time rendering, generative type, and interaction models that feel physically responsive.
+              Currently exploring on-device ML for gesture and voice interfaces, and model-optimization workflows that keep inference fast on mid-range Android devices.
             </p>
           </div>
         </div>
@@ -468,6 +553,137 @@ function IndexStack() {
 
 /* --------------------------------- contact ---------------------------- */
 
+function Metrics() {
+  return (
+    <section id="metrics" className="relative border-t border-white/10 py-32">
+      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="chip mb-4"><span className="dot live" />Command Center</div>
+            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+              Signals from <span className="serifital italic text-[color:var(--violet)]">production.</span>
+            </h2>
+          </div>
+          <div className="mono text-right text-[11px] uppercase tracking-[0.24em] text-white/50">
+            Real-time performance<br/>&amp; reliability metrics
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {METRICS.map((m, i) => (
+            <motion.div
+              key={m.k}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: i * 0.06 }}
+              className="tile p-6 md:p-8"
+            >
+              <div className="mono text-[10.5px] uppercase tracking-[0.22em] text-white/50">{m.s}</div>
+              <div className="mt-6 display text-white text-[clamp(44px,5.4vw,84px)] leading-none">{m.v}</div>
+              <div className="mono mt-4 text-[11px] uppercase tracking-[0.22em] text-white/70">{m.k}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Timeline() {
+  return (
+    <section id="story" className="relative border-t border-white/10 py-32">
+      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="chip mb-4"><span className="dot" />The Story</div>
+            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+              Chapters, <span className="serifital italic text-[color:var(--violet)]">in order.</span>
+            </h2>
+          </div>
+          <div className="mono text-right text-[11px] uppercase tracking-[0.24em] text-white/50">
+            {TIMELINE.length} chapters<br/>2021 — Now
+          </div>
+        </div>
+        <div className="relative grid grid-cols-12 gap-6">
+          <div className="pointer-events-none absolute inset-y-0 left-6 w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:left-1/2" />
+          {TIMELINE.map((c, i) => (
+            <motion.div
+              key={c.t}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: (i % 3) * 0.05 }}
+              className={`col-span-12 md:col-span-6 ${i % 2 ? "md:col-start-7" : ""}`}
+            >
+              <div className="tile p-6 md:p-8">
+                <div className="flex items-center gap-3">
+                  <span className="mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--violet)]">{c.y}</span>
+                  <span className="h-px flex-1 bg-white/10" />
+                </div>
+                <div className="mt-4 display text-white text-[clamp(24px,2.4vw,34px)] leading-tight">{c.t}</div>
+                <div className="mono mt-2 text-[11px] uppercase tracking-[0.22em] text-white/55">{c.o}</div>
+                <ul className="mt-5 space-y-2">
+                  {c.b.map((line) => (
+                    <li key={line} className="flex gap-3 text-sm text-white/70">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--violet)]" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Lab() {
+  return (
+    <section id="lab" className="relative border-t border-white/10 py-32">
+      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
+            <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
+              What I&apos;m <span className="serifital italic text-[color:var(--violet)]">tinkering on.</span>
+            </h2>
+          </div>
+          <div className="mono text-right text-[11px] uppercase tracking-[0.24em] text-white/50">
+            {LAB.length} experiments<br/>Mostly on-device ML
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {LAB.map((l, i) => (
+            <motion.div
+              key={l.t}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1], delay: i * 0.06 }}
+              className="tile group relative overflow-hidden p-6 md:p-8"
+            >
+              <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition group-hover:opacity-60" style={{ background: `radial-gradient(circle, ${l.tint}, transparent 70%)` }} />
+              <div className="relative flex items-center justify-between">
+                <span className="chip"><span className="dot" style={{ background: l.tint, boxShadow: `0 0 10px ${l.tint}` }} />{l.s}</span>
+                <span className="num-idx">— {String(i + 1).padStart(2, "0")}</span>
+              </div>
+              <div className="relative mt-8 display text-white text-[clamp(24px,2.2vw,32px)] leading-tight">{l.t}</div>
+              <p className="relative mt-3 text-sm leading-relaxed text-white/70">{l.d}</p>
+              <div className="relative mt-6 flex flex-wrap gap-2">
+                {l.tech.map((t) => (
+                  <span key={t} className="mono rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{t}</span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden border-t border-white/10 py-32">
@@ -482,18 +698,17 @@ function Contact() {
           </h2>
 
           <div className="mt-14 flex flex-col items-center gap-6">
-            <a href="mailto:hello@muhammadshayan.dev" data-cursor="Write" className="pill-btn text-white">
+            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn text-white">
               <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-black">✎</span>
-              <span className="display text-[clamp(22px,2.6vw,36px)] leading-none">hello@muhammadshayan.dev</span>
+              <span className="display text-[clamp(22px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
               <span className="mono text-xl">↗</span>
             </a>
 
             <div className="flex flex-wrap justify-center gap-3">
               {[
-                { l: "GitHub",   h: "https://github.com" },
-                { l: "LinkedIn", h: "https://linkedin.com" },
-                { l: "X",        h: "https://x.com" },
-                { l: "Résumé",   h: "/muhammad_shayan_cv.pdf" },
+                { l: "GitHub @shayann07",   h: "https://github.com/shayann07" },
+                { l: "LinkedIn /in/shayann07", h: "https://www.linkedin.com/in/shayann07" },
+                { l: "Résumé (PDF)",        h: "/muhammad_shayan_cv.pdf" },
               ].map((s) => (
                 <a key={s.l} href={s.h} data-cursor={s.l} className="chip hover:border-white/30 hover:text-white">{s.l} ↗</a>
               ))}
@@ -537,7 +752,10 @@ function Page() {
         <Hero />
         <Marquee />
         <WorkList />
+        <Metrics />
         <Studio />
+        <Timeline />
+        <Lab />
         <IndexStack />
         <Contact />
       </main>
