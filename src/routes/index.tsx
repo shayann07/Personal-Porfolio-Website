@@ -37,6 +37,69 @@ import {
 import { personalLinks } from "@/config/personalLinks";
 import { CV_URL } from "@/config/links";
 
+/* ==========================================================
+   Small premium widgets
+   ========================================================== */
+function LiveClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const t = now.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Asia/Karachi",
+  });
+  return (
+    <span className="font-mono tabular-nums text-[11px] tracking-[0.2em] text-white/70">
+      {t} <span className="text-white/30">PKT</span>
+    </span>
+  );
+}
+
+function Waveform({ bars = 24 }: { bars?: number }) {
+  return (
+    <div className="flex h-8 items-end gap-[3px]" aria-hidden="true">
+      {Array.from({ length: bars }).map((_, i) => (
+        <span
+          key={i}
+          className="bar w-[3px] rounded-full bg-linear-to-t from-fuchsia-400 via-violet-400 to-cyan-300"
+          style={{
+            height: `${20 + ((i * 37) % 80)}%`,
+            animationDelay: `${(i * 90) % 1400}ms`,
+            animationDuration: `${900 + ((i * 137) % 900)}ms`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Sparkline({ color = "oklch(0.72 0.24 300)" }: { color?: string }) {
+  const points = "0,20 12,14 24,17 36,10 48,13 60,6 72,9 84,3 96,7";
+  return (
+    <svg viewBox="0 0 96 24" className="h-6 w-24" aria-hidden="true">
+      <defs>
+        <linearGradient id="sl" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor={color} stopOpacity="0.4" />
+          <stop offset="1" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon points={`${points} 96,24 0,24`} fill="url(#sl)" />
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -252,6 +315,9 @@ function Tile({
   as = "div",
   onActivate,
   ariaLabel,
+  tilt = true,
+  sheen = true,
+  frost = true,
 }: {
   children: ReactNode;
   className?: string;
@@ -261,6 +327,9 @@ function Tile({
   as?: "div" | "button" | "article";
   onActivate?: () => void;
   ariaLabel?: string;
+  tilt?: boolean;
+  sheen?: boolean;
+  frost?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { reduced } = useMotionPref();
@@ -269,8 +338,22 @@ function Tile({
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    el.style.setProperty("--mx", `${mx}px`);
+    el.style.setProperty("--my", `${my}px`);
+    if (tilt) {
+      const rx = ((my / r.height) - 0.5) * -6;
+      const ry = ((mx / r.width) - 0.5) * 6;
+      el.style.setProperty("--rx", `${rx}deg`);
+      el.style.setProperty("--ry", `${ry}deg`);
+    }
+  };
+  const onLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--rx", `0deg`);
+    el.style.setProperty("--ry", `0deg`);
   };
 
   const base =
@@ -291,6 +374,7 @@ function Tile({
       aria-label={ariaLabel}
       tabIndex={interactive ? 0 : undefined}
       onMouseMove={reduced ? undefined : onMove}
+      onMouseLeave={reduced ? undefined : onLeave}
       onClick={onActivate}
       onKeyDown={
         interactive
@@ -310,14 +394,19 @@ function Tile({
         delay: reduced ? 0 : Math.min(index, 6) * 0.04,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`spot tile-hover relative flex flex-col overflow-hidden rounded-2xl p-6 ${base} ${
+      className={`spot tile-hover ${sheen ? "sheen" : ""} ${frost ? "frost" : ""} relative flex flex-col overflow-hidden rounded-3xl p-6 ${base} ${
         interactive
           ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           : ""
       } ${className}`}
-      style={{ willChange: "transform, opacity" }}
+      style={{
+        willChange: "transform, opacity",
+        transformStyle: "preserve-3d",
+        transform:
+          "perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))",
+      }}
     >
-      {children}
+      <div className="relative z-[2] flex h-full w-full flex-col">{children}</div>
     </motion.div>
   );
 }
@@ -727,11 +816,13 @@ function Nav() {
         </span>
         shayan<span className="text-white/40">.dev</span>
       </a>
-      <nav aria-label="Primary" className="hidden gap-7 text-xs font-medium tracking-wide text-white/70 md:flex">
+      <nav aria-label="Primary" className="hidden items-center gap-7 text-xs font-medium tracking-wide text-white/70 md:flex">
         <a href="#work" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Work</a>
         <a href="#stack" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Stack</a>
         <a href="#timeline" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Journey</a>
         <a href="#contact" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Contact</a>
+        <span className="mx-1 h-3 w-px bg-white/15" aria-hidden="true" />
+        <LiveClock />
       </nav>
       <a
         href={CV_URL}
@@ -814,16 +905,29 @@ function IndexInner() {
             </div>
           </Tile>
 
-          <Tile className="col-span-3 md:col-span-4 md:row-span-2 items-center justify-center text-center min-h-[360px]" index={1}>
-            <div className="relative flex h-40 w-40 items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-linear-to-br from-fuchsia-500 via-violet-500 to-cyan-400 blur-2xl opacity-60 animate-pulse" aria-hidden="true" />
-              <div className="relative flex h-40 w-40 items-center justify-center rounded-full bg-linear-to-br from-fuchsia-400 via-violet-500 to-cyan-400 font-display text-6xl font-semibold text-black">
+          <Tile
+            className="col-span-3 md:col-span-4 md:row-span-2 items-center justify-center text-center min-h-[360px] aurora-border"
+            index={1}
+          >
+            <div className="relative flex h-48 w-48 items-center justify-center">
+              {/* Orbital rings */}
+              <div className="absolute inset-0 rounded-full border border-white/15 orbit-slow" aria-hidden="true">
+                <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-fuchsia-400 shadow-[0_0_16px_4px_oklch(0.72_0.24_300/0.7)]" />
+              </div>
+              <div className="absolute inset-3 rounded-full border border-white/10 orbit-fast" aria-hidden="true">
+                <span className="absolute -right-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_12px_3px_oklch(0.78_0.18_210/0.7)]" />
+              </div>
+              <div className="absolute inset-6 rounded-full border border-dashed border-white/10 orbit-slow" aria-hidden="true" />
+              {/* Aurora halo */}
+              <div className="absolute inset-4 rounded-full bg-linear-to-br from-fuchsia-500 via-violet-500 to-cyan-400 blur-3xl opacity-70 animate-pulse" aria-hidden="true" />
+              {/* Core */}
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-fuchsia-400 via-violet-500 to-cyan-400 font-display text-4xl font-semibold text-black shadow-[inset_0_2px_0_oklch(1_0_0/0.6),0_20px_60px_-10px_oklch(0.72_0.24_300/0.55)]">
                 MS
               </div>
             </div>
-            <p className="mt-6 font-serif text-2xl italic text-white/90">Muhammad Shayan</p>
-            <p className="mt-1 text-xs tracking-[0.24em] text-white/40">ISLAMABAD · REMOTE</p>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-300">
+            <p className="mt-6 font-serif text-2xl italic text-white/95">Muhammad Shayan</p>
+            <p className="mt-1 text-[10px] tracking-[0.28em] text-white/40">ISLAMABAD · REMOTE</p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-300 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
                 <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/70" />
                 <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -833,17 +937,17 @@ function IndexInner() {
           </Tile>
 
           {[
-            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false },
-            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true },
-            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false },
-            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false },
+            { icon: Code2, label: "SHIPPED", to: 1, suffix: "M+", sub: "Users reached", strong: false, color: "oklch(0.78 0.18 210)" },
+            { icon: Zap, label: "STABILITY", to: 99.9, suffix: "%", sub: "Crash-free sessions", strong: true, color: "oklch(0.72 0.24 300)" },
+            { icon: Layers, label: "RELEASED", to: 24, suffix: "", sub: "Production apps", strong: false, color: "oklch(0.72 0.24 25)" },
+            { icon: Sparkles, label: "EXPERIENCE", to: 6, suffix: "y", sub: "Building mobile", strong: false, color: "oklch(0.78 0.18 210)" },
           ].map((m, i) => {
             const Icon = m.icon;
             return (
               <Tile
                 key={m.label}
                 variant={m.strong ? "strong" : "glass"}
-                className="col-span-3 md:col-span-3 justify-between min-h-[160px]"
+                className={`col-span-3 md:col-span-3 justify-between min-h-[160px] ${m.strong ? "aurora-border" : ""}`}
                 index={i + 2}
               >
                 <div className="flex items-center justify-between text-white/40">
@@ -851,10 +955,13 @@ function IndexInner() {
                   <span className="text-[10px] tracking-[0.24em]">{m.label}</span>
                 </div>
                 <div>
-                  <div className={`font-display text-5xl font-semibold ${m.strong ? "aurora-text" : "text-white"}`}>
+                  <div className={`font-display text-5xl font-semibold leading-none ${m.strong ? "aurora-text" : "text-white"}`}>
                     <Counter to={m.to} suffix={m.suffix} />
                   </div>
-                  <div className="mt-1 text-xs text-white/50">{m.sub}</div>
+                  <div className="mt-2 flex items-center justify-between gap-3">
+                    <span className="text-[11px] text-white/50">{m.sub}</span>
+                    <Sparkline color={m.color} />
+                  </div>
                 </div>
               </Tile>
             );
@@ -1003,12 +1110,16 @@ function IndexInner() {
         <section id="contact" aria-label="Contact" className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-12 md:gap-4">
           <Tile
             variant="strong"
-            className="group relative col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between"
+            className="group relative col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between aurora-border"
             index={0}
           >
-            <div className="absolute -bottom-32 -right-32 h-80 w-80 rounded-full bg-linear-to-br from-fuchsia-500/40 via-violet-500/40 to-cyan-400/40 blur-3xl" aria-hidden="true" />
-            <div className="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/60">
-              <Mail className="h-3 w-3" aria-hidden="true" /> LET&apos;S BUILD
+            <div className="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-linear-to-br from-fuchsia-500/50 via-violet-500/40 to-cyan-400/40 blur-3xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -top-24 left-10 h-48 w-48 rounded-full bg-cyan-400/25 blur-3xl" aria-hidden="true" />
+            <div className="flex items-center justify-between">
+              <div className="relative inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/70 backdrop-blur">
+                <Mail className="h-3 w-3" aria-hidden="true" /> LET&apos;S BUILD
+              </div>
+              <Waveform />
             </div>
             <div className="relative">
               <h3 className="font-display text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
@@ -1023,12 +1134,13 @@ function IndexInner() {
             </div>
             <a
               href={personalLinks.email.link}
-              className="relative inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+              className="relative inline-flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black shadow-[0_10px_40px_-8px_oklch(0.72_0.24_300/0.55)] transition hover:shadow-[0_20px_60px_-8px_oklch(0.72_0.24_300/0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
               aria-label={`Email ${personalLinks.email.label}`}
             >
-              <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-              {personalLinks.email.label}
-              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/60 to-transparent transition-transform duration-700 group-hover:translate-x-full" aria-hidden="true" />
+              <Mail className="relative h-3.5 w-3.5" aria-hidden="true" />
+              <span className="relative">{personalLinks.email.label}</span>
+              <ArrowUpRight className="relative h-3.5 w-3.5" aria-hidden="true" />
             </a>
           </Tile>
 
