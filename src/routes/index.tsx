@@ -23,28 +23,28 @@ export const Route = createFileRoute("/")({
 const PROJECTS = [
   {
     n: "01", title: "AI Trust Ledger", tag: "Fintech · Android · 2025", role: "Kotlin · Firebase · MVVM",
-    img: projLedger, href: "#", tint: "#7dd3fc",
+    href: "#", tint: "#7dd3fc", accent: "#22d3ee",
     desc: "Investment platform with automated ROI cycles and real-time portfolio tracking.",
     stack: ["Kotlin", "Firebase", "MVVM", "Coroutines"],
     metrics: [{ k: "Users", v: "5K+" }, { k: "Crash-free", v: "99.8%" }, { k: "Rating", v: "4.7★" }],
   },
   {
     n: "02", title: "LeafBloom", tag: "On-device ML · 2025", role: "TFLite · Compose · CameraX",
-    img: projLeaf, href: "#", tint: "#86efac",
+    href: "#", tint: "#86efac", accent: "#4ade80",
     desc: "AI-powered plant disease diagnosis running on-device via TensorFlow Lite.",
     stack: ["TFLite", "Compose", "CameraX", "Room"],
     metrics: [{ k: "Accuracy", v: "95%" }, { k: "Response", v: "<2s" }, { k: "Models", v: "12" }],
   },
   {
     n: "03", title: "GitPulse", tag: "Flutter · Dev tool · 2024", role: "Flutter · GraphQL · OAuth",
-    img: projPulse, href: "#", tint: "#a5b4fc",
+    href: "#", tint: "#a5b4fc", accent: "#a78bfa",
     desc: "Developer productivity tracker with GitHub sync and contribution analytics.",
     stack: ["Flutter", "OAuth", "GraphQL", "Riverpod"],
     metrics: [{ k: "Syncs", v: "Real-time" }, { k: "APIs", v: "5+" }, { k: "Charts", v: "15" }],
   },
   {
     n: "04", title: "Medicare", tag: "HealthTech · 2024", role: "Flutter · Firebase · Stripe",
-    img: projMedi, href: "#", tint: "#fca5a5",
+    href: "#", tint: "#fca5a5", accent: "#f0abfc",
     desc: "Tele-health & pharmacy platform — appointments, chat, payments and pharmacy flows in one app.",
     stack: ["Flutter", "Firebase", "Stripe", "Riverpod"],
     metrics: [{ k: "Rating", v: "4.8★" }, { k: "Resolution", v: "97%" }, { k: "Follow-up", v: "93%" }],
