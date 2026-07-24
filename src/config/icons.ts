@@ -14,3 +14,4 @@ export const icons = {
   social2: `${ANIMA_BASE_URL}/icon-7.svg`,
   social3: `${ANIMA_BASE_URL}/icon-8.svg`,
 };
+

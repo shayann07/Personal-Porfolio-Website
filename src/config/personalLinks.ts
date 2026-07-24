@@ -12,3 +12,4 @@ export const personalLinks = {
     link: "https://github.com/shayann07",
   },
 };
+

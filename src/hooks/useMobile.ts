@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 
 export const useMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+        // Initial check
+        checkMobile();
 
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+        // Debounced listener could be better, but simple is fine for now
+        window.addEventListener("resize", checkMobile);
 
-  return isMobile;
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    return isMobile;
 };
