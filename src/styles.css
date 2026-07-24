@@ -74,28 +74,28 @@
 
 /* ==================== typography & layout utilities ==================== */
 
-@utility h-display {
+@utility hd-display {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--text-display);
   line-height: 0.94;
   letter-spacing: 0;
 }
-@utility h-1 {
+@utility hd-1 {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--text-h1);
   line-height: 1.02;
   letter-spacing: 0;
 }
-@utility h-2 {
+@utility hd-2 {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--text-h2);
   line-height: 1.06;
   letter-spacing: 0;
 }
-@utility h-3 {
+@utility hd-3 {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-h3);
