@@ -204,15 +204,15 @@ body { cursor: none; }
 .display {
   font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: -0.055em;
-  line-height: 0.82;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
   font-stretch: 90%;
 }
 .serifital { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.02em; }
 .mono { font-family: var(--font-mono); font-feature-settings: "ss01","cv11"; }
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-micro);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--subtle);
