@@ -1,53 +1,38 @@
-Port the existing React + Vite + Tailwind v3 single-page portfolio into this TanStack Start + Tailwind v4 workspace, replacing the placeholder index page.
+## Plan: make the portfolio less text-heavy and more visually appealing
 
-## What we're porting
-- Source repo: `shayann07/portfolio-mockup` (React 18, Vite, Tailwind 3.4.16, Framer Motion, Lenis, react-helmet-async).
-- 10 sections: Navbar, Hero, Story, CommandCenter, Projects, Skills, Lab, CTA, Contact, Footer.
-- Dark theme, custom scrollbar, cursor glow, animated raindrops, smooth scroll.
+### Goal
+Shift the page from text/card-heavy to a visual-first kinetic portfolio: fewer words, stronger visual hierarchy, more cinematic surfaces, and consistent premium styling.
 
-## Target stack adaptations
-- TanStack Start v1 file-based routing.
-- Tailwind v4 CSS-first tokens in `src/styles.css`.
-- React 19 (keep components functional; avoid legacy APIs).
-- Replace `react-helmet-async` with TanStack `head()` in `src/routes/index.tsx` and `src/routes/__root.tsx`.
-- Load Inter font via `<link>` in `src/routes/__root.tsx` head, not CSS `@import`.
-- Keep single-page scrolling behavior on `/` (the user explicitly asked to clone a single-page portfolio).
+### What I’ll change
+1. **Rebuild the visual rhythm**
+   - Reduce repeated section headings and explanatory paragraphs.
+   - Turn sections into full-width visual scenes instead of many similar cards.
+   - Keep only short, high-impact copy where it helps scanning.
 
-## Implementation steps
+2. **Upgrade the hero into a visual centerpiece**
+   - Replace the current orb-card composition with a cleaner cinematic hero: large name/type treatment, layered glass panels, animated gradient mesh, depth rings, and compact status chips.
+   - Keep it CSS/Framer-based, not the previous 3D/image approach.
 
-1. **Dependencies**
-   - Install `framer-motion`, `lenis`, `lucide-react` with `bun add`.
-   - Skip unused deps from source (`@radix-ui/*`, `class-variance-authority`, `react-router-dom`, `react-helmet-async`).
+3. **Redesign projects as visual case-study panels**
+   - Make each project card feel like a product poster: abstract app-interface shapes, device silhouettes, signal lines, metrics, and minimal text.
+   - Move descriptions into smaller reveal/hover states so the default view is visual.
 
-2. **Design tokens / global styles**
-   - Map the source `tailwind.config.js` dark theme colors into `src/styles.css` `:root` / `.dark` using oklch.
-   - Preserve custom scrollbar styling in `src/styles.css`.
-   - Add global base rules (font-feature-settings, overscroll-behavior, smooth scroll).
+4. **Compress supporting sections**
+   - Merge or simplify text-heavy areas like story, lab, stack, and metrics.
+   - Use visual dashboards, timelines, icon-like modules, and compact stats instead of long paragraphs and bullet lists.
 
-3. **Static assets**
-   - Copy `public/og-image.png` and `public/muhammad_shayan_cv.pdf` from `/tmp/portfolio-mockup/public` into `public/`.
+5. **Create a cohesive gradient/glass system**
+   - Add semantic design tokens for gradient accents, glass depth, glow, and visual panels in `src/styles.css`.
+   - Remove scattered inline hardcoded visual styling where practical and replace it with reusable classes.
 
-4. **Shared code**
-   - Port `src/utils/animation-variants.ts`.
-   - Port `src/hooks/useMobile.ts` and `src/hooks/useScrollAnimation.ts`.
-   - Port `src/config/icons.ts`, `src/config/links.ts`, `src/config/personalLinks.ts`.
-   - Port shared components: `CursorGlow`, `SectionHeader`, `CardParticles`, `SEO/MetaHead`, `SEO/StructuredData`.
+6. **Keep it mobile-safe**
+   - Ensure all visual panels scale down cleanly.
+   - Keep section heights compact and avoid oversized hero/card blocks on small screens.
+   - Preserve readable contrast over the shader background.
 
-5. **Sections**
-   - Port each section folder under `src/sections/` preserving component structure:
-     - `Navbar`, `HeroSection`, `StorySection`, `CommandCenterSection`, `ProjectsSection`, `SkillsSection`, `LabSection`, `CTASection`, `ContactSection`, `Footer`.
-   - Update Tailwind class names for v4 where needed (e.g., `bg-gradient-to-r` → `bg-linear-to-r`, bare `border`, etc.).
-
-6. **Routing / entry**
-   - Replace `src/routes/index.tsx` with the portfolio landing page.
-   - Create a page component that composes all sections, handles Lenis smooth scroll, cursor glow, and suspense lazy loading.
-   - Move SEO meta from `MetaHead`/`StructuredData` into the route `head()`.
-
-7. **Verification**
-   - Run typecheck and dev build.
-   - Spot-check the preview for sections, dark theme, and animations.
-
-## Notes
-- The source contact form is `mailto:` only; keep it unchanged.
-- Source icons rely on remote Anima CDN URLs in `src/config/icons.ts`; preserve them for now and note the TODO.
-- Keep the existing project structure conventions (`src/components/`, `src/hooks/`, `src/sections/`, `src/lib/` for utilities).
+### Technical approach
+- Main implementation will be in `src/routes/index.tsx` and `src/styles.css`.
+- Keep existing real portfolio data, but present less of it upfront.
+- Keep `ShaderBackground` and `Cursor`, but tune the page components around them.
+- Use Framer Motion only for GPU-friendly transforms/opacity; avoid layout-heavy animation.
+- Maintain the existing metadata/head setup.
