@@ -1,19 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { Cursor } from "@/components/Cursor";
-import projLedger from "@/assets/proj-ledger.jpg";
-import projLeaf from "@/assets/proj-leaf.jpg";
-import projPulse from "@/assets/proj-pulse.jpg";
-import projMedi from "@/assets/proj-medi.jpg";
-const HeroOrb3D = lazy(() => import("@/components/HeroOrb3D").then(m => ({ default: m.HeroOrb3D })));
-
-function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [m, setM] = useState(false);
-  useEffect(() => setM(true), []);
-  return m ? <>{children}</> : null;
-}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,28 +23,28 @@ export const Route = createFileRoute("/")({
 const PROJECTS = [
   {
     n: "01", title: "AI Trust Ledger", tag: "Fintech · Android · 2025", role: "Kotlin · Firebase · MVVM",
-    img: projLedger, href: "#", tint: "#7dd3fc",
+    href: "#", tint: "#7dd3fc", accent: "#22d3ee",
     desc: "Investment platform with automated ROI cycles and real-time portfolio tracking.",
     stack: ["Kotlin", "Firebase", "MVVM", "Coroutines"],
     metrics: [{ k: "Users", v: "5K+" }, { k: "Crash-free", v: "99.8%" }, { k: "Rating", v: "4.7★" }],
   },
   {
     n: "02", title: "LeafBloom", tag: "On-device ML · 2025", role: "TFLite · Compose · CameraX",
-    img: projLeaf, href: "#", tint: "#86efac",
+    href: "#", tint: "#86efac", accent: "#4ade80",
     desc: "AI-powered plant disease diagnosis running on-device via TensorFlow Lite.",
     stack: ["TFLite", "Compose", "CameraX", "Room"],
     metrics: [{ k: "Accuracy", v: "95%" }, { k: "Response", v: "<2s" }, { k: "Models", v: "12" }],
   },
   {
     n: "03", title: "GitPulse", tag: "Flutter · Dev tool · 2024", role: "Flutter · GraphQL · OAuth",
-    img: projPulse, href: "#", tint: "#a5b4fc",
+    href: "#", tint: "#a5b4fc", accent: "#a78bfa",
     desc: "Developer productivity tracker with GitHub sync and contribution analytics.",
     stack: ["Flutter", "OAuth", "GraphQL", "Riverpod"],
     metrics: [{ k: "Syncs", v: "Real-time" }, { k: "APIs", v: "5+" }, { k: "Charts", v: "15" }],
   },
   {
     n: "04", title: "Medicare", tag: "HealthTech · 2024", role: "Flutter · Firebase · Stripe",
-    img: projMedi, href: "#", tint: "#fca5a5",
+    href: "#", tint: "#fca5a5", accent: "#f0abfc",
     desc: "Tele-health & pharmacy platform — appointments, chat, payments and pharmacy flows in one app.",
     stack: ["Flutter", "Firebase", "Stripe", "Riverpod"],
     metrics: [{ k: "Rating", v: "4.8★" }, { k: "Resolution", v: "97%" }, { k: "Follow-up", v: "93%" }],
@@ -299,14 +288,54 @@ function Hero() {
               transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
               style={{ maskImage: "radial-gradient(circle,transparent 60%,black 65%)" }}
             />
-            {/* orb card — real 3D */}
+            {/* orb card — pure CSS gradient mesh */}
             <div className="relative h-full w-full overflow-hidden rounded-[28px] ring-1 ring-white/10" style={{ background: "radial-gradient(circle at 50% 40%, #1a1030 0%, #050507 70%)" }}>
-              <ClientOnly>
-                <Suspense fallback={null}>
-                  <HeroOrb3D />
-                </Suspense>
-              </ClientOnly>
-              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 60% at 50% 45%, transparent, #05050788 95%)" }} />
+              {/* base gradient mesh */}
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(60% 55% at 30% 30%, #a78bfa66, transparent 60%)," +
+                    "radial-gradient(55% 50% at 75% 65%, #22d3ee55, transparent 65%)," +
+                    "radial-gradient(45% 45% at 60% 20%, #f0abfc44, transparent 70%)",
+                }}
+              />
+              {/* orb sphere */}
+              <motion.div
+                aria-hidden
+                animate={{ rotate: 360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                className="absolute left-1/2 top-1/2 h-[62%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, #a78bfa, #22d3ee, #f0abfc, #a78bfa)",
+                  filter: "blur(2px)",
+                  boxShadow:
+                    "inset -30px -30px 80px rgba(0,0,0,0.55), inset 20px 20px 60px rgba(255,255,255,0.15), 0 40px 120px -20px #a78bfa88",
+                }}
+              />
+              {/* specular highlight */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[62%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(30% 25% at 35% 30%, rgba(255,255,255,0.55), transparent 70%)",
+                }}
+              />
+              {/* grid overlay */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-[0.15]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px)",
+                  backgroundSize: "32px 32px",
+                  maskImage: "radial-gradient(70% 70% at 50% 50%, black, transparent 75%)",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 60% at 50% 45%, transparent, #050507cc 95%)" }} />
               {/* floating stat chips */}
               <div className="absolute left-3 top-3 flex flex-col gap-2">
                 <span className="chip"><span className="dot live" />live</span>
@@ -448,10 +477,38 @@ function ProjectCard({ p, i }: { p: typeof PROJECTS[number]; i: number }) {
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
         className={`tile relative overflow-hidden ${cardSize}`}
       >
-        {/* image plate */}
-        <div className="absolute inset-0">
-          <img src={p.img} alt="" className="h-full w-full object-cover opacity-60 transition duration-[900ms] group-hover:scale-[1.04] group-hover:opacity-80" />
-          <div className="absolute inset-0" style={{ background: `radial-gradient(60% 60% at 70% 30%, ${p.tint}33, transparent 70%), linear-gradient(180deg, #05050700 0%, #050507ee 100%)` }} />
+        {/* gradient art plate */}
+        <div aria-hidden className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 transition duration-[900ms] group-hover:scale-[1.06]"
+            style={{
+              background:
+                `radial-gradient(60% 60% at 20% 20%, ${p.tint}55, transparent 65%),` +
+                `radial-gradient(55% 55% at 80% 30%, ${p.accent}44, transparent 70%),` +
+                `radial-gradient(70% 65% at 60% 90%, ${p.tint}33, transparent 70%),` +
+                `linear-gradient(135deg, #0b0b14 0%, #050507 100%)`,
+            }}
+          />
+          {/* orbit ring accent */}
+          <div
+            className="absolute -right-16 -top-16 h-56 w-56 rounded-full border opacity-40 md:h-72 md:w-72"
+            style={{ borderColor: `${p.tint}55` }}
+          />
+          <div
+            className="absolute -right-8 -top-8 h-32 w-32 rounded-full border opacity-30 md:h-40 md:w-40"
+            style={{ borderColor: `${p.accent}66` }}
+          />
+          {/* grid overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
+              backgroundSize: "36px 36px",
+            }}
+          />
+          {/* vignette for text legibility */}
+          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #05050700 0%, #050507ee 100%)" }} />
         </div>
 
         {/* top row: index + chip */}
