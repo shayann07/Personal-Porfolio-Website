@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, MeshTransmissionMaterial, Environment } from "@react-three/drei";
+import { Float, MeshDistortMaterial } from "@react-three/drei";
 import { Suspense, useRef } from "react";
 import type { Mesh, Group } from "three";
 
@@ -15,14 +15,10 @@ function Orb() {
       <icosahedronGeometry args={[1.15, 64]} />
       <MeshDistortMaterial
         color="#a78bfa"
-        roughness={0.05}
-        metalness={0.9}
+        roughness={0.15}
+        metalness={0.85}
         distort={0.42}
         speed={1.4}
-        iridescence={1}
-        iridescenceIOR={1.6}
-        clearcoat={1}
-        clearcoatRoughness={0.05}
       />
     </mesh>
   );
@@ -39,15 +35,7 @@ function Shard({ position, color, scale = 0.2 }: { position: [number, number, nu
     <Float speed={1.5} floatIntensity={1.2} rotationIntensity={0.6}>
       <mesh ref={ref} position={position} scale={scale}>
         <octahedronGeometry args={[1, 0]} />
-        <MeshTransmissionMaterial
-          color={color}
-          thickness={0.4}
-          transmission={1}
-          ior={1.5}
-          roughness={0.1}
-          chromaticAberration={0.3}
-          backside
-        />
+        <meshStandardMaterial color={color} metalness={0.9} roughness={0.15} emissive={color} emissiveIntensity={0.35} />
       </mesh>
     </Float>
   );
@@ -93,7 +81,6 @@ export function HeroOrb3D() {
         <Shard position={[1.4, -1.4, -0.2]} color="#a78bfa" scale={0.13} />
         <Shard position={[-1.6, 1.4, -0.4]} color="#818cf8" scale={0.16} />
 
-        <Environment preset="night" />
       </Suspense>
     </Canvas>
   );
