@@ -21,14 +21,25 @@ export const Route = createFileRoute("/")({
 /* -------------------------------- data -------------------------------- */
 
 const PROJECTS = [
-  { n: "01", title: "Aetheris", tag: "Fintech · 2025", role: "Design + Build", img: "/portrait.jpg", href: "#", tint: "#a78bfa" },
-  { n: "02", title: "Nova Studio", tag: "Creative tool · 2025", role: "Product design", img: "/portrait.jpg", href: "#", tint: "#67e8f9" },
-  { n: "03", title: "Orbit", tag: "AI platform · 2024", role: "Frontend engineering", img: "/portrait.jpg", href: "#", tint: "#f472b6" },
-  { n: "04", title: "Halcyon", tag: "Health · 2024", role: "Design engineering", img: "/portrait.jpg", href: "#", tint: "#facc15" },
-  { n: "05", title: "Meridian", tag: "SaaS · 2023", role: "Interface systems", img: "/portrait.jpg", href: "#", tint: "#4ade80" },
+  { n: "01", title: "Aetheris",    tag: "Fintech · 2025",       role: "Design + Build",         img: "/portrait.jpg", href: "#", tint: "#a78bfa", desc: "Realtime treasury console with kinetic data surfaces." },
+  { n: "02", title: "Nova Studio", tag: "Creative tool · 2025", role: "Product design",         img: "/portrait.jpg", href: "#", tint: "#67e8f9", desc: "Node-based motion editor for the browser." },
+  { n: "03", title: "Orbit",       tag: "AI platform · 2024",   role: "Frontend engineering",   img: "/portrait.jpg", href: "#", tint: "#f472b6", desc: "Agentic workflows with a streaming, glassy UI." },
+  { n: "04", title: "Halcyon",     tag: "Health · 2024",        role: "Design engineering",     img: "/portrait.jpg", href: "#", tint: "#facc15", desc: "Clinical dashboards that feel calm under load." },
+  { n: "05", title: "Meridian",    tag: "SaaS · 2023",          role: "Interface systems",      img: "/portrait.jpg", href: "#", tint: "#4ade80", desc: "Design-system tooling for a 40-person product org." },
 ];
 
-const STACK = ["React", "TypeScript", "Motion", "GLSL", "Three.js", "Tailwind", "Node", "Rust", "Figma", "Blender"];
+const STACK: { name: string; kind: string }[] = [
+  { name: "React",      kind: "daily" },
+  { name: "TypeScript", kind: "primary" },
+  { name: "Motion",     kind: "motion" },
+  { name: "GLSL",       kind: "shaders" },
+  { name: "Three.js",   kind: "3d/rt" },
+  { name: "Tailwind",   kind: "styling" },
+  { name: "Node",       kind: "runtime" },
+  { name: "Rust",       kind: "systems" },
+  { name: "Figma",      kind: "ux" },
+  { name: "Blender",    kind: "3d" },
+];
 
 /* --------------------------- kinetic helpers -------------------------- */
 
