@@ -438,10 +438,10 @@ function Studio() {
   const y2 = useTransform(scrollYProgress, [0, 1], [110, -40]);
 
   const stats = [
-    { k: "Years shipping", v: "7" },
-    { k: "Products",       v: "40+" },
-    { k: "Teams",          v: "12" },
-    { k: "Coffee / week",  v: "∞" },
+    { k: "Apps shipped",   v: "3+" },
+    { k: "Installs",       v: "10k+" },
+    { k: "Crash-free",     v: "99%+" },
+    { k: "Perf gains",     v: "40–60%" },
   ];
 
   return (
@@ -453,11 +453,11 @@ function Studio() {
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
             <h2 className="display text-white text-[clamp(40px,6vw,96px)]">
-              A studio of <span className="serifital italic text-[color:var(--violet)]">one.</span>
+                Mobile, made <span className="serifital italic text-[color:var(--violet)]">calm.</span>
             </h2>
           </div>
           <div className="mono max-w-xs text-[12px] uppercase tracking-[0.22em] text-white/50">
-            Design engineer · Karachi, PK<br/>Working with teams worldwide since 2019.
+              Android · Flutter · Karachi, PK<br/>Offline-first · Crash-resistant · On-device ML.
           </div>
         </div>
 
