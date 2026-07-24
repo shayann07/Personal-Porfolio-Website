@@ -222,14 +222,14 @@ function Hero() {
       <motion.div style={{ y, scale, opacity, filter }} className="mx-auto w-full max-w-[1800px] px-6 md:px-10">
         <div className="mb-10 flex flex-wrap items-center gap-3">
           <span className="chip"><span className="dot live" />Available · Q3 2026</span>
-          <span className="chip">Portfolio / Vol. 26</span>
-          <span className="chip">v2026.4</span>
+          <span className="chip">Android · Flutter · ML</span>
+          <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
         <h1 className="display text-white text-[clamp(56px,14.5vw,260px)]">
-          <div><SplitEnter text="Design" /></div>
+          <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[6vw]">
-            <span className="serifital italic text-white/95"><SplitEnter text="engineer" delay={0.08} /></span>
+            <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
             <motion.span
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -241,7 +241,7 @@ function Hero() {
               <span className="text-[0.4em] font-black text-white">✦</span>
             </motion.span>
           </div>
-          <div><SplitEnter text="for the web." delay={0.16} /></div>
+          <div><SplitEnter text="mobile, made calm." delay={0.16} /></div>
         </h1>
 
         {/* footer grid: intro + orbit cards */}
@@ -252,7 +252,7 @@ function Hero() {
             transition={{ delay: 0.6, duration: 0.9 }}
             className="col-span-12 max-w-md text-base leading-relaxed text-white/70 md:col-span-4"
           >
-            I build kinetic, high-fidelity product interfaces at the seam of design and engineering — motion systems, real-time UI, WebGL.
+            I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
           </motion.p>
 
           <motion.div
@@ -262,9 +262,9 @@ function Hero() {
             className="col-span-12 grid grid-cols-3 gap-3 md:col-span-6 md:col-start-7"
           >
             {[
-              { k: "Now",   v: "Aetheris",        s: "Design engineer" },
-              { k: "Focus", v: "Motion · WebGL",  s: "Realtime UI" },
-              { k: "Since", v: "2019",            s: "40+ products" },
+              { k: "Now",   v: "Independent",       s: "Mobile engineer" },
+              { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
+              { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
             ].map((c) => (
               <div key={c.k} className="tile p-4">
                 <div className="eyebrow">{c.k}</div>
@@ -287,8 +287,8 @@ function Hero() {
 /* -------------------------------- marquee ----------------------------- */
 
 function Marquee() {
-  const A = ["Available for work", "Kinetic interfaces", "Realtime motion", "WebGL", "Design systems"];
-  const B = ["Karachi ⇄ Remote", "React · TypeScript", "GLSL · Three.js", "Vol. 26", "2019 — 2026"];
+  const A = ["Available for work", "Android engineering", "Flutter apps", "On-device ML", "Offline-first"];
+  const B = ["Karachi ⇄ Remote", "Kotlin · Compose", "TFLite · ML Kit", "99%+ crash-free", "40–60% faster"];
   const rowA = (
     <div className="flex shrink-0 items-center gap-10 pr-10">
       {A.map((t, i) => (
