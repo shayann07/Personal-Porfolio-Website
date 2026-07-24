@@ -3,6 +3,11 @@ import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTrans
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { Cursor } from "@/components/Cursor";
+import projLedger from "@/assets/proj-ledger.jpg";
+import projLeaf from "@/assets/proj-leaf.jpg";
+import projPulse from "@/assets/proj-pulse.jpg";
+import projMedi from "@/assets/proj-medi.jpg";
+import heroOrb from "@/assets/hero-orb.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,28 +28,28 @@ export const Route = createFileRoute("/")({
 const PROJECTS = [
   {
     n: "01", title: "AI Trust Ledger", tag: "Fintech · Android · 2025", role: "Kotlin · Firebase · MVVM",
-    img: "/portrait.jpg", href: "#", tint: "#7dd3fc",
+    img: projLedger, href: "#", tint: "#7dd3fc",
     desc: "Investment platform with automated ROI cycles and real-time portfolio tracking.",
     stack: ["Kotlin", "Firebase", "MVVM", "Coroutines"],
     metrics: [{ k: "Users", v: "5K+" }, { k: "Crash-free", v: "99.8%" }, { k: "Rating", v: "4.7★" }],
   },
   {
     n: "02", title: "LeafBloom", tag: "On-device ML · 2025", role: "TFLite · Compose · CameraX",
-    img: "/portrait.jpg", href: "#", tint: "#86efac",
+    img: projLeaf, href: "#", tint: "#86efac",
     desc: "AI-powered plant disease diagnosis running on-device via TensorFlow Lite.",
     stack: ["TFLite", "Compose", "CameraX", "Room"],
     metrics: [{ k: "Accuracy", v: "95%" }, { k: "Response", v: "<2s" }, { k: "Models", v: "12" }],
   },
   {
     n: "03", title: "GitPulse", tag: "Flutter · Dev tool · 2024", role: "Flutter · GraphQL · OAuth",
-    img: "/portrait.jpg", href: "#", tint: "#a5b4fc",
+    img: projPulse, href: "#", tint: "#a5b4fc",
     desc: "Developer productivity tracker with GitHub sync and contribution analytics.",
     stack: ["Flutter", "OAuth", "GraphQL", "Riverpod"],
     metrics: [{ k: "Syncs", v: "Real-time" }, { k: "APIs", v: "5+" }, { k: "Charts", v: "15" }],
   },
   {
     n: "04", title: "Medicare", tag: "HealthTech · 2024", role: "Flutter · Firebase · Stripe",
-    img: "/portrait.jpg", href: "#", tint: "#fca5a5",
+    img: projMedi, href: "#", tint: "#fca5a5",
     desc: "Tele-health & pharmacy platform — appointments, chat, payments and pharmacy flows in one app.",
     stack: ["Flutter", "Firebase", "Stripe", "Riverpod"],
     metrics: [{ k: "Rating", v: "4.8★" }, { k: "Resolution", v: "97%" }, { k: "Follow-up", v: "93%" }],
@@ -224,71 +229,106 @@ function Hero() {
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <section id="top" ref={ref} className="relative overflow-hidden pb-6 pt-20 md:pb-10 md:pt-24">
+    <section id="top" ref={ref} className="relative overflow-hidden pb-8 pt-20 md:pb-14 md:pt-24">
       {/* ambient blobs */}
-      <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #2a2d38 0%, transparent 60%)", opacity: .55 }} />
-      <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #1a1c24 0%, transparent 60%)", opacity: .5 }} />
+      <div className="glow-blob left-[-10%] top-[10%] h-[300px] w-[300px]" style={{ background: "radial-gradient(circle, #4c1d95 0%, transparent 60%)", opacity: .35 }} />
+      <div className="glow-blob right-[-8%] top-[35%] h-[280px] w-[280px]" style={{ background: "radial-gradient(circle, #0891b2 0%, transparent 60%)", opacity: .28 }} />
 
-      <motion.div style={{ y, scale, opacity, filter }} className="container-x">
-        <div className="mb-4 flex flex-wrap items-center gap-1.5 md:mb-7 md:gap-2.5">
-          <span className="chip"><span className="dot live" />Available · Q3 2026</span>
-          <span className="chip">Android · Flutter · ML</span>
-          <span className="chip">Karachi ⇄ Remote</span>
-        </div>
-
-        <h1 className="hd-display max-w-[920px] text-white [font-size:clamp(30px,9vw,76px)] md:[font-size:var(--text-display)]">
-          <div><SplitEnter text="Muhammad" /></div>
-          <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
-            <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
-            <motion.span
-              initial={{ scale: 0, rotate: -90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-              className="inline-grid h-[0.85em] w-[0.85em] max-h-[72px] max-w-[72px] shrink-0 place-items-center rounded-full"
-              style={{ background: "radial-gradient(circle at 30% 30%, #e6e8ef, #1a1c24)" }}
-              aria-hidden
-            >
-              <span className="text-[0.4em] font-black text-white">✦</span>
-            </motion.span>
+      <motion.div style={{ y, scale, opacity, filter }} className="container-x grid grid-cols-12 items-center gap-6 md:gap-10">
+        {/* Left: type */}
+        <div className="col-span-12 md:col-span-7">
+          <div className="mb-4 flex flex-wrap items-center gap-1.5 md:mb-6 md:gap-2.5">
+            <span className="chip"><span className="dot live" />Available · Q3 2026</span>
+            <span className="chip">Karachi ⇄ Remote</span>
           </div>
-          <div><SplitEnter text="mobile, made calm." delay={0.16} /></div>
-        </h1>
 
-        {/* footer grid: intro + orbit cards */}
-        <div className="mt-5 grid grid-cols-12 items-end gap-3 md:mt-8 md:gap-5">
+          <h1 className="hd-display text-white [font-size:clamp(32px,9vw,84px)] md:[font-size:var(--text-display)]">
+            <div><SplitEnter text="Muhammad" /></div>
+            <div className="flex items-center gap-[2vw]">
+              <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
+              <motion.span
+                initial={{ scale: 0, rotate: -90 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.7, duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
+                className="inline-grid h-[0.85em] w-[0.85em] max-h-[72px] max-w-[72px] shrink-0 place-items-center rounded-full"
+                style={{ background: "conic-gradient(from 210deg,#a78bfa,#22d3ee,#f0abfc,#a78bfa)" }}
+                aria-hidden
+              >
+                <span className="text-[0.35em] font-black text-white mix-blend-overlay">✦</span>
+              </motion.span>
+            </div>
+            <div className="text-white/70"><SplitEnter text="mobile, made calm." delay={0.16} /></div>
+          </h1>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.9 }}
-            className="col-span-12 max-w-xs body-sm text-white/70 md:col-span-4"
+            className="mt-5 max-w-sm body-sm text-white/60 md:mt-7"
           >
-            I design offline-first, crash-resistant Android & Flutter apps — with on-device ML, real-time sync, and 40–60% performance gains in the workflows that matter.
+            Offline-first Android & Flutter apps. On-device ML. Real-time sync.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.9 }}
-            className="col-span-12 grid grid-cols-3 gap-1.5 sm:gap-2.5 md:col-span-6 md:col-start-7"
-          >
-            {[
-              { k: "Now",   v: "Independent",       s: "Mobile engineer" },
-              { k: "Focus", v: "Android · Flutter", s: "On-device ML" },
-              { k: "Shipped", v: "10k+",            s: "Installs · 3 apps" },
-            ].map((c) => (
-              <div key={c.k} className="tile min-w-0 p-2.5 md:p-3.5">
-                <div className="micro-eyebrow">{c.k}</div>
-                <div
-                  className="mt-1 truncate text-white md:mt-2"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-sm)", lineHeight: 1.2, letterSpacing: 0, paddingTop: "0.1em" }}
-                >
-                  {c.v}
-                </div>
-                <div className="micro-eyebrow mt-1 hidden sm:block md:mt-2">{c.s}</div>
-              </div>
-            ))}
-          </motion.div>
         </div>
+
+        {/* Right: iridescent orb visual */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 1.2, ease: [0.7, 0, 0.2, 1] }}
+          className="relative col-span-12 md:col-span-5"
+        >
+          <div className="relative mx-auto aspect-[5/6] w-full max-w-[420px]">
+            {/* orbit rings */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-[-6%] rounded-full border border-white/10"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+              style={{ maskImage: "radial-gradient(circle,transparent 55%,black 60%)" }}
+            />
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-[6%] rounded-full border border-white/15"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+              style={{ maskImage: "radial-gradient(circle,transparent 60%,black 65%)" }}
+            />
+            {/* orb card */}
+            <div className="relative h-full w-full overflow-hidden rounded-[28px] ring-1 ring-white/10">
+              <img src={heroOrb} alt="" width={1200} height={1400} className="h-full w-full scale-110 object-cover" />
+              <div className="absolute inset-0" style={{ background: "radial-gradient(60% 50% at 50% 40%, transparent, #05050799 90%)" }} />
+              {/* floating stat chips */}
+              <div className="absolute left-3 top-3 flex flex-col gap-2">
+                <span className="chip"><span className="dot live" />live</span>
+              </div>
+              <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+                <div>
+                  <div className="micro-eyebrow text-white/70">Shipped</div>
+                  <div className="stat-num text-white">10k+</div>
+                </div>
+                <div className="text-right">
+                  <div className="micro-eyebrow text-white/70">Crash-free</div>
+                  <div className="stat-num text-white">99%+</div>
+                </div>
+              </div>
+            </div>
+            {/* floating shard */}
+            <motion.div
+              aria-hidden
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -left-4 top-8 h-10 w-10 rotate-12 rounded-md"
+              style={{ background: "linear-gradient(135deg,#a78bfa,#22d3ee)", boxShadow: "0 20px 60px -20px #a78bfa88" }}
+            />
+            <motion.div
+              aria-hidden
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -right-3 bottom-14 h-8 w-8 -rotate-12 rounded-full"
+              style={{ background: "linear-gradient(135deg,#f0abfc,#a78bfa)", boxShadow: "0 20px 60px -20px #f0abfc88" }}
+            />
+          </div>
+        </motion.div>
       </motion.div>
 
       <motion.div style={{ opacity }} className="pointer-events-none container-x mt-8 hidden items-center justify-between micro-eyebrow text-white/50 md:flex">
