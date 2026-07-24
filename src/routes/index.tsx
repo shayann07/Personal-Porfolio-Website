@@ -65,7 +65,7 @@ function Waveform({ bars = 24 }: { bars?: number }) {
       {Array.from({ length: bars }).map((_, i) => (
         <span
           key={i}
-          className="bar w-[3px] rounded-full bg-linear-to-t from-fuchsia-400 via-violet-400 to-cyan-300"
+          className="bar w-[3px] rounded-full bg-linear-to-t from-rose-400 via-rose-400 to-amber-300"
           style={{
             height: `${20 + ((i * 37) % 80)}%`,
             animationDelay: `${(i * 90) % 1400}ms`,
@@ -396,7 +396,7 @@ function Tile({
       }}
       className={`spot tile-hover ${sheen ? "sheen" : ""} ${frost ? "frost" : ""} relative flex flex-col overflow-hidden rounded-3xl p-6 ${base} ${
         interactive
-          ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           : ""
       } ${className}`}
       style={{
@@ -482,7 +482,7 @@ const projects: Project[] = [
     body: "Cross-platform banking with offline-first sync. 100k+ downloads, 99.9% crash-free.",
     metric: "99.9%",
     metricLabel: "Crash-free",
-    accent: "from-fuchsia-400/40 to-violet-500/40",
+    accent: "from-rose-400/40 to-rose-500/40",
     icon: Rocket,
     summary:
       "A challenger banking app built for emerging markets. Offline-first ledger, biometric-signed transactions, and a tokenized card system that keeps the wallet usable even on flaky 2G.",
@@ -490,9 +490,9 @@ const projects: Project[] = [
     year: "2024",
     tech: ["Flutter", "Dart", "BLoC", "Drift (SQLite)", "gRPC", "Firebase App Check", "Sentry"],
     gallery: [
-      { title: "Home", caption: "Balance + spend timeline", gradient: "from-fuchsia-500/60 via-violet-500/50 to-cyan-400/50" },
-      { title: "Transfer", caption: "Signed offline queue", gradient: "from-violet-500/60 via-fuchsia-500/40 to-rose-400/40" },
-      { title: "Card", caption: "Tokenized virtual card", gradient: "from-cyan-400/60 via-violet-500/40 to-fuchsia-500/40" },
+      { title: "Home", caption: "Balance + spend timeline", gradient: "from-rose-500/60 via-rose-500/50 to-amber-400/50" },
+      { title: "Transfer", caption: "Signed offline queue", gradient: "from-rose-500/60 via-rose-500/40 to-rose-400/40" },
+      { title: "Card", caption: "Tokenized virtual card", gradient: "from-amber-400/60 via-rose-500/40 to-rose-500/40" },
     ],
     links: [
       { label: "Case study", href: "#" },
@@ -506,7 +506,7 @@ const projects: Project[] = [
     body: "On-device ML for heart-rate variability with TensorFlow Lite and Compose.",
     metric: "42%",
     metricLabel: "Faster inference",
-    accent: "from-cyan-400/40 to-blue-500/40",
+    accent: "from-amber-400/40 to-amber-500/40",
     icon: Cpu,
     summary:
       "A cardio health companion. HRV, sleep and stress inferred on-device with a quantized TFLite model. No cloud round-trip, no PII leaving the phone.",
@@ -514,9 +514,9 @@ const projects: Project[] = [
     year: "2023",
     tech: ["Kotlin", "Jetpack Compose", "Coroutines", "TensorFlow Lite", "Health Connect", "Room"],
     gallery: [
-      { title: "Dashboard", caption: "Live HRV + trend", gradient: "from-cyan-400/60 via-blue-500/50 to-violet-500/40" },
-      { title: "Insights", caption: "Weekly ML report", gradient: "from-blue-500/60 via-cyan-400/40 to-emerald-400/40" },
-      { title: "Session", caption: "Guided breathing", gradient: "from-emerald-400/50 via-cyan-400/50 to-blue-500/40" },
+      { title: "Dashboard", caption: "Live HRV + trend", gradient: "from-amber-400/60 via-amber-500/50 to-rose-500/40" },
+      { title: "Insights", caption: "Weekly ML report", gradient: "from-amber-500/60 via-amber-400/40 to-amber-400/40" },
+      { title: "Session", caption: "Guided breathing", gradient: "from-amber-400/50 via-amber-400/50 to-amber-500/40" },
     ],
     links: [
       { label: "Case study", href: "#" },
@@ -539,7 +539,7 @@ const projects: Project[] = [
     tech: ["Flutter", "Dart", "BLoC", "Isar", "Mapbox", "WebSockets"],
     gallery: [
       { title: "Dispatch", caption: "Route planning grid", gradient: "from-rose-400/60 via-orange-500/50 to-amber-400/40" },
-      { title: "Driver", caption: "Turn-by-turn ops", gradient: "from-orange-500/60 via-rose-400/40 to-fuchsia-500/40" },
+      { title: "Driver", caption: "Turn-by-turn ops", gradient: "from-orange-500/60 via-rose-400/40 to-rose-500/40" },
       { title: "Audit", caption: "Event replay", gradient: "from-amber-400/60 via-orange-500/40 to-rose-400/40" },
     ],
     links: [{ label: "Case study", href: "#" }],
@@ -551,7 +551,7 @@ const projects: Project[] = [
     body: "Native shopping with edge-cached product graphs. Cut cold-start by 58%.",
     metric: "58%",
     metricLabel: "Faster cold-start",
-    accent: "from-emerald-400/40 to-teal-500/40",
+    accent: "from-amber-400/40 to-amber-500/40",
     icon: Zap,
     summary:
       "Native storefront rebuilt around Baseline Profiles, prefetch heuristics and an edge-cached product graph. Startup went from sluggish to instant on mid-tier devices.",
@@ -559,9 +559,9 @@ const projects: Project[] = [
     year: "2022",
     tech: ["Kotlin", "Jetpack Compose", "Baseline Profiles", "Apollo GraphQL", "Coil", "Hilt"],
     gallery: [
-      { title: "Home", caption: "Personalized rail", gradient: "from-emerald-400/60 via-teal-500/50 to-cyan-400/40" },
-      { title: "PDP", caption: "Instant hero swap", gradient: "from-teal-500/60 via-emerald-400/40 to-blue-500/40" },
-      { title: "Checkout", caption: "One-tap wallet", gradient: "from-cyan-400/60 via-teal-500/40 to-emerald-400/40" },
+      { title: "Home", caption: "Personalized rail", gradient: "from-amber-400/60 via-amber-500/50 to-amber-400/40" },
+      { title: "PDP", caption: "Instant hero swap", gradient: "from-amber-500/60 via-amber-400/40 to-amber-500/40" },
+      { title: "Checkout", caption: "One-tap wallet", gradient: "from-amber-400/60 via-amber-500/40 to-amber-400/40" },
     ],
     links: [{ label: "Case study", href: "#" }],
   },
@@ -739,7 +739,7 @@ function ProjectModal({
                     href={l.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                   >
                     {l.label}
                     <ArrowUpRight className="h-3.5 w-3.5" />
@@ -767,7 +767,7 @@ function MotionToggle() {
       aria-label={
         reduced ? "Enable animations" : "Reduce animations for accessibility"
       }
-      className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full glass px-3 py-2 text-[11px] font-medium text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+      className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full glass px-3 py-2 text-[11px] font-medium text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
     >
       {reduced ? <Play className="h-3 w-3" /> : <Pause className="h-3 w-3" />}
       {reduced ? "Motion off" : "Motion on"}
@@ -807,12 +807,12 @@ function Nav() {
     >
       <a
         href="#top"
-        className="flex items-center gap-2 font-display text-sm font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 rounded-full"
+        className="flex items-center gap-2 font-display text-sm font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-full"
         aria-label="Muhammad Shayan — home"
       >
         <span className="relative inline-flex h-2.5 w-2.5">
-          <span className="absolute inset-0 animate-ping rounded-full bg-fuchsia-400/60" />
-          <span className="relative h-2.5 w-2.5 rounded-full bg-linear-to-br from-fuchsia-400 to-cyan-400" />
+          <span className="absolute inset-0 animate-ping rounded-full bg-rose-400/60" />
+          <span className="relative h-2.5 w-2.5 rounded-full bg-linear-to-br from-rose-400 to-amber-400" />
         </span>
         shayan<span className="text-white/40">.dev</span>
       </a>
@@ -828,7 +828,7 @@ function Nav() {
         href={CV_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="group inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-fuchsia-500 to-cyan-400 px-4 py-1.5 text-xs font-semibold text-black transition hover:shadow-[0_0_30px_-4px_oklch(0.72_0.24_300/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        className="group inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-rose-500 to-amber-400 px-4 py-1.5 text-xs font-semibold text-black transition hover:shadow-[0_0_30px_-4px_oklch(0.72_0.24_300/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
       >
         Résumé
         <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -891,14 +891,14 @@ function IndexInner() {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+                className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
               >
                 Start a project
                 <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
               >
                 See work
               </a>
@@ -912,16 +912,16 @@ function IndexInner() {
             <div className="relative flex h-48 w-48 items-center justify-center">
               {/* Orbital rings */}
               <div className="absolute inset-0 rounded-full border border-white/15 orbit-slow" aria-hidden="true">
-                <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-fuchsia-400 shadow-[0_0_16px_4px_oklch(0.72_0.24_300/0.7)]" />
+                <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-rose-400 shadow-[0_0_16px_4px_oklch(0.72_0.24_300/0.7)]" />
               </div>
               <div className="absolute inset-3 rounded-full border border-white/10 orbit-fast" aria-hidden="true">
-                <span className="absolute -right-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_12px_3px_oklch(0.78_0.18_210/0.7)]" />
+                <span className="absolute -right-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-amber-300 shadow-[0_0_12px_3px_oklch(0.78_0.18_210/0.7)]" />
               </div>
               <div className="absolute inset-6 rounded-full border border-dashed border-white/10 orbit-slow" aria-hidden="true" />
               {/* Aurora halo */}
-              <div className="absolute inset-4 rounded-full bg-linear-to-br from-fuchsia-500 via-violet-500 to-cyan-400 blur-3xl opacity-70 animate-pulse" aria-hidden="true" />
+              <div className="absolute inset-4 rounded-full bg-linear-to-br from-rose-500 via-rose-500 to-amber-400 blur-3xl opacity-70 animate-pulse" aria-hidden="true" />
               {/* Core */}
-              <div className="relative flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-fuchsia-400 via-violet-500 to-cyan-400 font-display text-4xl font-semibold text-black shadow-[inset_0_2px_0_oklch(1_0_0/0.6),0_20px_60px_-10px_oklch(0.72_0.24_300/0.55)]">
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-rose-400 via-rose-500 to-amber-400 font-display text-4xl font-semibold text-black shadow-[inset_0_2px_0_oklch(1_0_0/0.6),0_20px_60px_-10px_oklch(0.72_0.24_300/0.55)]">
                 MS
               </div>
             </div>
@@ -1069,13 +1069,13 @@ function IndexInner() {
               <Sparkles className="h-3 w-3" aria-hidden="true" /> JOURNEY
             </div>
             <ol className="relative space-y-6 pl-6">
-              <div className="absolute left-[7px] top-1 bottom-1 w-px bg-linear-to-b from-fuchsia-400/60 via-violet-400/40 to-cyan-400/30" aria-hidden="true" />
+              <div className="absolute left-[7px] top-1 bottom-1 w-px bg-linear-to-b from-rose-400/60 via-rose-400/40 to-amber-400/30" aria-hidden="true" />
               {timeline.map((t) => (
                 <li key={t.range} className="relative">
                   <span
                     className={`absolute -left-[22px] top-1 h-3 w-3 rounded-full ${
                       t.active
-                        ? "bg-linear-to-br from-fuchsia-400 to-cyan-400 animate-pulse-ring"
+                        ? "bg-linear-to-br from-rose-400 to-amber-400 animate-pulse-ring"
                         : "bg-white/25"
                     }`}
                     aria-hidden="true"
@@ -1113,8 +1113,8 @@ function IndexInner() {
             className="group relative col-span-6 md:col-span-8 md:row-span-2 min-h-[360px] justify-between aurora-border"
             index={0}
           >
-            <div className="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-linear-to-br from-fuchsia-500/50 via-violet-500/40 to-cyan-400/40 blur-3xl" aria-hidden="true" />
-            <div className="pointer-events-none absolute -top-24 left-10 h-48 w-48 rounded-full bg-cyan-400/25 blur-3xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-linear-to-br from-rose-500/50 via-rose-500/40 to-amber-400/40 blur-3xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -top-24 left-10 h-48 w-48 rounded-full bg-amber-400/25 blur-3xl" aria-hidden="true" />
             <div className="flex items-center justify-between">
               <div className="relative inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[10px] tracking-[0.24em] text-white/70 backdrop-blur">
                 <Mail className="h-3 w-3" aria-hidden="true" /> LET&apos;S BUILD
@@ -1134,7 +1134,7 @@ function IndexInner() {
             </div>
             <a
               href={personalLinks.email.link}
-              className="relative inline-flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black shadow-[0_10px_40px_-8px_oklch(0.72_0.24_300/0.55)] transition hover:shadow-[0_20px_60px_-8px_oklch(0.72_0.24_300/0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+              className="relative inline-flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-xs font-semibold tracking-widest text-black shadow-[0_10px_40px_-8px_oklch(0.72_0.24_300/0.55)] transition hover:shadow-[0_20px_60px_-8px_oklch(0.72_0.24_300/0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
               aria-label={`Email ${personalLinks.email.label}`}
             >
               <span className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/60 to-transparent transition-transform duration-700 group-hover:translate-x-full" aria-hidden="true" />
@@ -1164,7 +1164,7 @@ function IndexInner() {
               href={personalLinks.linkedin.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-full flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 rounded-xl"
+              className="flex h-full flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-xl"
               aria-label="LinkedIn profile"
             >
               <div className="flex items-center justify-between text-white/50">
@@ -1187,7 +1187,7 @@ function IndexInner() {
               href={personalLinks.github.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 rounded-xl"
+              className="flex w-full items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 rounded-xl"
               aria-label="GitHub profile"
             >
               <div className="flex items-center gap-4">
