@@ -7,10 +7,10 @@ import { Cursor } from "@/components/Cursor";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Muhammad Shayan — Design Engineer & Interfaces for the Web" },
-      { name: "description", content: "Design engineer building kinetic, high-fidelity interfaces. Selected work, experiments, and contact." },
-      { property: "og:title", content: "Muhammad Shayan — Design Engineer" },
-      { property: "og:description", content: "Design engineer building kinetic, high-fidelity interfaces." },
+      { title: "Muhammad Shayan — Android & Flutter Engineer" },
+      { name: "description", content: "Mobile engineer designing offline-first, crash-resistant Android & Flutter apps with on-device ML. Selected work, lab, and contact." },
+      { property: "og:title", content: "Muhammad Shayan — Android & Flutter Engineer" },
+      { property: "og:description", content: "Offline-first, crash-resistant mobile apps with on-device ML. Selected work, lab, and contact." },
       { property: "og:image", content: "/og-image.png" },
       { name: "twitter:image", content: "/og-image.png" },
     ],
@@ -21,24 +21,96 @@ export const Route = createFileRoute("/")({
 /* -------------------------------- data -------------------------------- */
 
 const PROJECTS = [
-  { n: "01", title: "Aetheris",    tag: "Fintech · 2025",       role: "Design + Build",         img: "/portrait.jpg", href: "#", tint: "#e6e8ef", desc: "Realtime treasury console with kinetic data surfaces." },
-  { n: "02", title: "Nova Studio", tag: "Creative tool · 2025", role: "Product design",         img: "/portrait.jpg", href: "#", tint: "#c9ccd6", desc: "Node-based motion editor for the browser." },
-  { n: "03", title: "Orbit",       tag: "AI platform · 2024",   role: "Frontend engineering",   img: "/portrait.jpg", href: "#", tint: "#9aa0b0", desc: "Agentic workflows with a streaming, glassy UI." },
-  { n: "04", title: "Halcyon",     tag: "Health · 2024",        role: "Design engineering",     img: "/portrait.jpg", href: "#", tint: "#7a8090", desc: "Clinical dashboards that feel calm under load." },
-  { n: "05", title: "Meridian",    tag: "SaaS · 2023",          role: "Interface systems",      img: "/portrait.jpg", href: "#", tint: "#525663", desc: "Design-system tooling for a 40-person product org." },
+  {
+    n: "01", title: "AI Trust Ledger", tag: "Fintech · Android · 2025", role: "Kotlin · Firebase · MVVM",
+    img: "/portrait.jpg", href: "#", tint: "#7dd3fc",
+    desc: "Investment platform with automated ROI cycles and real-time portfolio tracking.",
+    stack: ["Kotlin", "Firebase", "MVVM", "Coroutines"],
+    metrics: [{ k: "Users", v: "5K+" }, { k: "Crash-free", v: "99.8%" }, { k: "Rating", v: "4.7★" }],
+  },
+  {
+    n: "02", title: "LeafBloom", tag: "On-device ML · 2025", role: "TFLite · Compose · CameraX",
+    img: "/portrait.jpg", href: "#", tint: "#86efac",
+    desc: "AI-powered plant disease diagnosis running on-device via TensorFlow Lite.",
+    stack: ["TFLite", "Compose", "CameraX", "Room"],
+    metrics: [{ k: "Accuracy", v: "95%" }, { k: "Response", v: "<2s" }, { k: "Models", v: "12" }],
+  },
+  {
+    n: "03", title: "GitPulse", tag: "Flutter · Dev tool · 2024", role: "Flutter · GraphQL · OAuth",
+    img: "/portrait.jpg", href: "#", tint: "#a5b4fc",
+    desc: "Developer productivity tracker with GitHub sync and contribution analytics.",
+    stack: ["Flutter", "OAuth", "GraphQL", "Riverpod"],
+    metrics: [{ k: "Syncs", v: "Real-time" }, { k: "APIs", v: "5+" }, { k: "Charts", v: "15" }],
+  },
+  {
+    n: "04", title: "Medicare", tag: "HealthTech · 2024", role: "Flutter · Firebase · Stripe",
+    img: "/portrait.jpg", href: "#", tint: "#fca5a5",
+    desc: "Tele-health & pharmacy platform — appointments, chat, payments and pharmacy flows in one app.",
+    stack: ["Flutter", "Firebase", "Stripe", "Riverpod"],
+    metrics: [{ k: "Rating", v: "4.8★" }, { k: "Resolution", v: "97%" }, { k: "Follow-up", v: "93%" }],
+  },
 ];
 
 const STACK: { name: string; kind: string }[] = [
-  { name: "React",      kind: "daily" },
-  { name: "TypeScript", kind: "primary" },
-  { name: "Motion",     kind: "motion" },
-  { name: "GLSL",       kind: "shaders" },
-  { name: "Three.js",   kind: "3d/rt" },
-  { name: "Tailwind",   kind: "styling" },
-  { name: "Node",       kind: "runtime" },
-  { name: "Rust",       kind: "systems" },
-  { name: "Figma",      kind: "ux" },
-  { name: "Blender",    kind: "3d" },
+  { name: "Kotlin",          kind: "daily" },
+  { name: "Jetpack Compose", kind: "ui" },
+  { name: "Flutter",         kind: "cross-platform" },
+  { name: "Dart",            kind: "language" },
+  { name: "Java",            kind: "legacy/interop" },
+  { name: "MVVM · Clean",    kind: "architecture" },
+  { name: "Coroutines",      kind: "concurrency" },
+  { name: "Firebase",        kind: "backend" },
+  { name: "Retrofit",        kind: "rest" },
+  { name: "GraphQL · Apollo",kind: "queries" },
+  { name: "Room · SQLite",   kind: "persistence" },
+  { name: "TensorFlow Lite", kind: "on-device ml" },
+  { name: "ML Kit",          kind: "vision" },
+  { name: "Git · CI/CD",     kind: "delivery" },
+  { name: "Fastlane",        kind: "release" },
+  { name: "JUnit · Espresso",kind: "testing" },
+];
+
+const METRICS = [
+  { v: "3+",     k: "Production apps shipped", s: "Live on stores" },
+  { v: "10k+",   k: "Total installs",          s: "Across all apps" },
+  { v: "40–60%", k: "Performance gains",       s: "Optimization work" },
+  { v: "99%+",   k: "Crash-free releases",     s: "Production stability" },
+];
+
+const TIMELINE = [
+  {
+    y: "2024 → Now", t: "Independent Mobile Engineer", o: "Independent",
+    b: [
+      "3 production apps shipped with 10k+ combined installs",
+      "Architected offline-first sync using Room + Firestore",
+      "99.5% crash-free builds across all releases",
+      "CI/CD pipelines with automated testing",
+    ],
+  },
+  {
+    y: "2025", t: "Android Developer Intern", o: "Appverse Technologies",
+    b: [
+      "Modular Jetpack Compose UI with MVVM architecture",
+      "Integrated REST & GraphQL with Retrofit + Apollo",
+      "Contributed to CI/CD workflow improvements",
+      "Optimized app performance for 40–60% gains",
+    ],
+  },
+  {
+    y: "2021 – 2025", t: "BS Software Engineering", o: "University of Sargodha",
+    b: [
+      "Specialized in mobile development & software architecture",
+      "Multiple Android projects with ML integration",
+      "Deep focus on algorithms, systems design, mobile frameworks",
+      "Graduated with honors in mobile app development",
+    ],
+  },
+];
+
+const LAB = [
+  { t: "ML Gesture Recognition", s: "In Progress", d: "Real-time hand gesture detection using TensorFlow Lite for intuitive app controls.", tech: ["TFLite", "Kotlin", "ML Kit", "CameraX"], tint: "#7dd3fc" },
+  { t: "ML Model Optimizer",     s: "Research",    d: "Compress and optimize TensorFlow Lite models for mobile deployment.",                tech: ["TFLite", "Python", "Quantization"],  tint: "#c4b5fd" },
+  { t: "Voice Command Layer",    s: "In Progress", d: "Privacy-first voice recognition with on-device processing and ML inference.",         tech: ["TFLite", "Audio", "On-device"],      tint: "#fdba74" },
 ];
 
 /* --------------------------- kinetic helpers -------------------------- */
