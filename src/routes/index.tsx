@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowUpRight, GithubIcon, LinkedinIcon, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import { personalLinks } from "@/config/personalLinks";
 import { CV_URL } from "@/config/links";
 
@@ -462,7 +462,9 @@ function Index() {
 
             <Tile className="group col-span-2 md:col-span-3 md:row-span-1 flex-row items-center justify-between" index={3}>
               <div className="flex items-center gap-3">
-                <LinkedinIcon className="h-4 w-4 text-ink" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-ink/60">
+                  In
+                </span>
                 <a
                   href={personalLinks.linkedin.link}
                   target="_blank"
@@ -477,7 +479,9 @@ function Index() {
 
             <Tile className="group col-span-2 md:col-span-3 md:row-span-1 flex-row items-center justify-between" index={4}>
               <div className="flex items-center gap-3">
-                <GithubIcon className="h-4 w-4 text-ink" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-ink/60">
+                  Gh
+                </span>
                 <a
                   href={personalLinks.github.link}
                   target="_blank"
