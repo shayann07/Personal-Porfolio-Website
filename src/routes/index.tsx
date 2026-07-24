@@ -905,16 +905,29 @@ function IndexInner() {
             </div>
           </Tile>
 
-          <Tile className="col-span-3 md:col-span-4 md:row-span-2 items-center justify-center text-center min-h-[360px]" index={1}>
-            <div className="relative flex h-40 w-40 items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-linear-to-br from-fuchsia-500 via-violet-500 to-cyan-400 blur-2xl opacity-60 animate-pulse" aria-hidden="true" />
-              <div className="relative flex h-40 w-40 items-center justify-center rounded-full bg-linear-to-br from-fuchsia-400 via-violet-500 to-cyan-400 font-display text-6xl font-semibold text-black">
+          <Tile
+            className="col-span-3 md:col-span-4 md:row-span-2 items-center justify-center text-center min-h-[360px] aurora-border"
+            index={1}
+          >
+            <div className="relative flex h-48 w-48 items-center justify-center">
+              {/* Orbital rings */}
+              <div className="absolute inset-0 rounded-full border border-white/15 orbit-slow" aria-hidden="true">
+                <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-fuchsia-400 shadow-[0_0_16px_4px_oklch(0.72_0.24_300/0.7)]" />
+              </div>
+              <div className="absolute inset-3 rounded-full border border-white/10 orbit-fast" aria-hidden="true">
+                <span className="absolute -right-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_12px_3px_oklch(0.78_0.18_210/0.7)]" />
+              </div>
+              <div className="absolute inset-6 rounded-full border border-dashed border-white/10 orbit-slow" aria-hidden="true" />
+              {/* Aurora halo */}
+              <div className="absolute inset-4 rounded-full bg-linear-to-br from-fuchsia-500 via-violet-500 to-cyan-400 blur-3xl opacity-70 animate-pulse" aria-hidden="true" />
+              {/* Core */}
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-fuchsia-400 via-violet-500 to-cyan-400 font-display text-4xl font-semibold text-black shadow-[inset_0_2px_0_oklch(1_0_0/0.6),0_20px_60px_-10px_oklch(0.72_0.24_300/0.55)]">
                 MS
               </div>
             </div>
-            <p className="mt-6 font-serif text-2xl italic text-white/90">Muhammad Shayan</p>
-            <p className="mt-1 text-xs tracking-[0.24em] text-white/40">ISLAMABAD · REMOTE</p>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-300">
+            <p className="mt-6 font-serif text-2xl italic text-white/95">Muhammad Shayan</p>
+            <p className="mt-1 text-[10px] tracking-[0.28em] text-white/40">ISLAMABAD · REMOTE</p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-300 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
                 <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/70" />
                 <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-400" />
