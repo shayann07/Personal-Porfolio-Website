@@ -455,10 +455,10 @@ function Studio() {
   ];
 
   return (
-    <section id="studio" ref={ref} className="relative overflow-hidden py-32 md:py-40">
+    <section id="studio" ref={ref} className="relative overflow-hidden py-20 md:py-40">
       <div className="glow-blob left-[10%] top-[20%] h-[400px] w-[400px]" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .5 }} />
 
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Studio · 001</div>
@@ -521,8 +521,8 @@ function Studio() {
 function IndexStack() {
   const [hovered, setHovered] = useState<number | null>(null);
   return (
-    <section id="index" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="index" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />Index · Toolkit</div>
@@ -565,8 +565,8 @@ function IndexStack() {
 
 function Metrics() {
   return (
-    <section id="metrics" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="metrics" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot live" />Command Center</div>
@@ -601,8 +601,8 @@ function Metrics() {
 
 function Timeline() {
   return (
-    <section id="story" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="story" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Story</div>
@@ -614,8 +614,8 @@ function Timeline() {
             {TIMELINE.length} chapters<br/>2021 — Now
           </div>
         </div>
-        <div className="relative grid grid-cols-12 gap-6">
-          <div className="pointer-events-none absolute inset-y-0 left-6 w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:left-1/2" />
+        <div className="relative grid grid-cols-12 gap-4 md:gap-6">
+          <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-gradient-to-b from-transparent via-white/25 to-transparent md:block" />
           {TIMELINE.map((c, i) => (
             <motion.div
               key={c.t}
@@ -651,8 +651,8 @@ function Timeline() {
 
 function Lab() {
   return (
-    <section id="lab" className="relative border-t border-white/10 py-32">
-      <div className="mx-auto max-w-[1800px] px-6 md:px-10">
+    <section id="lab" className="relative border-t border-white/10 py-20 md:py-32">
+      <div className="mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className="chip mb-4"><span className="dot" />The Lab · Experiments</div>
@@ -696,22 +696,22 @@ function Lab() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-32">
+    <section id="contact" className="relative overflow-hidden border-t border-white/10 py-20 pb-32 md:py-32">
       <div className="glow-blob left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, #2a2d38, transparent 60%)", opacity: .6 }} />
 
-      <div className="relative mx-auto max-w-[1800px] px-6 md:px-10">
+      <div className="relative mx-auto max-w-[1800px] px-4 md:px-10">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex"><span className="chip"><span className="dot live" />Booking Q3 — Q4 2026</span></div>
-          <h2 className="display text-white text-[clamp(56px,12vw,200px)] leading-[0.86]">
+          <h2 className="display text-white text-[clamp(44px,12vw,200px)] leading-[0.86]">
             <div><SplitReveal text="Let's build" /></div>
             <div><span className="serifital italic text-[color:var(--violet)]"><SplitReveal text="something rare." delay={0.08} /></span></div>
           </h2>
 
-          <div className="mt-14 flex flex-col items-center gap-6">
-            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn text-white">
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-black">✎</span>
-              <span className="display text-[clamp(22px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
-              <span className="mono text-xl">↗</span>
+          <div className="mt-10 flex flex-col items-center gap-6 md:mt-14">
+            <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="pill-btn max-w-full text-white !px-5 !py-4 md:!px-8 md:!py-[22px]">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-black md:h-9 md:w-9">✎</span>
+              <span className="display truncate text-[clamp(16px,2.6vw,36px)] leading-none">hello@shayxo.dev</span>
+              <span className="mono shrink-0 text-lg md:text-xl">↗</span>
             </a>
 
             <div className="flex flex-wrap justify-center gap-3">
@@ -726,7 +726,7 @@ function Contact() {
           </div>
         </div>
 
-        <div className="mt-24 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-3 md:mt-24 md:grid-cols-4 md:gap-4">
           {[
             { k: "Location", v: "Karachi, PK" },
             { k: "Working",  v: "Global · Remote" },
