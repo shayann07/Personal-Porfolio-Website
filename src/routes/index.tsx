@@ -234,7 +234,7 @@ function Hero() {
           <span className="chip">Karachi ⇄ Remote</span>
         </div>
 
-        <h1 className="hd-display max-w-[920px] text-white">
+        <h1 className="hd-display max-w-[920px] text-white [font-size:clamp(30px,9vw,76px)] md:[font-size:var(--text-display)]">
           <div><SplitEnter text="Muhammad" /></div>
           <div className="flex items-center gap-[2vw] pl-[4vw] md:pl-[6vw]">
             <span className="serifital italic text-white/95"><SplitEnter text="Shayan" delay={0.08} /></span>
@@ -323,7 +323,7 @@ function Marquee() {
     </div>
   );
   return (
-    <section aria-hidden className="relative overflow-hidden border-y border-white/10 py-2 md:py-2.5">
+    <section aria-hidden className="relative hidden overflow-hidden border-y border-white/10 py-2 sm:block md:py-2.5">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#050507] to-transparent md:w-32" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#050507] to-transparent md:w-32" />
       <div className="marquee-track flex">{rowA}{rowA}</div>
