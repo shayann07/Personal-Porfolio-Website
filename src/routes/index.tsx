@@ -37,6 +37,69 @@ import {
 import { personalLinks } from "@/config/personalLinks";
 import { CV_URL } from "@/config/links";
 
+/* ==========================================================
+   Small premium widgets
+   ========================================================== */
+function LiveClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const t = now.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Asia/Karachi",
+  });
+  return (
+    <span className="font-mono tabular-nums text-[11px] tracking-[0.2em] text-white/70">
+      {t} <span className="text-white/30">PKT</span>
+    </span>
+  );
+}
+
+function Waveform({ bars = 24 }: { bars?: number }) {
+  return (
+    <div className="flex h-8 items-end gap-[3px]" aria-hidden="true">
+      {Array.from({ length: bars }).map((_, i) => (
+        <span
+          key={i}
+          className="bar w-[3px] rounded-full bg-linear-to-t from-fuchsia-400 via-violet-400 to-cyan-300"
+          style={{
+            height: `${20 + ((i * 37) % 80)}%`,
+            animationDelay: `${(i * 90) % 1400}ms`,
+            animationDuration: `${900 + ((i * 137) % 900)}ms`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Sparkline({ color = "oklch(0.72 0.24 300)" }: { color?: string }) {
+  const points = "0,20 12,14 24,17 36,10 48,13 60,6 72,9 84,3 96,7";
+  return (
+    <svg viewBox="0 0 96 24" className="h-6 w-24" aria-hidden="true">
+      <defs>
+        <linearGradient id="sl" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor={color} stopOpacity="0.4" />
+          <stop offset="1" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon points={`${points} 96,24 0,24`} fill="url(#sl)" />
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
