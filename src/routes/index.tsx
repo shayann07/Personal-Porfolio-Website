@@ -816,11 +816,13 @@ function Nav() {
         </span>
         shayan<span className="text-white/40">.dev</span>
       </a>
-      <nav aria-label="Primary" className="hidden gap-7 text-xs font-medium tracking-wide text-white/70 md:flex">
+      <nav aria-label="Primary" className="hidden items-center gap-7 text-xs font-medium tracking-wide text-white/70 md:flex">
         <a href="#work" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Work</a>
         <a href="#stack" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Stack</a>
         <a href="#timeline" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Journey</a>
         <a href="#contact" className="transition hover:text-white focus-visible:outline-none focus-visible:text-white">Contact</a>
+        <span className="mx-1 h-3 w-px bg-white/15" aria-hidden="true" />
+        <LiveClock />
       </nav>
       <a
         href={CV_URL}
