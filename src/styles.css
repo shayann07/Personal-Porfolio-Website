@@ -916,3 +916,166 @@ body { cursor: none; }
     background: color-mix(in oklab, oklch(0.12 0.01 260) 88%, transparent);
   }
 }
+
+/* =====================================================================
+   Liquid Glass — extension pass
+   Bring every remaining surface (header trays, phone screen internals,
+   poster device + orbit, hero rings, signal orb, lab visual, stack tags,
+   visual marks, mobile nav) into the same refractive system.
+   ===================================================================== */
+
+.phone-screen,
+.screen-dock i,
+.poster-art__device,
+.poster-art__orbit,
+.hero-stage__ring,
+.signal-orb,
+.lab-visual,
+.stack-river span,
+.visual-mark {
+  position: relative;
+  isolation: isolate;
+}
+
+.phone-screen,
+.poster-art__device,
+.signal-orb,
+.lab-visual {
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 22%, transparent) inset,
+    0 -1px 0 color-mix(in oklab, black 55%, transparent) inset,
+    0 22px 60px -24px oklch(0 0 0 / 0.85);
+  backdrop-filter: blur(14px) saturate(170%);
+}
+
+/* Refractive chromatic hairline over gradient surfaces */
+.phone-screen::before,
+.poster-art__device::before,
+.signal-orb::before,
+.lab-visual::before,
+.hero-stage__ring::before,
+.poster-art__orbit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--lg-edge);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Specular top-light on internal gradient surfaces */
+.phone-screen::after,
+.poster-art__device::after,
+.lab-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lg-spec);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Keep authored children above the liquid overlays */
+.phone-screen > *,
+.poster-art__device > *,
+.signal-orb > *,
+.lab-visual > * { position: relative; z-index: 4; }
+
+/* Hero rings — thin refractive glass loops with aqua bloom */
+.hero-stage__ring {
+  border: 1px solid color-mix(in oklab, white 16%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 24%, transparent) inset,
+    0 0 80px -20px color-mix(in oklab, var(--aqua) 55%, transparent),
+    0 0 140px -60px color-mix(in oklab, var(--violet) 55%, transparent);
+  backdrop-filter: blur(6px) saturate(140%);
+}
+
+/* Orbit ring on posters */
+.poster-art__orbit {
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 22%, transparent) inset,
+    0 0 60px -18px color-mix(in oklab, white 30%, transparent);
+  backdrop-filter: blur(4px) saturate(140%);
+}
+
+/* Screen-dock micro glass */
+.screen-dock i {
+  border: 1px solid color-mix(in oklab, white 16%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in oklab, white 18%, transparent), color-mix(in oklab, black 26%, transparent));
+  backdrop-filter: blur(10px) saturate(160%);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 28%, transparent) inset,
+    0 6px 16px -8px oklch(0 0 0 / 0.7);
+}
+
+/* Stack-river tags: liquid-tinted micro chips */
+.stack-river span {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, white 10%, transparent), color-mix(in oklab, black 22%, transparent)),
+    var(--lg-tint);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 22%, transparent) inset,
+    0 8px 20px -14px oklch(0 0 0 / 0.7);
+}
+
+/* Visual mark (S logo, ✎) picks up specular shine */
+.visual-mark { overflow: hidden; }
+.visual-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lg-spec);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 1;
+}
+.visual-mark > * { position: relative; z-index: 2; }
+
+/* Header + Mobile nav trays: deepen the glass-pill shadow for a floating tray feel */
+header .glass-pill,
+nav[aria-label="Mobile primary"] .glass-pill {
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 34%, transparent) inset,
+    0 -1px 0 color-mix(in oklab, black 60%, transparent) inset,
+    0 24px 60px -26px oklch(0 0 0 / 0.9),
+    0 40px 120px -42px color-mix(in oklab, var(--aqua) 35%, transparent);
+}
+
+/* Screen-lines get a subtle liquid tint too */
+.screen-lines span {
+  background: linear-gradient(90deg, color-mix(in oklab, white 34%, transparent), color-mix(in oklab, white 12%, transparent));
+  box-shadow: 0 1px 0 color-mix(in oklab, white 22%, transparent) inset;
+}
+
+/* Poster device inner lines */
+.poster-art__device span {
+  background: linear-gradient(90deg, color-mix(in oklab, white 32%, transparent), color-mix(in oklab, white 10%, transparent));
+  box-shadow: 0 1px 0 color-mix(in oklab, white 20%, transparent) inset;
+}
+
+/* Reduced transparency fallback */
+@media (prefers-reduced-transparency: reduce) {
+  .phone-screen, .poster-art__device, .signal-orb, .lab-visual,
+  .stack-river span, .screen-dock i {
+    backdrop-filter: none;
+    background: color-mix(in oklab, oklch(0.10 0.01 260) 92%, transparent);
+  }
+}
