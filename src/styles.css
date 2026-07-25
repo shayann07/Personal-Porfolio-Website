@@ -768,3 +768,151 @@ body { cursor: none; }
     scroll-behavior: auto !important;
   }
 }
+
+/* =====================================================================
+   Liquid Glass layer — Apple-style refractive surfaces
+   Applies to all existing glass primitives without changing markup.
+   ===================================================================== */
+
+:root {
+  --lg-tint: color-mix(in oklab, white 6%, transparent);
+  --lg-edge: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--aqua) 55%, white) 0%,
+    color-mix(in oklab, white 90%, transparent) 22%,
+    color-mix(in oklab, var(--violet) 60%, white) 46%,
+    color-mix(in oklab, white 20%, transparent) 68%,
+    color-mix(in oklab, var(--rose) 55%, white) 100%
+  );
+  --lg-spec: radial-gradient(
+    120% 60% at 50% -10%,
+    color-mix(in oklab, white 55%, transparent) 0%,
+    color-mix(in oklab, white 12%, transparent) 32%,
+    transparent 62%
+  );
+  --lg-shadow:
+    0 1px 0 color-mix(in oklab, white 32%, transparent) inset,
+    0 -1px 0 color-mix(in oklab, black 60%, transparent) inset,
+    0 24px 60px -28px oklch(0 0 0 / 0.85),
+    0 40px 120px -40px color-mix(in oklab, var(--aqua) 40%, transparent);
+}
+
+.glass-pill,
+.chip,
+.mini-token,
+.metric-glass,
+.signal-cell,
+.signal-board,
+.lab-card,
+.contact-scene,
+.phone-shell,
+.float-panel,
+.project-poster__inner,
+.pill-btn,
+.poster-metric,
+.hero-stage__mesh {
+  position: relative;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, white 10%, transparent), color-mix(in oklab, white 2%, transparent) 40%, color-mix(in oklab, black 28%, transparent)),
+    var(--lg-tint);
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.05);
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
+  box-shadow: var(--lg-shadow);
+  isolation: isolate;
+}
+
+/* Refractive chromatic edge */
+.glass-pill::before,
+.chip::before,
+.mini-token::before,
+.metric-glass::before,
+.signal-cell::before,
+.signal-board::before,
+.lab-card::before,
+.contact-scene::before,
+.phone-shell::before,
+.float-panel::before,
+.project-poster__inner::before,
+.pill-btn::before,
+.poster-metric::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--lg-edge);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Specular top-light highlight */
+.glass-pill::after,
+.chip::after,
+.metric-glass::after,
+.signal-cell::after,
+.signal-board::after,
+.lab-card::after,
+.contact-scene::after,
+.phone-shell::after,
+.float-panel::after,
+.project-poster__inner::after,
+.pill-btn::after,
+.poster-metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lg-spec);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Keep authored content above liquid layers */
+.glass-pill > *,
+.chip > *,
+.metric-glass > *,
+.signal-cell > *,
+.signal-board > *,
+.lab-card > *,
+.contact-scene > *,
+.phone-shell > *,
+.float-panel > *,
+.project-poster__inner > *,
+.pill-btn > *,
+.poster-metric > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Softer, cleaner tint for tiny chips */
+.chip,
+.mini-token,
+.nav-link {
+  backdrop-filter: blur(20px) saturate(160%);
+}
+
+.pill-btn:hover {
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 42%, transparent) inset,
+    0 -1px 0 color-mix(in oklab, black 60%, transparent) inset,
+    0 30px 70px -28px oklch(0 0 0 / 0.9),
+    0 50px 140px -40px color-mix(in oklab, var(--aqua) 60%, transparent);
+}
+
+.project-poster:hover .project-poster__inner::before { opacity: 0.85; }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-pill, .chip, .mini-token, .metric-glass, .signal-cell,
+  .signal-board, .lab-card, .contact-scene, .phone-shell,
+  .float-panel, .project-poster__inner, .pill-btn, .poster-metric {
+    background: color-mix(in oklab, oklch(0.12 0.01 260) 88%, transparent);
+  }
+}
