@@ -423,23 +423,17 @@ function Footer() {
 
 /* ---------- Page ---------- */
 function Page() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const { scrollY } = useScroll();
 
-  useEffect(() => {
-    if (reduce) return;
-    // gentle body class for scroll parallax anchors
-  }, [reduce]);
-
   return (
-    <div id="top" ref={ref} className="grain relative isolate min-h-screen overflow-x-clip">
+    <div className="grain relative isolate min-h-dvh overflow-x-clip">
       <div className="cloud-bg" aria-hidden />
+      <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header />
       <MobileNav />
 
-      <main className="relative z-10 pb-32 md:pb-20">
+      <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
         <Hero scrollY={scrollY} />
         <About />
         <Work />
