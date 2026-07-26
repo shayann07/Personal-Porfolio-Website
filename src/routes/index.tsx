@@ -138,10 +138,13 @@ function Header() {
 
 function MobileNav() {
   return (
-    <nav aria-label="Mobile" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 md:hidden">
-      <div className="pill">
+    <nav
+      aria-label="Section navigation"
+      className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[380px] -translate-x-1/2 md:hidden"
+    >
+      <div className="pill w-full justify-between">
         {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
-          <a key={l} href={h} className="nav-link">{l}</a>
+          <a key={l} href={h} className="nav-link flex-1 justify-center">{l}</a>
         ))}
       </div>
     </nav>
