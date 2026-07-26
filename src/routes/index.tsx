@@ -97,15 +97,15 @@ const Reveal = memo(function Reveal({
   );
 });
 
-function SectionHead({ eyebrow, title, kicker }: { eyebrow: string; title: string; kicker?: string }) {
+function SectionHead({ id, eyebrow, title, kicker }: { id?: string; eyebrow: string; title: string; kicker?: string }) {
   return (
     <div className="section-head container-x">
-      <div className="rule" />
+      <div className="rule" aria-hidden />
       <div className="flex items-baseline gap-3">
         <span className="eyebrow">{eyebrow}</span>
         {kicker && <span className="eyebrow opacity-40">/ {kicker}</span>}
       </div>
-      <h2 className="hd-2 mt-2 max-w-3xl">{title}</h2>
+      <h2 id={id} className="hd-2 mt-2 max-w-3xl">{title}</h2>
     </div>
   );
 }
