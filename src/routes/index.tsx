@@ -348,58 +348,65 @@ function Contact() {
   const disabled = !form.name || !form.email || !form.message || state === "sending";
 
   return (
-    <section id="contact" className="section">
-      <SectionHead eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
-      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <Reveal>
-          <aside className="lg:col-span-4 glass-soft rounded-[var(--radius-xl)] p-6 md:p-8 flex flex-col justify-between min-h-[420px]">
+    <section id="contact" aria-labelledby="contact-title" className="section">
+      <SectionHead id="contact-title" eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
+      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <Reveal className="lg:col-span-4">
+          <aside aria-label="Contact details" className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 flex flex-col justify-between gap-8 md:min-h-[420px]">
             <div className="space-y-6">
               <div>
                 <span className="eyebrow">Email</span>
-                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 block hover:opacity-70 transition-opacity flex items-center gap-3">
-                  <span className="text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={22} /></span>
-                  hello@shayxo.dev
+                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
+                  <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={20} /></span>
+                  <span className="truncate">hello@shayxo.dev</span>
                 </a>
               </div>
               <div>
                 <span className="eyebrow">Elsewhere</span>
                 <div className="mt-3 flex flex-col gap-3">
-                  <a href="https://github.com/shayann07" className="flex items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <AnimatedIcon name="github" size={18} /> github.com/shayann07
+                  <a href="https://github.com/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <span className="shrink-0"><AnimatedIcon name="github" size={18} /></span>
+                    <span className="truncate">github.com/shayann07</span>
+                    <span className="sr-only">(opens in a new tab)</span>
                   </a>
-                  <a href="https://www.linkedin.com/in/shayann07" className="flex items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <AnimatedIcon name="linkedin" size={18} /> linkedin.com/in/shayann07
+                  <a href="https://www.linkedin.com/in/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <span className="shrink-0"><AnimatedIcon name="linkedin" size={18} /></span>
+                    <span className="truncate">linkedin.com/in/shayann07</span>
+                    <span className="sr-only">(opens in a new tab)</span>
                   </a>
                 </div>
               </div>
             </div>
-            <div className="pt-6 border-t border-white/10">
+            <div className="pt-5 border-t border-white/10">
               <div className="eyebrow flex items-center gap-2"><span className="live-dot" /> Currently available</div>
               <div className="body-sm mt-2">Booking projects starting August 2026.</div>
             </div>
           </aside>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <form onSubmit={submit} className="lg:col-span-8 glass rounded-[var(--radius-xl)] p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Reveal delay={0.1} className="lg:col-span-8">
+          <form onSubmit={submit} aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
             <div className="field md:col-span-1">
               <label htmlFor="name">Name</label>
-              <input id="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <input id="name" name="name" autoComplete="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             </div>
             <div className="field md:col-span-1">
               <label htmlFor="email">Email</label>
-              <input id="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <input id="email" name="email" autoComplete="email" inputMode="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
             </div>
             <div className="field md:col-span-2">
               <label htmlFor="subject">Subject</label>
-              <input id="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
+              <input id="subject" name="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
             </div>
             <div className="field md:col-span-2">
               <label htmlFor="message">Message</label>
-              <textarea id="message" required maxLength={2000} className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+              <textarea id="message" name="message" required maxLength={2000} aria-describedby="message-hint" className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+              <span id="message-hint" className="body-sm opacity-60">Max 2000 characters.</span>
             </div>
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <div className="eyebrow opacity-60">Encrypted end-to-end via mailto handoff.</div>
+              <p role="status" aria-live="polite" className="eyebrow opacity-60">
+                {state === "sent" ? "Message handed off to your mail app." : state === "sending" ? "Opening your mail app…" : "Sends via your mail app — no data stored."}
+              </p>
               <button type="submit" disabled={disabled} className="btn btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
                 {state === "sent" ? "Sent ✓" : state === "sending" ? "Sending…" : "Send Message"}
                 {state === "idle" && <AnimatedIcon name="arrow" size={14} />}
