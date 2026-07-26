@@ -1,34 +1,56 @@
-## Goal
-Extend the Liquid Glass system so **every visible surface** across the site reads as the same refractive glass — not just pills, cards, tokens, and posters.
+## Rebuild: Kinetic Monolith Spatial Bento
 
-## Current state
-`src/styles.css` already ships liquid-glass primitives (`.glass-pill`, `.chip`, `.mini-token`, `.metric-glass`, `.signal-cell`, `.lab-card`, `.project-poster__inner`, `.contact-scene`) with chromatic edges, specular highlights, 28px blur, and inner/outer shadows.
+Complete rebuild of the portfolio around the selected direction. Whole page, one unified spatial-bento surface, monochrome platinum tokens, pointer/scroll-driven parallax across z-stacked glass planes.
 
-Surfaces that are NOT glass yet and break consistency:
-- Header shell (`header`) — currently transparent, no glass tray.
-- Hero visual: `.phone-shell`, `.phone-screen`, `.screen-*`, `.float-panel--left/right`, `.hero-stage__ring--*` — flat fills.
-- Poster art device: `.poster-art__device`, `.poster-art__orbit` — flat.
-- Visual split blocks in `SignalSection` and Lab section wrappers.
-- Footer `.linkline`, `.visual-mark` badge, `.live-dot` container, `.micro-eyebrow` chips.
-- Mobile bottom nav container.
-- Any modal/overlay shells.
+## Design system (locked)
 
-## Plan
-1. Add a shared `.lg-surface` liquid-glass mixin utility in `src/styles.css` (single source of truth: fill, edge, chromatic ::before, specular ::after, blur, shadows) and refactor existing glass classes to compose from it — no visual regression.
-2. Apply `.lg-surface` (or extend rules) to the missing surfaces:
-   - Header: floating glass tray with rounded pill container.
-   - Phone shell + screen + dock + floating panels (tinted glass, thinner blur inside screen).
-   - Poster device frame and orbit ring.
-   - Signal + Lab section outer cards.
-   - Footer contact card refinements, `linkline` becomes glass chip on hover.
-   - `visual-mark`, `micro-eyebrow`, `live-dot` wrapper → glass tokens.
-   - Mobile bottom nav → glass tray matching header.
-3. Tune blur/opacity per size tier (small tokens: 12px blur; medium cards: 20px; large trays: 28px) so small elements stay legible and large ones feel deep.
-4. Respect `prefers-reduced-transparency` and existing reduced-motion guards — fall back to solid `--surface` fill.
-5. Verify on mobile viewport (390px) that stacked glass layers don't tank FPS — cap `backdrop-filter` layers at ~6 concurrent by making pseudo-element highlights `will-change: opacity` only.
+Tokens rewritten in `src/styles.css`:
 
-## Scope
-CSS-only in `src/styles.css` plus minimal className additions in `src/routes/index.tsx` and `src/components/*` where wrapper markup already exists. No logic, no route, no data changes.
+- Void `#030304`, panel base `#131317`, mid `#8A8F99`, silver `#C8CCD4`, light `#F0F1F3`. No hue.
+- Sora (display, 400/600/800), Manrope (body, 400/500/700). Loaded via `<link>` in `__root.tsx`.
+- Glass tiers (near/mid/far) with different `backdrop-blur`, `saturate`, opacity, border alpha, shadow depth — mapped to z-position in the bento.
+- One inverted tile per group (white surface, dark text) as the accent anchor — the only "brightness accent" in a hueless palette.
+- Radii on a 3-step scale: `1.5rem`, `2rem`, `2.5rem`. Uppercase eyebrows with `0.2–0.3em` tracking.
+
+## Page structure (single scroll, one bento)
+
+Replace the current multi-section layout with one continuous 12-column bento surface:
+
+```text
+┌──────────────────────────────┬──────────┐
+│ HERO plane (Muhammad Shayan) │ 4 metric │
+│ chips: Android/Flutter/ML    │ tiles 2x2│
+├──────────────────────┬───────┴──────────┤
+│ Flagship: AI Trust   │ Lab experiments  │
+│ Ledger (lens flare)  │ + Karachi live   │
+├──────────┬───────────┼──────────────────┤
+│LeafBloom │ GitPulse  │ Medicare         │
+├──────────┴───────────┴──────────────────┤
+│ Contact strip (dashed) — GH · LI · Mail │
+└─────────────────────────────────────────┘
+```
+
+Fixed glass pill header (Shayan mark · nav · KHI time) stays; mobile bottom pill nav stays. Everything else is one bento.
+
+## Spatial motion
+
+- **Ambient**: two blurred glow orbs fixed behind the bento drift with `useScroll` progress (translate only) — the only "light source" for the glass.
+- **Pointer parallax**: single top-level `useMotionValue` for cursor; each tile subscribes with a depth weight (near tiles translate more, far tiles translate less). Springs on the values, transforms applied via `translate3d` for GPU.
+- **Hover**: tiles tighten letter-spacing on the hero, scale-up on metrics, lens-flare sweep on the flagship, list items shift right and brighten in the lab list.
+- **Reveal**: staggered `whileInView` scale/opacity per tile, disabled under `prefers-reduced-motion`.
+
+## Files touched
+
+- `src/styles.css` — rewrite tokens, glass tiers, eyebrow/heading utilities, remove unused liquid-glass carry-over.
+- `src/routes/index.tsx` — rebuild `Page` around the new bento; keep `Header`, `MobileNav`, `SplitEnter`; delete `HeroVisual`, `WorkGallery`, `ProjectPoster`, `SignalSection`, `LabSection`, `Contact` sections in favor of new bento tile components (`HeroTile`, `MetricTile`, `FlagshipTile`, `LabTile`, `WorkTile`, `ContactStrip`) inside one `<SpatialBento>`.
+- `src/routes/__root.tsx` — add Sora + Manrope `<link>` in head (keep existing links).
+- Keep `ShaderBackground` and `Cursor` as-is (they already fit monochrome).
+- Update route `head()` meta (title/description) to reflect the spatial rebrand.
+
+## Content
+
+All real content from the current file is preserved: 4 metrics, 4 projects (AI Trust Ledger flagship + LeafBloom, GitPulse, Medicare), 3 lab experiments, Karachi live time, GitHub/LinkedIn/email. Copy tightened to fit tile density.
 
 ## Out of scope
-Rewriting animations, changing palette, restructuring sections, or altering the MCP integration.
+
+No new dependencies. No backend/data changes. MCP server untouched. Perf HUD, theme switcher, modals — not part of this pass.
