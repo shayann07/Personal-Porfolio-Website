@@ -120,16 +120,20 @@ function Header() {
           <span className="mark">S</span>
           <span className="nav-link">Shayan</span>
         </a>
-        <nav aria-label="Primary" className="pill hidden md:inline-flex">
-          {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
-            <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
-          ))}
-        </nav>
-        <div className="pill hidden sm:inline-flex">
-          <span className="nav-link">
-            <span className="live-dot" />
-            KHI {time || "--:--"}
-          </span>
+        <div className="hidden md:block">
+          <nav aria-label="Primary" className="pill">
+            {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
+              <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
+            ))}
+          </nav>
+        </div>
+        <div className="hidden sm:block">
+          <div className="pill">
+            <span className="nav-link">
+              <span className="live-dot" aria-hidden />
+              KHI {time || "--:--"}
+            </span>
+          </div>
         </div>
       </div>
     </header>
