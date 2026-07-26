@@ -279,27 +279,34 @@ function Work() {
 /* ---------- Lab ---------- */
 function Lab() {
   return (
-    <section id="lab" className="section">
-      <SectionHead eyebrow="03 / Lab" title="Experiments in motion." kicker="Open source" />
-      <div className="container-x grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+    <section id="lab" aria-labelledby="lab-title" className="section">
+      <SectionHead id="lab-title" eyebrow="03 / Lab" title="Experiments in motion." kicker="Open source" />
+      <ul className="container-x grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
         {LAB.map((l, i) => (
-          <Reveal key={l.title} delay={i * 0.08}>
-            <a href="#contact" data-cursor="View" className="glass-soft rounded-[var(--radius-xl)] p-6 md:p-7 flex flex-col justify-between min-h-[220px] group block">
-              <div className="flex items-center justify-between">
-                <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={22} /></span>
-                <span className="eyebrow">{l.status}</span>
-              </div>
-              <div>
-                <div className="hd-3">{l.title}</div>
-                <div className="body-sm mt-2">{l.note}</div>
-                <div className="mt-4 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-0 group-hover:opacity-100 transition-opacity">
-                  Explore <AnimatedIcon name="arrow" size={14} />
-                </div>
-              </div>
-            </a>
-          </Reveal>
+          <li key={l.title} className="h-full">
+            <Reveal delay={i * 0.08} className="h-full">
+              <a
+                href="#contact"
+                data-cursor="View"
+                aria-label={`${l.title} — ${l.note} (${l.status})`}
+                className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
+              >
+                <span className="flex items-center justify-between">
+                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={20} /></span>
+                  <span className="eyebrow">{l.status}</span>
+                </span>
+                <span className="block mt-6">
+                  <span className="hd-3 block">{l.title}</span>
+                  <span className="body-sm mt-2 block">{l.note}</span>
+                  <span className="mt-3 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-60 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
+                    Explore <AnimatedIcon name="arrow" size={14} />
+                  </span>
+                </span>
+              </a>
+            </Reveal>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
