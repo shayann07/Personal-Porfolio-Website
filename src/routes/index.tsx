@@ -159,26 +159,26 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   const sy2 = useSpring(y2, { stiffness: 60, damping: 22 });
 
   return (
-    <section id="top" className="section pt-[max(6rem,10vh)]">
+    <section id="top" aria-labelledby="hero-title" className="section pt-[max(5.5rem,9vh)]">
       <div className="container-x">
         <Reveal>
           <div className="flex items-center gap-2 eyebrow">
             <span className="live-dot" /> Available · Q3 2026
           </div>
         </Reveal>
-        <div className="relative mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
+        <div className="relative mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
           <div className="md:col-span-8 relative z-10">
-            <h1 className="hd-hero">
+            <h1 id="hero-title" className="hd-hero">
               <span className="block"><SplitReveal text="Muhammad" /></span>
               <span className="block text-[color:var(--mid)]"><SplitReveal text="Shayan." delay={0.15} /></span>
             </h1>
             <Reveal delay={0.6}>
-              <p className="body-md mt-8 max-w-xl">
+              <p className="body-md mt-6 md:mt-8 max-w-xl">
                 Mobile Engineer building <span className="text-[color:var(--platinum)]">Android, Flutter and on-device ML products</span> — from offline-first fintech to camera-driven vision apps. Based in Karachi, shipping worldwide.
               </p>
             </Reveal>
             <Reveal delay={0.75}>
-              <div className="mt-10 flex flex-wrap items-center gap-3">
+              <div className="mt-7 md:mt-10 flex flex-wrap items-center gap-3">
                 <a href="#contact" className="btn btn-primary" data-cursor="Write">
                   <AnimatedIcon name="mail" size={16} /> Start a Project
                 </a>
@@ -188,20 +188,20 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
               </div>
             </Reveal>
           </div>
-          <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end">
+          <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end" aria-hidden>
             <div className="hero-orb" aria-hidden />
           </motion.div>
         </div>
 
         {/* Floating meta strip */}
-        <motion.div style={{ y: sy2 }} className="mt-16 md:mt-24 glass rounded-[var(--radius-xl)] p-5 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <motion.div style={{ y: sy2 }} className="mt-12 md:mt-24 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
-              <div className="flex items-center gap-4">
-                <span className="text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={24} /></span>
-                <div>
+              <div className="flex min-w-0 items-center gap-3 md:gap-4">
+                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
+                <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
-                  <div className="eyebrow mt-1">{m.k}</div>
+                  <div className="eyebrow mt-1 truncate">{m.k}</div>
                 </div>
               </div>
             </Reveal>
