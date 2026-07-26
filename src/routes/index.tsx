@@ -216,7 +216,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
 function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="section">
-      <SectionHead eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
+      <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
       <div className="container-narrow grid gap-6">
         <Reveal>
           <p className="body-md">
@@ -241,38 +241,36 @@ function About() {
 /* ---------- Work ---------- */
 function Work() {
   return (
-    <section id="work" className="section">
-      <SectionHead eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
+    <section id="work" aria-labelledby="work-title" className="section">
+      <SectionHead id="work-title" eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
       <div className="container-x">
-        <div className="glass rounded-[var(--radius-2xl)] overflow-hidden">
+        <ul className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-2xl)] overflow-hidden">
           {WORK.map((w, i) => (
-            <motion.a
-              key={w.title}
-              href="#contact"
-              data-cursor="View"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: i * 0.06, ease: [0.7, 0, 0.2, 1] }}
-              className="work-row group"
-            >
-              <div className="work-row__num">{String(i + 1).padStart(2, "0")}</div>
-              <div className="min-w-0">
-                <div className="work-row__title truncate">{w.title}</div>
-                <div className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span>{w.desc}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="eyebrow">{w.tag}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="eyebrow">{w.year}</span>
-                </div>
-              </div>
-              <div className="work-row__arrow" aria-hidden>
-                <AnimatedIcon name="arrow" size={20} />
-              </div>
-            </motion.a>
+            <li key={w.title}>
+              <a
+                href="#contact"
+                data-cursor="View"
+                aria-label={`${w.title} — ${w.tag}, ${w.year}. Enquire about this project.`}
+                className="work-row group"
+              >
+                <span className="work-row__num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="block min-w-0">
+                  <span className="work-row__title block truncate">{w.title}</span>
+                  <span className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span>{w.desc}</span>
+                    <span className="opacity-40 hidden sm:inline">·</span>
+                    <span className="eyebrow">{w.tag}</span>
+                    <span className="opacity-40 hidden sm:inline">·</span>
+                    <span className="eyebrow">{w.year}</span>
+                  </span>
+                </span>
+                <span className="work-row__arrow" aria-hidden>
+                  <AnimatedIcon name="arrow" size={18} />
+                </span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
