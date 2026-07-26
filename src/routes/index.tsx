@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { useReveal } from "@/hooks/useReveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,7 +56,9 @@ function useKarachiTime() {
 
 function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?: number; className?: string }) {
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
       {text.split(" ").map((word, wi) => (
         <span key={`${word}-${wi}`} className="inline-block whitespace-nowrap">
           {Array.from(word).map((ch, ci) => (
@@ -72,22 +75,27 @@ function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?
           {wi < text.split(" ").length - 1 && <span className="inline-block">&nbsp;</span>}
         </span>
       ))}
+      </span>
     </span>
   );
 }
 
-function Reveal({ children, delay = 0, y = 30 }: { children: ReactNode; delay?: number; y?: number }) {
+const Reveal = memo(function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useReveal<HTMLDivElement>();
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, delay, ease: [0.7, 0, 0.2, 1] }}
-    >
+    <div ref={ref} className={`reveal ${className}`} style={{ ["--reveal-delay" as string]: `${Math.round(delay * 1000)}ms` }}>
       {children}
-    </motion.div>
+    </div>
   );
-}
+});
 
 function SectionHead({ eyebrow, title, kicker }: { eyebrow: string; title: string; kicker?: string }) {
   return (
