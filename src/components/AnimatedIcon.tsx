@@ -1,11 +1,26 @@
-import { motion } from "framer-motion";
+import { memo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Props = { name: string; className?: string; size?: number };
 
-export function AnimatedIcon({ name, className = "", size = 20 }: Props) {
+export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", size = 20 }: Props) {
+  const reduce = useReducedMotion();
   const stroke = "currentColor";
   const sw = 1.6;
-  const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke, strokeWidth: sw, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
+  const common = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke,
+    strokeWidth: sw,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    className,
+    "aria-hidden": true,
+    focusable: false,
+  };
+  const loop = reduce ? 0 : Infinity;
 
   switch (name) {
     case "arrow":
@@ -22,13 +37,13 @@ export function AnimatedIcon({ name, className = "", size = 20 }: Props) {
             d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"
             initial={{ opacity: 0.3 }}
             animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2.4, repeat: Infinity }}
+            transition={{ duration: 2.4, repeat: loop }}
           />
         </svg>
       );
     case "gear":
       return (
-        <motion.svg {...common} animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }}>
+      <motion.svg {...common} animate={reduce ? undefined : { rotate: 360 }} transition={{ duration: 18, repeat: loop, ease: "linear" }}>
           <circle cx="12" cy="12" r="3" />
           <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" />
         </motion.svg>
@@ -42,7 +57,7 @@ export function AnimatedIcon({ name, className = "", size = 20 }: Props) {
             fillOpacity="0.15"
             initial={{ scale: 0.9 }}
             animate={{ scale: [0.95, 1.05, 0.95] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            transition={{ duration: 2, repeat: loop }}
           />
         </svg>
       );
@@ -50,7 +65,7 @@ export function AnimatedIcon({ name, className = "", size = 20 }: Props) {
       return (
         <svg {...common}>
           <circle cx="12" cy="12" r="2.5" />
-          <motion.ellipse cx="12" cy="12" rx="9" ry="4" animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} style={{ transformOrigin: "12px 12px" }} />
+          <motion.ellipse cx="12" cy="12" rx="9" ry="4" animate={reduce ? undefined : { rotate: 360 }} transition={{ duration: 12, repeat: loop, ease: "linear" }} style={{ transformOrigin: "12px 12px" }} />
         </svg>
       );
     case "mail":
@@ -83,4 +98,4 @@ export function AnimatedIcon({ name, className = "", size = 20 }: Props) {
     default:
       return null;
   }
-}
+});

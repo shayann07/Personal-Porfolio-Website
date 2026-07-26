@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { useReveal } from "@/hooks/useReveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,7 +56,9 @@ function useKarachiTime() {
 
 function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?: number; className?: string }) {
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
       {text.split(" ").map((word, wi) => (
         <span key={`${word}-${wi}`} className="inline-block whitespace-nowrap">
           {Array.from(word).map((ch, ci) => (
@@ -72,32 +75,37 @@ function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?
           {wi < text.split(" ").length - 1 && <span className="inline-block">&nbsp;</span>}
         </span>
       ))}
+      </span>
     </span>
   );
 }
 
-function Reveal({ children, delay = 0, y = 30 }: { children: ReactNode; delay?: number; y?: number }) {
+const Reveal = memo(function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useReveal<HTMLDivElement>();
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, delay, ease: [0.7, 0, 0.2, 1] }}
-    >
+    <div ref={ref} className={`reveal ${className}`} style={{ ["--reveal-delay" as string]: `${Math.round(delay * 1000)}ms` }}>
       {children}
-    </motion.div>
+    </div>
   );
-}
+});
 
-function SectionHead({ eyebrow, title, kicker }: { eyebrow: string; title: string; kicker?: string }) {
+function SectionHead({ id, eyebrow, title, kicker }: { id?: string; eyebrow: string; title: string; kicker?: string }) {
   return (
     <div className="section-head container-x">
-      <div className="rule" />
+      <div className="rule" aria-hidden />
       <div className="flex items-baseline gap-3">
         <span className="eyebrow">{eyebrow}</span>
         {kicker && <span className="eyebrow opacity-40">/ {kicker}</span>}
       </div>
-      <h2 className="hd-2 mt-2 max-w-3xl">{title}</h2>
+      <h2 id={id} className="hd-2 mt-2 max-w-3xl">{title}</h2>
     </div>
   );
 }
@@ -112,16 +120,20 @@ function Header() {
           <span className="mark">S</span>
           <span className="nav-link">Shayan</span>
         </a>
-        <nav aria-label="Primary" className="pill hidden md:inline-flex">
-          {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
-            <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
-          ))}
-        </nav>
-        <div className="pill hidden sm:inline-flex">
-          <span className="nav-link">
-            <span className="live-dot" />
-            KHI {time || "--:--"}
-          </span>
+        <div className="hidden md:block">
+          <nav aria-label="Primary" className="pill">
+            {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
+              <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
+            ))}
+          </nav>
+        </div>
+        <div className="hidden sm:block">
+          <div className="pill">
+            <span className="nav-link">
+              <span className="live-dot" aria-hidden />
+              KHI {time || "--:--"}
+            </span>
+          </div>
         </div>
       </div>
     </header>
@@ -130,10 +142,13 @@ function Header() {
 
 function MobileNav() {
   return (
-    <nav aria-label="Mobile" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 md:hidden">
-      <div className="pill">
+    <nav
+      aria-label="Section navigation"
+      className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[380px] -translate-x-1/2 md:hidden"
+    >
+      <div className="pill w-full justify-between">
         {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
-          <a key={l} href={h} className="nav-link">{l}</a>
+          <a key={l} href={h} className="nav-link flex-1 justify-center">{l}</a>
         ))}
       </div>
     </nav>
@@ -148,26 +163,26 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   const sy2 = useSpring(y2, { stiffness: 60, damping: 22 });
 
   return (
-    <section id="top" className="section pt-[max(6rem,10vh)]">
+    <section id="top" aria-labelledby="hero-title" className="section pt-[max(5.5rem,9vh)]">
       <div className="container-x">
         <Reveal>
           <div className="flex items-center gap-2 eyebrow">
             <span className="live-dot" /> Available · Q3 2026
           </div>
         </Reveal>
-        <div className="relative mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
+        <div className="relative mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
           <div className="md:col-span-8 relative z-10">
-            <h1 className="hd-hero">
+            <h1 id="hero-title" className="hd-hero">
               <span className="block"><SplitReveal text="Muhammad" /></span>
               <span className="block text-[color:var(--mid)]"><SplitReveal text="Shayan." delay={0.15} /></span>
             </h1>
             <Reveal delay={0.6}>
-              <p className="body-md mt-8 max-w-xl">
+              <p className="body-md mt-6 md:mt-8 max-w-xl">
                 Mobile Engineer building <span className="text-[color:var(--platinum)]">Android, Flutter and on-device ML products</span> — from offline-first fintech to camera-driven vision apps. Based in Karachi, shipping worldwide.
               </p>
             </Reveal>
             <Reveal delay={0.75}>
-              <div className="mt-10 flex flex-wrap items-center gap-3">
+              <div className="mt-7 md:mt-10 flex flex-wrap items-center gap-3">
                 <a href="#contact" className="btn btn-primary" data-cursor="Write">
                   <AnimatedIcon name="mail" size={16} /> Start a Project
                 </a>
@@ -177,20 +192,20 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
               </div>
             </Reveal>
           </div>
-          <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end">
+          <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end" aria-hidden>
             <div className="hero-orb" aria-hidden />
           </motion.div>
         </div>
 
         {/* Floating meta strip */}
-        <motion.div style={{ y: sy2 }} className="mt-16 md:mt-24 glass rounded-[var(--radius-xl)] p-5 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <motion.div style={{ y: sy2 }} className="mt-12 md:mt-24 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
-              <div className="flex items-center gap-4">
-                <span className="text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={24} /></span>
-                <div>
+              <div className="flex min-w-0 items-center gap-3 md:gap-4">
+                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
+                <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
-                  <div className="eyebrow mt-1">{m.k}</div>
+                  <div className="eyebrow mt-1 truncate">{m.k}</div>
                 </div>
               </div>
             </Reveal>
@@ -204,8 +219,8 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
 /* ---------- About ---------- */
 function About() {
   return (
-    <section id="about" className="section">
-      <SectionHead eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
+    <section id="about" aria-labelledby="about-title" className="section">
+      <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
       <div className="container-narrow grid gap-6">
         <Reveal>
           <p className="body-md">
@@ -218,9 +233,9 @@ function About() {
           </p>
         </Reveal>
         <Reveal delay={0.2}>
-          <div className="flex flex-wrap gap-2 pt-4">
-            {STACK.slice(0, 6).map((s) => <span key={s} className="chip">{s}</span>)}
-          </div>
+          <ul className="flex flex-wrap gap-2 pt-4" aria-label="Core technologies">
+            {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
+          </ul>
         </Reveal>
       </div>
     </section>
@@ -230,38 +245,36 @@ function About() {
 /* ---------- Work ---------- */
 function Work() {
   return (
-    <section id="work" className="section">
-      <SectionHead eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
+    <section id="work" aria-labelledby="work-title" className="section">
+      <SectionHead id="work-title" eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
       <div className="container-x">
-        <div className="glass rounded-[var(--radius-2xl)] overflow-hidden">
+        <ul className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-2xl)] overflow-hidden">
           {WORK.map((w, i) => (
-            <motion.a
-              key={w.title}
-              href="#contact"
-              data-cursor="View"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: i * 0.06, ease: [0.7, 0, 0.2, 1] }}
-              className="work-row group"
-            >
-              <div className="work-row__num">{String(i + 1).padStart(2, "0")}</div>
-              <div className="min-w-0">
-                <div className="work-row__title truncate">{w.title}</div>
-                <div className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span>{w.desc}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="eyebrow">{w.tag}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="eyebrow">{w.year}</span>
-                </div>
-              </div>
-              <div className="work-row__arrow" aria-hidden>
-                <AnimatedIcon name="arrow" size={20} />
-              </div>
-            </motion.a>
+            <li key={w.title}>
+              <a
+                href="#contact"
+                data-cursor="View"
+                aria-label={`${w.title} — ${w.tag}, ${w.year}. Enquire about this project.`}
+                className="work-row group"
+              >
+                <span className="work-row__num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="block min-w-0">
+                  <span className="work-row__title block truncate">{w.title}</span>
+                  <span className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span>{w.desc}</span>
+                    <span className="opacity-40 hidden sm:inline">·</span>
+                    <span className="eyebrow">{w.tag}</span>
+                    <span className="opacity-40 hidden sm:inline">·</span>
+                    <span className="eyebrow">{w.year}</span>
+                  </span>
+                </span>
+                <span className="work-row__arrow" aria-hidden>
+                  <AnimatedIcon name="arrow" size={18} />
+                </span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -270,27 +283,34 @@ function Work() {
 /* ---------- Lab ---------- */
 function Lab() {
   return (
-    <section id="lab" className="section">
-      <SectionHead eyebrow="03 / Lab" title="Experiments in motion." kicker="Open source" />
-      <div className="container-x grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+    <section id="lab" aria-labelledby="lab-title" className="section">
+      <SectionHead id="lab-title" eyebrow="03 / Lab" title="Experiments in motion." kicker="Open source" />
+      <ul className="container-x grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
         {LAB.map((l, i) => (
-          <Reveal key={l.title} delay={i * 0.08}>
-            <a href="#contact" data-cursor="View" className="glass-soft rounded-[var(--radius-xl)] p-6 md:p-7 flex flex-col justify-between min-h-[220px] group block">
-              <div className="flex items-center justify-between">
-                <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={22} /></span>
-                <span className="eyebrow">{l.status}</span>
-              </div>
-              <div>
-                <div className="hd-3">{l.title}</div>
-                <div className="body-sm mt-2">{l.note}</div>
-                <div className="mt-4 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-0 group-hover:opacity-100 transition-opacity">
-                  Explore <AnimatedIcon name="arrow" size={14} />
-                </div>
-              </div>
-            </a>
-          </Reveal>
+          <li key={l.title} className="h-full">
+            <Reveal delay={i * 0.08} className="h-full">
+              <a
+                href="#contact"
+                data-cursor="View"
+                aria-label={`${l.title} — ${l.note} (${l.status})`}
+                className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
+              >
+                <span className="flex items-center justify-between">
+                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={20} /></span>
+                  <span className="eyebrow">{l.status}</span>
+                </span>
+                <span className="block mt-6">
+                  <span className="hd-3 block">{l.title}</span>
+                  <span className="body-sm mt-2 block">{l.note}</span>
+                  <span className="mt-3 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-60 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
+                    Explore <AnimatedIcon name="arrow" size={14} />
+                  </span>
+                </span>
+              </a>
+            </Reveal>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
@@ -332,58 +352,65 @@ function Contact() {
   const disabled = !form.name || !form.email || !form.message || state === "sending";
 
   return (
-    <section id="contact" className="section">
-      <SectionHead eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
-      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <Reveal>
-          <aside className="lg:col-span-4 glass-soft rounded-[var(--radius-xl)] p-6 md:p-8 flex flex-col justify-between min-h-[420px]">
+    <section id="contact" aria-labelledby="contact-title" className="section">
+      <SectionHead id="contact-title" eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
+      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <Reveal className="lg:col-span-4">
+          <aside aria-label="Contact details" className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 flex flex-col justify-between gap-8 md:min-h-[420px]">
             <div className="space-y-6">
               <div>
                 <span className="eyebrow">Email</span>
-                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 block hover:opacity-70 transition-opacity flex items-center gap-3">
-                  <span className="text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={22} /></span>
-                  hello@shayxo.dev
+                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
+                  <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={20} /></span>
+                  <span className="truncate">hello@shayxo.dev</span>
                 </a>
               </div>
               <div>
                 <span className="eyebrow">Elsewhere</span>
                 <div className="mt-3 flex flex-col gap-3">
-                  <a href="https://github.com/shayann07" className="flex items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <AnimatedIcon name="github" size={18} /> github.com/shayann07
+                  <a href="https://github.com/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <span className="shrink-0"><AnimatedIcon name="github" size={18} /></span>
+                    <span className="truncate">github.com/shayann07</span>
+                    <span className="sr-only">(opens in a new tab)</span>
                   </a>
-                  <a href="https://www.linkedin.com/in/shayann07" className="flex items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <AnimatedIcon name="linkedin" size={18} /> linkedin.com/in/shayann07
+                  <a href="https://www.linkedin.com/in/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <span className="shrink-0"><AnimatedIcon name="linkedin" size={18} /></span>
+                    <span className="truncate">linkedin.com/in/shayann07</span>
+                    <span className="sr-only">(opens in a new tab)</span>
                   </a>
                 </div>
               </div>
             </div>
-            <div className="pt-6 border-t border-white/10">
+            <div className="pt-5 border-t border-white/10">
               <div className="eyebrow flex items-center gap-2"><span className="live-dot" /> Currently available</div>
               <div className="body-sm mt-2">Booking projects starting August 2026.</div>
             </div>
           </aside>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <form onSubmit={submit} className="lg:col-span-8 glass rounded-[var(--radius-xl)] p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Reveal delay={0.1} className="lg:col-span-8">
+          <form onSubmit={submit} aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
             <div className="field md:col-span-1">
               <label htmlFor="name">Name</label>
-              <input id="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <input id="name" name="name" autoComplete="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             </div>
             <div className="field md:col-span-1">
               <label htmlFor="email">Email</label>
-              <input id="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <input id="email" name="email" autoComplete="email" inputMode="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
             </div>
             <div className="field md:col-span-2">
               <label htmlFor="subject">Subject</label>
-              <input id="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
+              <input id="subject" name="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
             </div>
             <div className="field md:col-span-2">
               <label htmlFor="message">Message</label>
-              <textarea id="message" required maxLength={2000} className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+              <textarea id="message" name="message" required maxLength={2000} aria-describedby="message-hint" className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+              <span id="message-hint" className="body-sm opacity-60">Max 2000 characters.</span>
             </div>
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <div className="eyebrow opacity-60">Encrypted end-to-end via mailto handoff.</div>
+              <p role="status" aria-live="polite" className="eyebrow opacity-60">
+                {state === "sent" ? "Message handed off to your mail app." : state === "sending" ? "Opening your mail app…" : "Sends via your mail app — no data stored."}
+              </p>
               <button type="submit" disabled={disabled} className="btn btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
                 {state === "sent" ? "Sent ✓" : state === "sending" ? "Sending…" : "Send Message"}
                 {state === "idle" && <AnimatedIcon name="arrow" size={14} />}
@@ -402,9 +429,9 @@ function Footer() {
     <footer className="section pt-0">
       <div className="container-x">
         <Reveal>
-          <div className="wordmark-bg leading-none">SHAYAN</div>
+          <div className="wordmark-bg leading-none" aria-hidden>SHAYAN</div>
         </Reveal>
-        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6">
+        <div className="mt-8 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10 pt-6 text-center md:text-left">
           <div className="eyebrow">© 2026 Muhammad Shayan · Karachi</div>
           <div className="eyebrow opacity-60">Built with TanStack Start · Motion · Tailwind v4</div>
         </div>
@@ -415,23 +442,17 @@ function Footer() {
 
 /* ---------- Page ---------- */
 function Page() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const { scrollY } = useScroll();
 
-  useEffect(() => {
-    if (reduce) return;
-    // gentle body class for scroll parallax anchors
-  }, [reduce]);
-
   return (
-    <div id="top" ref={ref} className="grain relative isolate min-h-screen overflow-x-clip">
+    <div className="grain relative isolate min-h-dvh overflow-x-clip">
       <div className="cloud-bg" aria-hidden />
+      <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header />
       <MobileNav />
 
-      <main className="relative z-10 pb-32 md:pb-20">
+      <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
         <Hero scrollY={scrollY} />
         <About />
         <Work />
