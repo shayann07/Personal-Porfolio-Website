@@ -601,3 +601,87 @@ body { cursor: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
+
+/* ============ REVEAL (shared IntersectionObserver, CSS-driven) ============ */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-revealed { opacity: 1; transform: none; }
+
+/* Skip offscreen paint work */
+.section { content-visibility: auto; contain-intrinsic-size: auto 640px; }
+
+/* ============ SKIP LINK ============ */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  background: var(--platinum);
+  color: var(--void);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  transform: translateY(-160%);
+  transition: transform 0.25s ease;
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+/* Keyboard affordance on glass surfaces */
+.nav-link:focus-visible,
+.chip:focus-visible,
+.btn:focus-visible,
+.work-row:focus-visible {
+  outline: 2px solid var(--platinum);
+  outline-offset: 3px;
+}
+.work-row:focus-visible { background: rgb(255 255 255 / 0.05); }
+
+/* ============ SMALL SCREEN TUNING ============ */
+@media (max-width: 767px) {
+  /* Blur is the most expensive thing on mobile GPUs — dial it back,
+     keep the scrim so the glass still reads. */
+  .glass { backdrop-filter: blur(20px) saturate(160%); }
+  .glass-soft { backdrop-filter: blur(16px) saturate(155%); }
+  .glass-heavy { backdrop-filter: blur(24px) saturate(165%); }
+  .pill { backdrop-filter: blur(18px) saturate(160%); padding: 0.3rem; }
+  .chip { backdrop-filter: blur(14px) saturate(150%); }
+  .input, .textarea { backdrop-filter: blur(14px) saturate(150%); }
+
+  .glass, .glass-soft, .glass-heavy { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 18px 36px -24px rgb(0 0 0 / 0.7); }
+
+  /* Two-column work rows: number sits above the title, arrow stays inline */
+  .work-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.9rem;
+    padding: 1.15rem 1rem;
+  }
+  .work-row__num { grid-column: 1; font-size: var(--text-micro); }
+  .work-row__arrow { grid-column: 2; grid-row: 1 / span 2; width: 2.5rem; height: 2.5rem; align-self: center; }
+  .work-row__title { font-size: clamp(21px, 6vw, 30px); }
+  .work-row:hover .work-row__title { transform: none; }
+
+  .nav-link { padding: 0 0.6rem; min-height: 2.2rem; letter-spacing: 0.14em; }
+  .btn { padding: 0.85rem 1.15rem; letter-spacing: 0.16em; }
+  .section-head { margin-bottom: 1.75rem; }
+  .marquee { padding: 0.75rem 0; }
+  .wordmark-bg { font-size: clamp(64px, 22vw, 120px); }
+  .hero-orb { max-width: 200px; }
+  .textarea { min-height: 128px; }
+
+  /* Cheaper aurora on phones */
+  .cloud-bg::before, .cloud-bg::after { filter: blur(70px); opacity: 0.45; }
+}
+
+/* Tap targets */
+@media (pointer: coarse) {
+  .nav-link { min-height: 2.75rem; }
+  .btn { min-height: 2.75rem; }
+}
