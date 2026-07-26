@@ -425,9 +425,9 @@ function Footer() {
     <footer className="section pt-0">
       <div className="container-x">
         <Reveal>
-          <div className="wordmark-bg leading-none">SHAYAN</div>
+          <div className="wordmark-bg leading-none" aria-hidden>SHAYAN</div>
         </Reveal>
-        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6">
+        <div className="mt-8 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10 pt-6 text-center md:text-left">
           <div className="eyebrow">© 2026 Muhammad Shayan · Karachi</div>
           <div className="eyebrow opacity-60">Built with TanStack Start · Motion · Tailwind v4</div>
         </div>
