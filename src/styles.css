@@ -132,7 +132,7 @@ body { cursor: none; }
 @utility hd-display {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: var(--text-display);
+  font-size: clamp(44px, 7vw + 8px, 112px);
   line-height: 0.88;
   letter-spacing: -0.035em;
 }
