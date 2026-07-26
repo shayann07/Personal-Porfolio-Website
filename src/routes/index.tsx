@@ -25,9 +25,9 @@ const METRICS = [
 ];
 
 const WORK = [
-  { title: "LeafBloom", desc: "On-device plant disease diagnosis. TFLite + Compose + CameraX.", tag: "Vision ML" },
-  { title: "GitPulse", desc: "Flutter GitHub analytics with GraphQL and live sync.", tag: "Dev Tool" },
-  { title: "Medicare", desc: "HealthTech: appointments, chat, Stripe payments, pharmacy.", tag: "HealthTech" },
+  { title: "LeafBloom", desc: "On-device plant disease diagnosis. TFLite + Compose + CameraX.", tag: "Vision ML", art: "art-plate--rings" },
+  { title: "GitPulse", desc: "Flutter GitHub analytics with GraphQL and live sync.", tag: "Dev Tool", art: "art-plate--grid" },
+  { title: "Medicare", desc: "HealthTech: appointments, chat, Stripe payments, pharmacy.", tag: "HealthTech", art: "art-plate--wave" },
 ];
 
 const LAB = [
@@ -165,23 +165,29 @@ function HeroTile({ px, py }: { px: any; py: any }) {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-        className="tile glass-near group min-h-[420px] md:min-h-[480px] flex flex-col justify-between"
+        className="tile glass-near group min-h-[420px] md:min-h-[520px] grid md:grid-cols-[1.35fr_1fr] gap-8 items-center"
       >
-        <div>
+        <div className="flex flex-col justify-between h-full">
+         <div>
+          <div className="eyebrow mb-5">Mobile Engineer · Karachi</div>
           <h1 className="hd-display">
             <span className="block"><SplitReveal text="Muhammad" /></span>
             <span className="block text-[color:var(--mid)] transition-colors duration-700 group-hover:text-[color:var(--platinum)]">
               <SplitReveal text="Shayan" delay={0.1} />
             </span>
           </h1>
-          <p className="mt-8 max-w-md body-md">
+          <p className="mt-6 max-w-md body-md">
             Mobile Engineer specializing in Android, Flutter, and high-performance on-device ML architectures.
           </p>
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
+         </div>
+         <div className="mt-8 flex flex-wrap gap-3">
           <span className="chip chip--solid">Android</span>
           <span className="chip">Flutter</span>
           <span className="chip">On-Device ML</span>
+         </div>
+        </div>
+        <div className="hidden md:block relative">
+          <div className="hero-orb" aria-hidden />
         </div>
       </motion.div>
     </DepthTile>
@@ -221,7 +227,7 @@ function FlagshipTile({ px, py }: { px: any; py: any }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, ease: [0.7, 0, 0.2, 1] }}
-        className="tile glass-mid group block min-h-[320px] cursor-pointer"
+        className="tile glass-mid group block min-h-[360px] cursor-pointer"
       >
         <span className="lens-flare" aria-hidden />
         <div className="relative flex h-full flex-col justify-between">
@@ -232,7 +238,14 @@ function FlagshipTile({ px, py }: { px: any; py: any }) {
               Fintech app: ROI cycles, portfolio tracking, and resilient financial flows built on Kotlin, Firebase, and MVVM.
             </p>
           </div>
-          <div className="mt-8 flex items-center gap-6">
+          <div className="mt-8">
+            <div className="spark" aria-hidden>
+              {[42, 68, 55, 78, 61, 84, 72, 92, 66, 88, 74, 96, 80, 100, 86, 74, 90, 62, 78, 94].map((h, i) => (
+                <span key={i} style={{ height: `${h}%`, animationDelay: `${i * 90}ms` }} />
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 flex items-center gap-6">
             <span className="eyebrow text-[color:var(--platinum)] inline-flex items-center gap-2">
               Case Study
               <span className="text-lg transition-transform duration-500 group-hover:translate-x-2">→</span>
@@ -293,9 +306,10 @@ function WorkTile({ w, i, px, py }: { w: (typeof WORK)[number]; i: number; px: a
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.7, delay: i * 0.08, ease: [0.7, 0, 0.2, 1] }}
         whileHover={{ y: -6 }}
-        className="tile glass-far group block min-h-[220px]"
+        className="tile glass-far group block"
       >
         <div className="relative flex h-full flex-col justify-between">
+          <div className={`art-plate ${w.art} mb-6`} aria-hidden />
           <div>
             <div className="flex items-center justify-between">
               <span className="eyebrow">{String(i + 2).padStart(2, "0")}</span>
@@ -384,6 +398,29 @@ function Page() {
             <ContactStrip />
           </div>
         </section>
+
+        <div className="marquee mt-16 md:mt-24" aria-hidden>
+          <div className="marquee__track">
+            {Array.from({ length: 2 }).map((_, k) => (
+              <div key={k} className="marquee__item">
+                <span>Android</span>
+                <span className="marquee__item--outline">Kotlin</span>
+                <span>Flutter</span>
+                <span className="marquee__item--outline">Jetpack Compose</span>
+                <span>TensorFlow Lite</span>
+                <span className="marquee__item--outline">Firebase</span>
+                <span>GraphQL</span>
+                <span className="marquee__item--outline">MVVM</span>
+                <span>Stripe</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="container-x relative mt-16 md:mt-20 overflow-hidden">
+          <div className="wordmark-bg">SHAYAN</div>
+          <div className="relative h-[180px] md:h-[220px]" />
+        </div>
       </main>
     </div>
   );
