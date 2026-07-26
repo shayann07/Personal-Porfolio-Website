@@ -215,7 +215,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
 /* ---------- About ---------- */
 function About() {
   return (
-    <section id="about" className="section">
+    <section id="about" aria-labelledby="about-title" className="section">
       <SectionHead eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
       <div className="container-narrow grid gap-6">
         <Reveal>
@@ -229,9 +229,9 @@ function About() {
           </p>
         </Reveal>
         <Reveal delay={0.2}>
-          <div className="flex flex-wrap gap-2 pt-4">
-            {STACK.slice(0, 6).map((s) => <span key={s} className="chip">{s}</span>)}
-          </div>
+          <ul className="flex flex-wrap gap-2 pt-4" aria-label="Core technologies">
+            {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
+          </ul>
         </Reveal>
       </div>
     </section>
