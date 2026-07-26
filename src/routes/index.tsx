@@ -1,15 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useMotionValue, useScroll, useSpring, useTransform, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
+import { AnimatedIcon } from "@/components/AnimatedIcon";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Muhammad Shayan — Spatial Portfolio" },
-      { name: "description", content: "Spatial portfolio of Muhammad Shayan — Mobile Engineer building Android, Flutter, and on-device ML products. A layered glass bento in monochrome platinum." },
-      { property: "og:title", content: "Muhammad Shayan — Spatial Portfolio" },
-      { property: "og:description", content: "Layered glass bento portfolio: Android, Flutter, on-device ML, and offline-first mobile systems." },
+      { title: "Muhammad Shayan — Mobile Engineer" },
+      { name: "description", content: "Portfolio of Muhammad Shayan — Mobile Engineer building Android, Flutter, and on-device ML products from Karachi." },
+      { property: "og:title", content: "Muhammad Shayan — Mobile Engineer" },
+      { property: "og:description", content: "Android, Flutter, on-device ML, and offline-first mobile systems by Muhammad Shayan." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -17,27 +18,30 @@ export const Route = createFileRoute("/")({
   component: Page,
 });
 
+/* ---------- Data ---------- */
 const METRICS = [
-  { v: "3+", k: "Live Apps" },
-  { v: "10k+", k: "Installs", accent: true },
-  { v: "99%+", k: "Stability" },
-  { v: "60%", k: "Perf. Gain" },
+  { v: "3+", k: "Live Apps", icon: "bolt" },
+  { v: "10k+", k: "Installs", icon: "orbit" },
+  { v: "99%+", k: "Stability", icon: "spark" },
+  { v: "60%", k: "Perf Gain", icon: "gear" },
 ];
 
 const WORK = [
-  { title: "LeafBloom", desc: "On-device plant disease diagnosis. TFLite + Compose + CameraX.", tag: "Vision ML", art: "art-plate--rings" },
-  { title: "GitPulse", desc: "Flutter GitHub analytics with GraphQL and live sync.", tag: "Dev Tool", art: "art-plate--grid" },
-  { title: "Medicare", desc: "HealthTech: appointments, chat, Stripe payments, pharmacy.", tag: "HealthTech", art: "art-plate--wave" },
+  { title: "AI Trust Ledger", desc: "Fintech: ROI cycles, portfolio tracking, resilient financial flows.", tag: "Fintech · Kotlin", year: "2025" },
+  { title: "LeafBloom", desc: "On-device plant disease diagnosis. TFLite + Compose + CameraX.", tag: "Vision ML · Android", year: "2024" },
+  { title: "GitPulse", desc: "Flutter GitHub analytics with GraphQL and live sync.", tag: "Dev Tool · Flutter", year: "2024" },
+  { title: "Medicare", desc: "HealthTech: appointments, chat, Stripe payments, pharmacy.", tag: "HealthTech · Flutter", year: "2023" },
 ];
 
 const LAB = [
-  { title: "VectorMap.os", status: "WIP" },
-  { title: "ShaderPlay Flutter", status: "Done" },
-  { title: "TensorFlow.Mobile", status: "Beta" },
+  { title: "VectorMap.os", note: "Offline-first vector maps", status: "WIP" },
+  { title: "ShaderPlay Flutter", note: "GLSL runtime in Skia", status: "Done" },
+  { title: "TensorFlow.Mobile", note: "Micro-model tooling", status: "Beta" },
 ];
 
-/* ---------- pointer parallax context via CSS vars ---------- */
+const STACK = ["Android", "Kotlin", "Jetpack Compose", "Flutter", "Dart", "TensorFlow Lite", "Firebase", "GraphQL", "MVVM", "Stripe"];
 
+/* ---------- Utilities ---------- */
 function useKarachiTime() {
   const [time, setTime] = useState("");
   useEffect(() => {
@@ -47,35 +51,6 @@ function useKarachiTime() {
     return () => window.clearInterval(id);
   }, []);
   return time;
-}
-
-/* ---------- Depth wrapper: subscribes to pointer + scroll ---------- */
-
-function DepthTile({
-  depth = 1,
-  className = "",
-  children,
-  pointerX,
-  pointerY,
-}: {
-  depth?: number;
-  className?: string;
-  children: ReactNode;
-  pointerX: ReturnType<typeof useMotionValue<number>>;
-  pointerY: ReturnType<typeof useMotionValue<number>>;
-}) {
-  // depth: 0 (far, minimal motion) -> 3 (near, most motion)
-  const magnitude = depth * 6; // px
-  const tx = useTransform(pointerX, (v) => v * magnitude);
-  const ty = useTransform(pointerY, (v) => v * magnitude);
-  const sx = useSpring(tx, { stiffness: 120, damping: 22, mass: 0.6 });
-  const sy = useSpring(ty, { stiffness: 120, damping: 22, mass: 0.6 });
-
-  return (
-    <motion.div style={{ x: sx, y: sy }} className={className}>
-      {children}
-    </motion.div>
-  );
 }
 
 function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?: number; className?: string }) {
@@ -88,7 +63,7 @@ function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?
               <motion.span
                 initial={{ y: "110%" }}
                 animate={{ y: "0%" }}
-                transition={{ duration: 0.9, ease: [0.7, 0, 0.2, 1], delay: delay + wi * 0.03 + ci * 0.015 }}
+                transition={{ duration: 0.9, ease: [0.7, 0, 0.2, 1], delay: delay + wi * 0.04 + ci * 0.015 }}
               >
                 {ch}
               </motion.span>
@@ -101,25 +76,50 @@ function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?
   );
 }
 
-/* ---------- Header ---------- */
+function Reveal({ children, delay = 0, y = 30 }: { children: ReactNode; delay?: number; y?: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8, delay, ease: [0.7, 0, 0.2, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
+function SectionHead({ eyebrow, title, kicker }: { eyebrow: string; title: string; kicker?: string }) {
+  return (
+    <div className="section-head container-x">
+      <div className="rule" />
+      <div className="flex items-baseline gap-3">
+        <span className="eyebrow">{eyebrow}</span>
+        {kicker && <span className="eyebrow opacity-40">/ {kicker}</span>}
+      </div>
+      <h2 className="hd-2 mt-2 max-w-3xl">{title}</h2>
+    </div>
+  );
+}
+
+/* ---------- Header + Nav ---------- */
 function Header() {
   const time = useKarachiTime();
   return (
-    <header className="fixed inset-x-0 top-0 z-40 px-[var(--space-gutter)] py-3 md:py-5">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3">
-        <a href="#top" data-cursor="Home" className="glass-pill">
-          <span className="visual-mark">S</span>
+    <header className="fixed inset-x-0 top-0 z-40 px-[var(--space-gutter)] py-4">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3">
+        <a href="#top" data-cursor="Home" className="pill">
+          <span className="mark">S</span>
           <span className="nav-link">Shayan</span>
         </a>
-        <nav aria-label="Primary" className="glass-pill hidden md:inline-flex">
-          {[["Work", "#work"], ["Lab", "#lab"], ["Contact", "#contact"]].map(([label, href]) => (
+        <nav aria-label="Primary" className="pill hidden md:inline-flex">
+          {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
             <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
           ))}
         </nav>
-        <div className="glass-pill">
+        <div className="pill hidden sm:inline-flex">
           <span className="nav-link">
-            <span className="live-dot mr-2" />
+            <span className="live-dot" />
             KHI {time || "--:--"}
           </span>
         </div>
@@ -130,9 +130,9 @@ function Header() {
 
 function MobileNav() {
   return (
-    <nav aria-label="Mobile" className="fixed bottom-3 left-1/2 z-40 -translate-x-1/2 md:hidden">
-      <div className="glass-pill">
-        {[["Work", "#work"], ["Lab", "#lab"], ["Contact", "#contact"]].map(([l, h]) => (
+    <nav aria-label="Mobile" className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 md:hidden">
+      <div className="pill">
+        {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
           <a key={l} href={h} className="nav-link">{l}</a>
         ))}
       </div>
@@ -140,283 +140,305 @@ function MobileNav() {
   );
 }
 
-/* ---------- Ambient glows with scroll drift ---------- */
+/* ---------- Hero ---------- */
+function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
+  const y1 = useTransform(scrollY, [0, 500], [0, 120]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -60]);
+  const sy1 = useSpring(y1, { stiffness: 60, damping: 22 });
+  const sy2 = useSpring(y2, { stiffness: 60, damping: 22 });
 
-function AmbientGlows() {
-  const { scrollYProgress } = useScroll();
-  const yA = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const yB = useTransform(scrollYProgress, [0, 1], [0, -240]);
-  const sA = useSpring(yA, { stiffness: 40, damping: 20 });
-  const sB = useSpring(yB, { stiffness: 40, damping: 20 });
   return (
-    <>
-      <motion.div className="ambient-glow ambient-glow--a" style={{ y: sA }} aria-hidden />
-      <motion.div className="ambient-glow ambient-glow--b" style={{ y: sB }} aria-hidden />
-    </>
-  );
-}
-
-/* ---------- Tiles ---------- */
-
-function HeroTile({ px, py }: { px: any; py: any }) {
-  return (
-    <DepthTile depth={2.4} pointerX={px} pointerY={py} className="md:col-span-8">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-        className="tile glass-near group relative min-h-[420px] md:min-h-[520px] flex flex-col justify-between overflow-hidden"
-      >
-        <div className="hero-orb absolute -right-16 -bottom-20 hidden md:block !w-[360px] pointer-events-none opacity-90" aria-hidden />
-        <div className="relative">
-          <div className="eyebrow mb-5">Mobile Engineer · Karachi</div>
-          <h1 className="hd-display md:pr-[180px]">
-            <span className="block"><SplitReveal text="Muhammad" /></span>
-            <span className="block text-[color:var(--mid)] transition-colors duration-700 group-hover:text-[color:var(--platinum)]">
-              <SplitReveal text="Shayan" delay={0.1} />
-            </span>
-          </h1>
-          <p className="mt-6 max-w-md body-md">
-            Mobile Engineer specializing in Android, Flutter, and high-performance on-device ML architectures.
-          </p>
-        </div>
-        <div className="relative mt-8 flex flex-wrap gap-3">
-          <span className="chip chip--solid">Android</span>
-          <span className="chip">Flutter</span>
-          <span className="chip">On-Device ML</span>
-        </div>
-      </motion.div>
-    </DepthTile>
-  );
-}
-
-function MetricsTile({ px, py }: { px: any; py: any }) {
-  return (
-    <DepthTile depth={2.8} pointerX={px} pointerY={py} className="md:col-span-4">
-      <div className="grid grid-cols-2 gap-4 md:gap-5">
-        {METRICS.map((m, i) => (
-          <motion.div
-            key={m.k}
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6, delay: i * 0.06, ease: [0.7, 0, 0.2, 1] }}
-            whileHover={{ y: -4 }}
-            className={`tile ${m.accent ? "tile--inverted" : "glass-mid"} flex flex-col items-center justify-center text-center min-h-[7.5rem] md:min-h-[8.5rem]`}
-          >
-            <div className="stat-num">{m.v}</div>
-            <div className="eyebrow mt-2">{m.k}</div>
+    <section id="top" className="section pt-[max(6rem,10vh)]">
+      <div className="container-x">
+        <Reveal>
+          <div className="flex items-center gap-2 eyebrow">
+            <span className="live-dot" /> Available · Q3 2026
+          </div>
+        </Reveal>
+        <div className="relative mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
+          <div className="md:col-span-8 relative z-10">
+            <h1 className="hd-hero">
+              <span className="block"><SplitReveal text="Muhammad" /></span>
+              <span className="block text-[color:var(--mid)]"><SplitReveal text="Shayan." delay={0.15} /></span>
+            </h1>
+            <Reveal delay={0.6}>
+              <p className="body-md mt-8 max-w-xl">
+                Mobile Engineer building <span className="text-[color:var(--platinum)]">Android, Flutter and on-device ML products</span> — from offline-first fintech to camera-driven vision apps. Based in Karachi, shipping worldwide.
+              </p>
+            </Reveal>
+            <Reveal delay={0.75}>
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                <a href="#contact" className="btn btn-primary" data-cursor="Write">
+                  <AnimatedIcon name="mail" size={16} /> Start a Project
+                </a>
+                <a href="#work" className="btn btn-ghost" data-cursor="Scroll">
+                  See Work <AnimatedIcon name="arrow" size={16} />
+                </a>
+              </div>
+            </Reveal>
+          </div>
+          <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end">
+            <div className="hero-orb" aria-hidden />
           </motion.div>
+        </div>
+
+        {/* Floating meta strip */}
+        <motion.div style={{ y: sy2 }} className="mt-16 md:mt-24 glass rounded-[var(--radius-xl)] p-5 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {METRICS.map((m, i) => (
+            <Reveal key={m.k} delay={i * 0.08}>
+              <div className="flex items-center gap-4">
+                <span className="text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={24} /></span>
+                <div>
+                  <div className="stat-num">{m.v}</div>
+                  <div className="eyebrow mt-1">{m.k}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- About ---------- */
+function About() {
+  return (
+    <section id="about" className="section">
+      <SectionHead eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
+      <div className="container-narrow grid gap-6">
+        <Reveal>
+          <p className="body-md">
+            Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="body-md">
+            I write my own animation systems, sweat over 60fps on mid-range Androids, and believe good interfaces feel physical. Currently open to senior mobile roles and long-term product partnerships.
+          </p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div className="flex flex-wrap gap-2 pt-4">
+            {STACK.slice(0, 6).map((s) => <span key={s} className="chip">{s}</span>)}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Work ---------- */
+function Work() {
+  return (
+    <section id="work" className="section">
+      <SectionHead eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
+      <div className="container-x">
+        <div className="glass rounded-[var(--radius-2xl)] overflow-hidden">
+          {WORK.map((w, i) => (
+            <motion.a
+              key={w.title}
+              href="#contact"
+              data-cursor="View"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, delay: i * 0.06, ease: [0.7, 0, 0.2, 1] }}
+              className="work-row group"
+            >
+              <div className="work-row__num">{String(i + 1).padStart(2, "0")}</div>
+              <div className="min-w-0">
+                <div className="work-row__title truncate">{w.title}</div>
+                <div className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span>{w.desc}</span>
+                  <span className="opacity-40">·</span>
+                  <span className="eyebrow">{w.tag}</span>
+                  <span className="opacity-40">·</span>
+                  <span className="eyebrow">{w.year}</span>
+                </div>
+              </div>
+              <div className="work-row__arrow" aria-hidden>
+                <AnimatedIcon name="arrow" size={20} />
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Lab ---------- */
+function Lab() {
+  return (
+    <section id="lab" className="section">
+      <SectionHead eyebrow="03 / Lab" title="Experiments in motion." kicker="Open source" />
+      <div className="container-x grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+        {LAB.map((l, i) => (
+          <Reveal key={l.title} delay={i * 0.08}>
+            <a href="#contact" data-cursor="View" className="glass-soft rounded-[var(--radius-xl)] p-6 md:p-7 flex flex-col justify-between min-h-[220px] group block">
+              <div className="flex items-center justify-between">
+                <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={22} /></span>
+                <span className="eyebrow">{l.status}</span>
+              </div>
+              <div>
+                <div className="hd-3">{l.title}</div>
+                <div className="body-sm mt-2">{l.note}</div>
+                <div className="mt-4 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-0 group-hover:opacity-100 transition-opacity">
+                  Explore <AnimatedIcon name="arrow" size={14} />
+                </div>
+              </div>
+            </a>
+          </Reveal>
         ))}
       </div>
-    </DepthTile>
+    </section>
   );
 }
 
-function FlagshipTile({ px, py }: { px: any; py: any }) {
+/* ---------- Marquee ---------- */
+function Ribbon() {
   return (
-    <DepthTile depth={1.6} pointerX={px} pointerY={py} className="md:col-span-7">
-      <motion.a
-        href="#contact"
-        data-cursor="View"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: [0.7, 0, 0.2, 1] }}
-        className="tile glass-mid group block min-h-[360px] cursor-pointer"
-      >
-        <span className="lens-flare" aria-hidden />
-        <div className="relative flex h-full flex-col justify-between">
-          <div>
-            <div className="eyebrow mb-6">Flagship Project</div>
-            <h3 className="hd-2">AI Trust Ledger</h3>
-            <p className="mt-4 max-w-md body-md">
-              Fintech app: ROI cycles, portfolio tracking, and resilient financial flows built on Kotlin, Firebase, and MVVM.
-            </p>
-          </div>
-          <div className="mt-8">
-            <div className="spark" aria-hidden>
-              {[42, 68, 55, 78, 61, 84, 72, 92, 66, 88, 74, 96, 80, 100, 86, 74, 90, 62, 78, 94].map((h, i) => (
-                <span key={i} style={{ height: `${h}%`, animationDelay: `${i * 90}ms` }} />
-              ))}
-            </div>
-          </div>
-          <div className="mt-6 flex items-center gap-6">
-            <span className="eyebrow text-[color:var(--platinum)] inline-flex items-center gap-2">
-              Case Study
-              <span className="text-lg transition-transform duration-500 group-hover:translate-x-2">→</span>
-            </span>
-            <div className="h-px w-12 bg-white/20" />
-            <span className="eyebrow">99.8% Crash-Free</span>
-          </div>
-        </div>
-      </motion.a>
-    </DepthTile>
-  );
-}
-
-function LabTile({ px, py }: { px: any; py: any }) {
-  const time = useKarachiTime();
-  return (
-    <DepthTile depth={1.8} pointerX={px} pointerY={py} className="md:col-span-5">
-      <motion.div
-        id="lab"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, delay: 0.08, ease: [0.7, 0, 0.2, 1] }}
-        className="tile glass-near min-h-[320px] flex flex-col justify-between"
-      >
-        <div>
-          <div className="eyebrow mb-8">Lab Experiments</div>
-          <ul className="space-y-1">
-            {LAB.map((l) => (
-              <li key={l.title} className="lab-row">
-                <span>{l.title}</span>
-                <span className="lab-status">{l.status}</span>
-              </li>
+    <div className="marquee my-[calc(var(--space-section)/2)]" aria-hidden>
+      <div className="marquee__track">
+        {Array.from({ length: 2 }).map((_, k) => (
+          <div key={k} className="marquee__item">
+            {STACK.map((s, i) => (
+              <span key={`${k}-${i}`} className={i % 2 ? "marquee__item--outline" : ""}>{s}</span>
             ))}
-          </ul>
-        </div>
-        <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-6">
-          <span className="eyebrow">Karachi</span>
-          <div className="flex items-center gap-2">
-            <span className="live-dot" />
-            <span className="eyebrow">{time || "--:--"} GMT+5</span>
           </div>
-        </div>
-      </motion.div>
-    </DepthTile>
-  );
-}
-
-function WorkTile({ w, i, px, py }: { w: (typeof WORK)[number]; i: number; px: any; py: any }) {
-  const depths = [1.2, 1.4, 1.0];
-  return (
-    <DepthTile depth={depths[i] ?? 1} pointerX={px} pointerY={py} className="md:col-span-4">
-      <motion.a
-        href="#contact"
-        data-cursor="View"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.7, delay: i * 0.08, ease: [0.7, 0, 0.2, 1] }}
-        whileHover={{ y: -6 }}
-        className="tile glass-far group block"
-      >
-        <div className="relative flex h-full flex-col justify-between">
-          <div className={`art-plate ${w.art} mb-6`} aria-hidden />
-          <div>
-            <div className="flex items-center justify-between">
-              <span className="eyebrow">{String(i + 2).padStart(2, "0")}</span>
-              <span className="chip">{w.tag}</span>
-            </div>
-            <h3 className="hd-3 mt-6">{w.title}</h3>
-            <p className="body-sm mt-3">{w.desc}</p>
-          </div>
-          <div className="eyebrow mt-6 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-1">
-            Explore Stack →
-          </div>
-        </div>
-      </motion.a>
-    </DepthTile>
-  );
-}
-
-function ContactStrip() {
-  return (
-    <motion.div
-      id="contact"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1] }}
-      className="md:col-span-12 footer-strip flex flex-col md:flex-row items-center justify-between gap-6"
-    >
-      <div className="flex flex-wrap items-center gap-6 md:gap-10">
-        <a href="mailto:hello@shayxo.dev" data-cursor="Write" className="eyebrow hover:text-[color:var(--platinum)] transition-colors">hello@shayxo.dev ↗</a>
-        <a href="https://github.com/shayann07" data-cursor="GitHub" className="eyebrow hover:text-[color:var(--platinum)] transition-colors">GitHub ↗</a>
-        <a href="https://www.linkedin.com/in/shayann07" data-cursor="LinkedIn" className="eyebrow hover:text-[color:var(--platinum)] transition-colors">LinkedIn ↗</a>
+        ))}
       </div>
-      <div className="eyebrow">Spatial Folio — v4 — Platinum</div>
-    </motion.div>
+    </div>
+  );
+}
+
+/* ---------- Contact ---------- */
+function Contact() {
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    setState("sending");
+    // Mailto handoff — no backend
+    const body = encodeURIComponent(`From: ${form.name} <${form.email}>\n\n${form.message}`);
+    const subject = encodeURIComponent(form.subject || "Project inquiry");
+    setTimeout(() => {
+      window.location.href = `mailto:hello@shayxo.dev?subject=${subject}&body=${body}`;
+      setState("sent");
+    }, 400);
+  }
+
+  const disabled = !form.name || !form.email || !form.message || state === "sending";
+
+  return (
+    <section id="contact" className="section">
+      <SectionHead eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
+      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <Reveal>
+          <aside className="lg:col-span-4 glass-soft rounded-[var(--radius-xl)] p-6 md:p-8 flex flex-col justify-between min-h-[420px]">
+            <div className="space-y-6">
+              <div>
+                <span className="eyebrow">Email</span>
+                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 block hover:opacity-70 transition-opacity flex items-center gap-3">
+                  <span className="text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={22} /></span>
+                  hello@shayxo.dev
+                </a>
+              </div>
+              <div>
+                <span className="eyebrow">Elsewhere</span>
+                <div className="mt-3 flex flex-col gap-3">
+                  <a href="https://github.com/shayann07" className="flex items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <AnimatedIcon name="github" size={18} /> github.com/shayann07
+                  </a>
+                  <a href="https://www.linkedin.com/in/shayann07" className="flex items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <AnimatedIcon name="linkedin" size={18} /> linkedin.com/in/shayann07
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="pt-6 border-t border-white/10">
+              <div className="eyebrow flex items-center gap-2"><span className="live-dot" /> Currently available</div>
+              <div className="body-sm mt-2">Booking projects starting August 2026.</div>
+            </div>
+          </aside>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <form onSubmit={submit} className="lg:col-span-8 glass rounded-[var(--radius-xl)] p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="field md:col-span-1">
+              <label htmlFor="name">Name</label>
+              <input id="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            </div>
+            <div className="field md:col-span-1">
+              <label htmlFor="email">Email</label>
+              <input id="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            </div>
+            <div className="field md:col-span-2">
+              <label htmlFor="subject">Subject</label>
+              <input id="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
+            </div>
+            <div className="field md:col-span-2">
+              <label htmlFor="message">Message</label>
+              <textarea id="message" required maxLength={2000} className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+            </div>
+            <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
+              <div className="eyebrow opacity-60">Encrypted end-to-end via mailto handoff.</div>
+              <button type="submit" disabled={disabled} className="btn btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
+                {state === "sent" ? "Sent ✓" : state === "sending" ? "Sending…" : "Send Message"}
+                {state === "idle" && <AnimatedIcon name="arrow" size={14} />}
+              </button>
+            </div>
+          </form>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Footer ---------- */
+function Footer() {
+  return (
+    <footer className="section pt-0">
+      <div className="container-x">
+        <Reveal>
+          <div className="wordmark-bg leading-none">SHAYAN</div>
+        </Reveal>
+        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6">
+          <div className="eyebrow">© 2026 Muhammad Shayan · Karachi</div>
+          <div className="eyebrow opacity-60">Built with TanStack Start · Motion · Tailwind v4</div>
+        </div>
+      </div>
+    </footer>
   );
 }
 
 /* ---------- Page ---------- */
-
 function Page() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
+  const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
 
   useEffect(() => {
     if (reduce) return;
-    let raf = 0;
-    let nx = 0;
-    let ny = 0;
-    const onMove = (e: PointerEvent) => {
-      nx = (e.clientX / window.innerWidth - 0.5) * 2;
-      ny = (e.clientY / window.innerHeight - 0.5) * 2;
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
-          px.set(nx);
-          py.set(ny);
-          raf = 0;
-        });
-      }
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [px, py, reduce]);
+    // gentle body class for scroll parallax anchors
+  }, [reduce]);
 
   return (
-    <div id="top" ref={containerRef} className="grain relative isolate min-h-screen overflow-x-clip">
-      <AmbientGlows />
+    <div id="top" ref={ref} className="grain relative isolate min-h-screen overflow-x-clip">
+      <div className="cloud-bg" aria-hidden />
       <Cursor />
       <Header />
       <MobileNav />
 
-      <main className="relative z-10 pt-24 pb-24 md:pt-32">
-        <section id="work" className="container-x">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
-            <HeroTile px={px} py={py} />
-            <MetricsTile px={px} py={py} />
-            <FlagshipTile px={px} py={py} />
-            <LabTile px={px} py={py} />
-            {WORK.map((w, i) => (
-              <WorkTile key={w.title} w={w} i={i} px={px} py={py} />
-            ))}
-            <ContactStrip />
-          </div>
-        </section>
-
-        <div className="marquee mt-16 md:mt-24" aria-hidden>
-          <div className="marquee__track">
-            {Array.from({ length: 2 }).map((_, k) => (
-              <div key={k} className="marquee__item">
-                <span>Android</span>
-                <span className="marquee__item--outline">Kotlin</span>
-                <span>Flutter</span>
-                <span className="marquee__item--outline">Jetpack Compose</span>
-                <span>TensorFlow Lite</span>
-                <span className="marquee__item--outline">Firebase</span>
-                <span>GraphQL</span>
-                <span className="marquee__item--outline">MVVM</span>
-                <span>Stripe</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="container-x relative mt-16 md:mt-20 overflow-hidden">
-          <div className="wordmark-bg">SHAYAN</div>
-          <div className="relative h-[180px] md:h-[220px]" />
-        </div>
+      <main className="relative z-10 pb-32 md:pb-20">
+        <Hero scrollY={scrollY} />
+        <About />
+        <Work />
+        <Ribbon />
+        <Lab />
+        <Contact />
+        <Footer />
       </main>
     </div>
   );
