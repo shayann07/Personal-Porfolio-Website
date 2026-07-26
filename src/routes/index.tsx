@@ -165,12 +165,12 @@ function HeroTile({ px, py }: { px: any; py: any }) {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.7, 0, 0.2, 1] }}
-        className="tile glass-near group min-h-[420px] md:min-h-[520px] grid md:grid-cols-[1.35fr_1fr] gap-8 items-center"
+        className="tile glass-near group relative min-h-[420px] md:min-h-[520px] flex flex-col justify-between overflow-hidden"
       >
-        <div className="flex flex-col justify-between h-full">
-         <div>
+        <div className="hero-orb absolute -right-16 -bottom-20 hidden md:block !w-[360px] pointer-events-none opacity-90" aria-hidden />
+        <div className="relative">
           <div className="eyebrow mb-5">Mobile Engineer · Karachi</div>
-          <h1 className="hd-display">
+          <h1 className="hd-display md:pr-[180px]">
             <span className="block"><SplitReveal text="Muhammad" /></span>
             <span className="block text-[color:var(--mid)] transition-colors duration-700 group-hover:text-[color:var(--platinum)]">
               <SplitReveal text="Shayan" delay={0.1} />
@@ -179,15 +179,11 @@ function HeroTile({ px, py }: { px: any; py: any }) {
           <p className="mt-6 max-w-md body-md">
             Mobile Engineer specializing in Android, Flutter, and high-performance on-device ML architectures.
           </p>
-         </div>
-         <div className="mt-8 flex flex-wrap gap-3">
+        </div>
+        <div className="relative mt-8 flex flex-wrap gap-3">
           <span className="chip chip--solid">Android</span>
           <span className="chip">Flutter</span>
           <span className="chip">On-Device ML</span>
-         </div>
-        </div>
-        <div className="hidden md:block relative">
-          <div className="hero-orb" aria-hidden />
         </div>
       </motion.div>
     </DepthTile>
