@@ -212,12 +212,22 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
               </p>
             </Reveal>
             <Reveal delay={0.75}>
-              <div className="mt-7 md:mt-10 flex flex-wrap items-center gap-3">
+              <div className="mt-7 md:mt-9 flex flex-wrap items-center gap-3">
                 <a href="#contact" className="btn btn-primary" data-cursor="Write">
-                  <AnimatedIcon name="mail" size={16} /> Start a Project
+                  <Icon name="mail" size={16} /> Start a Project
+                </a>
+                <a
+                  href={CV_URL}
+                  download
+                  aria-label="Download Muhammad Shayan's CV (PDF)"
+                  className="btn btn-ghost"
+                  data-cursor="Save"
+                >
+                  <Icon name="download" size={16} /> Download CV
+                  <span className="ml-1 opacity-50">PDF</span>
                 </a>
                 <a href="#work" className="btn btn-ghost" data-cursor="Scroll">
-                  See Work <AnimatedIcon name="arrow" size={16} />
+                  See Work <Icon name="arrow" size={16} />
                 </a>
               </div>
             </Reveal>
@@ -228,11 +238,11 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
 
         {/* Floating meta strip */}
-        <motion.div style={{ y: sy2 }} className="mt-12 md:mt-24 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <motion.div style={{ y: sy2 }} className="mt-10 md:mt-16 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
               <div className="flex min-w-0 items-center gap-3 md:gap-4">
-                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
+                <span className="metric-icon shrink-0"><Icon name={m.icon} size={20} /></span>
                 <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
                   <div className="eyebrow mt-1 truncate">{m.k}</div>
