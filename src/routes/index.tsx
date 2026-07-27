@@ -279,11 +279,10 @@ function Work() {
                 <span className="work-row__num">{String(i + 1).padStart(2, "0")}</span>
                 <span className="block min-w-0">
                   <span className="work-row__title block truncate">{w.title}</span>
-                  <span className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span>{w.desc}</span>
-                    <span className="opacity-40 hidden sm:inline">·</span>
+                  <span className="body-sm mt-2 block">{w.desc}</span>
+                  <span className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1">
                     <span className="eyebrow">{w.tag}</span>
-                    <span className="opacity-40 hidden sm:inline">·</span>
+                    <span className="opacity-40" aria-hidden>·</span>
                     <span className="eyebrow">{w.year}</span>
                   </span>
                 </span>
