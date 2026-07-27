@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import { AnimatedIcon } from "./AnimatedIcon";
+import { useSceneParallax } from "./useSpatialPointer";
 
 /**
  * Spatial UI: a visionOS-style stack of floating glass panes rendered in real
@@ -7,38 +7,7 @@ import { AnimatedIcon } from "./AnimatedIcon";
  * a single rAF-throttled transform write on the scene root (no per-pane state).
  */
 export function SpatialStack() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    let raf = 0;
-    let tx = 0;
-    let ty = 0;
-
-    const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      const nx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
-      const ny = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
-      tx = Math.max(-1, Math.min(1, nx)) * 14;
-      ty = Math.max(-1, Math.min(1, ny)) * -10;
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    const apply = () => {
-      raf = 0;
-      el.style.setProperty("--ry", `${tx.toFixed(2)}deg`);
-      el.style.setProperty("--rx", `${ty.toFixed(2)}deg`);
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
+  const ref = useSceneParallax<HTMLDivElement>(12);
 
   return (
     <div className="spatial" ref={ref} aria-hidden>
@@ -47,6 +16,7 @@ export function SpatialStack() {
         <span className="spatial__glow" />
 
         {/* back pane — signal graph */}
+        <span className="spatial__contact spatial__contact--back" />
         <div className="spatial__pane spatial__pane--back">
           <span className="spatial__sheen" />
           <div className="spatial__paneHead">
@@ -62,6 +32,7 @@ export function SpatialStack() {
         </div>
 
         {/* mid pane — module grid */}
+        <span className="spatial__contact spatial__contact--mid" />
         <div className="spatial__pane spatial__pane--mid">
           <span className="spatial__sheen" />
           <div className="spatial__grid">
@@ -77,6 +48,7 @@ export function SpatialStack() {
         </div>
 
         {/* front pane — the "card" */}
+        <span className="spatial__contact spatial__contact--front" />
         <div className="spatial__pane spatial__pane--front">
           <span className="spatial__sheen" />
           <div className="spatial__row spatial__row--between">
@@ -111,34 +83,7 @@ export default SpatialStack;
  * liquid-glass language. Pointer parallax shares the rAF-throttled approach.
  */
 export function SpatialCluster() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    let raf = 0;
-    let tx = 0;
-    let ty = 0;
-    const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / window.innerWidth)) * 10;
-      ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / window.innerHeight)) * -7;
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    const apply = () => {
-      raf = 0;
-      el.style.setProperty("--ry", `${tx.toFixed(2)}deg`);
-      el.style.setProperty("--rx", `${ty.toFixed(2)}deg`);
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
+  const ref = useSceneParallax<HTMLDivElement>(8);
 
   return (
     <div className="spatial-cluster" ref={ref} aria-hidden>
@@ -147,6 +92,7 @@ export function SpatialCluster() {
 
         <span className="spatial-cluster__rule" />
 
+        <span className="spatial__contact spatial__contact--slab" />
         <div className="spatial-slab">
           <span className="spatial__sheen" />
           <div className="spatial-slab__head">
