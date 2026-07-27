@@ -5,6 +5,8 @@ import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { SpatialStack, SpatialCluster } from "@/components/SpatialStack";
+import { SpatialWork } from "@/components/SpatialWork";
+import { SpatialNav } from "@/components/SpatialNav";
 import { useReveal } from "@/hooks/useReveal";
 import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
@@ -273,32 +275,7 @@ function Work() {
     <section id="work" aria-labelledby="work-title" className="section">
       <SectionHead id="work-title" eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
       <div className="container-x">
-        <ul className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-2xl)] overflow-hidden">
-          {WORK.map((w, i) => (
-            <li key={w.title}>
-              <a
-                href="#contact"
-                data-cursor="View"
-                aria-label={`${w.title} — ${w.tag}, ${w.year}. Enquire about this project.`}
-                className="work-row group"
-              >
-                <span className="work-row__num">{String(i + 1).padStart(2, "0")}</span>
-                <span className="block min-w-0">
-                  <span className="work-row__title block truncate">{w.title}</span>
-                  <span className="body-sm mt-2 block">{w.desc}</span>
-                  <span className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                    <span className="eyebrow">{w.tag}</span>
-                    <span className="opacity-40" aria-hidden>·</span>
-                    <span className="eyebrow">{w.year}</span>
-                  </span>
-                </span>
-                <span className="work-row__arrow" aria-hidden>
-                  <AnimatedIcon name="arrow" size={18} />
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <SpatialWork items={WORK} />
       </div>
     </section>
   );
