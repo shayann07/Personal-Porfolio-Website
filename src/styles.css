@@ -56,16 +56,16 @@
 }
 
 :root {
-  --void: #05060a;
-  --panel: #0d0f16;
+  --void: #020204;
+  --panel: #07080c;
   --mid: #8a90a0;
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #2a2e36; /* cool graphite */
-  --cloud-2: #3a3f4a; /* slate */
-  --cloud-3: #1c1f26; /* deep neutral */
-  --cloud-4: #0d1a2a; /* deep navy */
+  --cloud-1: #1a1d23; /* graphite, dimmed */
+  --cloud-2: #262a32; /* slate, dimmed */
+  --cloud-3: #0c0e13; /* deep neutral, near-black */
+  --cloud-4: #050810; /* deep navy, near-black */
 
   --background: var(--void);
   --foreground: var(--platinum);
@@ -135,10 +135,10 @@ body { cursor: none; }
   z-index: -2;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in oklab, var(--cloud-1) 55%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 55% at 85% 30%, color-mix(in oklab, var(--cloud-2) 50%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 90% 60% at 50% 90%, color-mix(in oklab, var(--cloud-3) 45%, transparent) 0%, transparent 65%),
-    radial-gradient(ellipse 100% 80% at 30% 60%, color-mix(in oklab, var(--cloud-4) 60%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in oklab, var(--cloud-1) 38%, transparent) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 55% at 85% 30%, color-mix(in oklab, var(--cloud-2) 34%, transparent) 0%, transparent 58%),
+    radial-gradient(ellipse 90% 60% at 50% 90%, color-mix(in oklab, var(--cloud-3) 36%, transparent) 0%, transparent 62%),
+    radial-gradient(ellipse 100% 80% at 30% 60%, color-mix(in oklab, var(--cloud-4) 48%, transparent) 0%, transparent 68%),
     var(--void);
 }
 .cloud-bg::before,

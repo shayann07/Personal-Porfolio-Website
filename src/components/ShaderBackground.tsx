@@ -47,19 +47,19 @@ export function ShaderBackground() {
         float md = exp(-2.2*length(uv - m));
         n += md*0.35;
 
-        // palette: void -> cool graphite -> slate -> platinum bloom
-        vec3 c0 = vec3(0.035, 0.037, 0.043);      // #090913 -> neutralised void
-        vec3 c1 = vec3(0.078, 0.086, 0.106);      // #14161b cool graphite
-        vec3 c2 = vec3(0.325, 0.352, 0.408);      // lifted #3a3f4a slate
+        // palette: near-black void -> deep graphite -> slate -> platinum bloom
+        vec3 c0 = vec3(0.008, 0.009, 0.014);      // #020204 premium near-black
+        vec3 c1 = vec3(0.045, 0.050, 0.063);      // #0b0d10 deep graphite
+        vec3 c2 = vec3(0.255, 0.280, 0.330);      // #414750 slate, dimmed
         vec3 c3 = vec3(0.949, 0.953, 0.965);      // #f2f3f6 platinum
 
-        vec3 col = mix(c0, c1, smoothstep(0.30, 0.62, n));
-        col = mix(col, c2, smoothstep(0.60, 0.86, n)*0.85);
-        col = mix(col, c3, smoothstep(0.90, 1.00, n)*0.48);
+        vec3 col = mix(c0, c1, smoothstep(0.34, 0.66, n));
+        col = mix(col, c2, smoothstep(0.64, 0.88, n)*0.78);
+        col = mix(col, c3, smoothstep(0.90, 1.00, n)*0.42);
 
-        // subtle vignette
-        float v = smoothstep(1.2, 0.2, length(uv));
-        col *= mix(0.55, 1.0, v);
+        // deeper vignette for premium edge falloff
+        float v = smoothstep(1.3, 0.15, length(uv));
+        col *= mix(0.40, 1.0, v);
 
         // grain
         col += (hash(gl_FragCoord.xy + u_t) - 0.5)*0.03;
