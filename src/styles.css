@@ -426,7 +426,8 @@ body { cursor: none; }
 .hero-orb {
   position: relative;
   width: 100%;
-  max-width: 360px;
+  max-width: 310px;
+  margin-inline-end: clamp(0px, 2vw, 28px);
   aspect-ratio: 1;
   isolation: isolate;
   animation: orb-float 11s ease-in-out infinite;
