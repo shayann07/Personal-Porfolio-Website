@@ -144,7 +144,7 @@ function Header({ active }: { active: string }) {
         <div className="hidden sm:block">
           <div className="pill">
             <span className="nav-link">
-              <span className="live-dot" aria-hidden />
+              <span className="live-dot live-dot--muted" aria-hidden />
               KHI {time || "--:--"}
             </span>
           </div>
@@ -220,11 +220,11 @@ function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="section">
       <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
-      <div className="container-x grid gap-10 md:grid-cols-12 md:gap-12 items-start">
+      <div className="container-x grid gap-6 md:grid-cols-12 md:gap-10 items-start">
         <div className="md:col-span-5 md:sticky md:top-28 flex justify-center md:justify-start">
           <SpatialCluster />
         </div>
-        <div className="md:col-span-7 grid gap-6">
+        <div className="md:col-span-7 grid gap-4 md:gap-5">
         <Reveal>
           <p className="body-md">
             Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
@@ -236,7 +236,7 @@ function About() {
           </p>
         </Reveal>
         <Reveal delay={0.2}>
-          <ul className="flex flex-wrap gap-2 pt-4" aria-label="Core technologies">
+          <ul className="flex flex-wrap gap-2 pt-1" aria-label="Core technologies">
             {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
           </ul>
         </Reveal>

@@ -20,8 +20,8 @@ export function SpatialStack() {
         <div className="spatial__pane spatial__pane--back">
           <span className="spatial__sheen" />
           <div className="spatial__paneHead">
-            <span className="spatial__label">latency</span>
-            <span className="spatial__label spatial__label--dim">ms</span>
+            <span className="spatial__label">Latency</span>
+            <span className="spatial__label spatial__label--unit">ms</span>
           </div>
           <div className="spatial__bars">
             {[38, 62, 44, 78, 56, 92, 70, 48].map((h, i) => (
@@ -53,8 +53,8 @@ export function SpatialStack() {
           <span className="spatial__sheen" />
           <div className="spatial__row spatial__row--between">
             <span className="spatial__row">
-              <span className="spatial__dot" />
-              <span className="spatial__label">on-device</span>
+              <span className="spatial__dot spatial__dot--live" />
+              <span className="spatial__label">Running on device</span>
             </span>
             <span className="spatial__icon spatial__icon--sm">
               <AnimatedIcon name="chip" size={18} />
@@ -62,7 +62,7 @@ export function SpatialStack() {
           </div>
           <div className="spatial__readout">
             <strong>18.4</strong>
-            <span className="spatial__label">ms / frame</span>
+            <span className="spatial__label spatial__label--unit">ms / frame</span>
           </div>
           <div className="spatial__meter"><i /></div>
         </div>
@@ -96,8 +96,8 @@ export function SpatialCluster() {
         <div className="spatial-slab">
           <span className="spatial__sheen" />
           <div className="spatial-slab__head">
-            <span className="spatial__dot" />
-            <span className="spatial__label">runtime</span>
+            <span className="spatial__dot spatial__dot--live" />
+            <span className="spatial__label">Daily runtime</span>
           </div>
           <div className="spatial-slab__wave">
             {Array.from({ length: 22 }).map((_, i) => (
@@ -105,7 +105,7 @@ export function SpatialCluster() {
             ))}
           </div>
           <ul className="spatial-slab__rows">
-            {["kotlin · compose", "flutter · dart", "tflite · edge"].map((t, i) => (
+            {["Kotlin & Compose", "Flutter & Dart", "TensorFlow Lite"].map((t, i) => (
               <li key={t} style={{ animationDelay: `${i * 0.9}s` }}>
                 <i />
                 <span className="spatial__label">{t}</span>
@@ -121,13 +121,13 @@ export function SpatialCluster() {
           </svg>
           <div className="spatial-gauge__mid">
             <strong>60</strong>
-            <span className="spatial__label">fps</span>
+            <span className="spatial__label spatial__label--unit">fps</span>
           </div>
         </div>
 
         <div className="spatial-tag">
           <span className="spatial__dot" />
-          <span className="spatial__label">karachi · pkt</span>
+          <span className="spatial__label">Karachi, PKT</span>
         </div>
 
         <div className="spatial-chipfloat">
