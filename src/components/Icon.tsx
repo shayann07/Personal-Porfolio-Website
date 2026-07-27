@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, type ReactElement } from "react";
 import { motion, useReducedMotion, type Transition } from "framer-motion";
 import {
   ArrowRight,
@@ -60,7 +60,7 @@ export type IconName =
 
 type Motion = "slide" | "bob" | "pulse" | "spin" | "none";
 
-const MAP: Record<IconName, { icon: LucideIcon | ((p: GlyphProps) => JSX.Element); motion: Motion }> = {
+const MAP: Record<IconName, { icon: LucideIcon | ((p: GlyphProps) => ReactElement); motion: Motion }> = {
   arrow: { icon: ArrowRight, motion: "slide" },
   download: { icon: ArrowDownToLine, motion: "bob" },
   mail: { icon: Mail, motion: "none" },
