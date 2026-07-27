@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
-import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { memo, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
