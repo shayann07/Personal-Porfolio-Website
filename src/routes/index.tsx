@@ -377,7 +377,7 @@ function Contact() {
     <section id="contact" aria-labelledby="contact-title" className="section">
       <SectionHead id="contact-title" eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
       <div className="container-x contact-panel">
-        <Reveal className="lg:col-span-4">
+        <Reveal>
           <aside aria-label="Contact details" className="contact-aside">
             <div className="space-y-6">
               <div>
@@ -410,7 +410,7 @@ function Contact() {
           </aside>
         </Reveal>
 
-        <Reveal delay={0.1} className="lg:col-span-8">
+        <Reveal delay={0.1}>
           <form onSubmit={submit} aria-labelledby="contact-title" className="contact-form">
             <div className="field md:col-span-1">
               <label htmlFor="name">Name</label>
