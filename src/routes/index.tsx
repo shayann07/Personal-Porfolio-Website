@@ -1,42 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
-import { memo, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
-import { Icon } from "@/components/Icon";
+import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { useReveal } from "@/hooks/useReveal";
-import { CV_URL } from "@/config/links";
-import { personalLinks } from "@/config/personalLinks";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Muhammad Shayan — Android, Flutter & On-Device ML Engineer" },
-      { name: "description", content: "Mobile engineer in Karachi building Android (Kotlin, Compose), Flutter and on-device ML products — offline-first fintech, health and vision apps." },
-      { property: "og:title", content: "Muhammad Shayan — Android, Flutter & On-Device ML Engineer" },
-      { property: "og:description", content: "Android, Flutter, TensorFlow Lite and offline-first mobile systems. Selected work, experiments and contact." },
+      { title: "Muhammad Shayan — Mobile Engineer" },
+      { name: "description", content: "Portfolio of Muhammad Shayan — Mobile Engineer building Android, Flutter, and on-device ML products from Karachi." },
+      { property: "og:title", content: "Muhammad Shayan — Mobile Engineer" },
+      { property: "og:description", content: "Android, Flutter, on-device ML, and offline-first mobile systems by Muhammad Shayan." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { property: "og:image", content: "/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Muhammad Shayan — Android, Flutter & On-Device ML Engineer" },
-      { name: "twitter:description", content: "Android, Flutter, TensorFlow Lite and offline-first mobile systems." },
-      { name: "twitter:image", content: "/og-image.png" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Person",
-          name: "Muhammad Shayan",
-          jobTitle: "Mobile Engineer",
-          email: personalLinks.email.link,
-          address: { "@type": "PostalAddress", addressLocality: "Karachi", addressCountry: "PK" },
-          knowsAbout: ["Android", "Kotlin", "Jetpack Compose", "Flutter", "TensorFlow Lite"],
-          sameAs: [personalLinks.github.link, personalLinks.linkedin.link],
-        }),
-      },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Page,
@@ -44,18 +21,11 @@ export const Route = createFileRoute("/")({
 
 /* ---------- Data ---------- */
 const METRICS = [
-  { v: "3+", k: "Live Apps", icon: "rocket" },
-  { v: "10k+", k: "Installs", icon: "installs" },
-  { v: "99%+", k: "Stability", icon: "stability" },
-  { v: "60%", k: "Perf Gain", icon: "perf" },
-] as const;
-
-const FACTS = [
-  { label: "Role", value: "Senior Mobile Engineer", icon: "chip" },
-  { label: "Based in", value: "Karachi, PK · UTC+5", icon: "pin" },
-  { label: "Experience", value: "4 years shipping", icon: "clock" },
-  { label: "Focus", value: "Kotlin · Flutter · TFLite", icon: "layers" },
-] as const;
+  { v: "3+", k: "Live Apps", icon: "bolt" },
+  { v: "10k+", k: "Installs", icon: "orbit" },
+  { v: "99%+", k: "Stability", icon: "spark" },
+  { v: "60%", k: "Perf Gain", icon: "gear" },
+];
 
 const WORK = [
   { title: "AI Trust Ledger", desc: "Fintech: ROI cycles, portfolio tracking, resilient financial flows.", tag: "Fintech · Kotlin", year: "2025" },
@@ -193,7 +163,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   const sy2 = useSpring(y2, { stiffness: 60, damping: 22 });
 
   return (
-    <section id="top" aria-labelledby="hero-title" className="section section--hero">
+    <section id="top" aria-labelledby="hero-title" className="section pt-[max(5.5rem,9vh)]">
       <div className="container-x">
         <Reveal>
           <div className="flex items-center gap-2 eyebrow">
@@ -212,22 +182,12 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
               </p>
             </Reveal>
             <Reveal delay={0.75}>
-              <div className="mt-7 md:mt-9 flex flex-wrap items-center gap-3">
+              <div className="mt-7 md:mt-10 flex flex-wrap items-center gap-3">
                 <a href="#contact" className="btn btn-primary" data-cursor="Write">
-                  <Icon name="mail" size={16} /> Start a Project
-                </a>
-                <a
-                  href={CV_URL}
-                  download
-                  aria-label="Download Muhammad Shayan's CV (PDF)"
-                  className="btn btn-ghost"
-                  data-cursor="Save"
-                >
-                  <Icon name="download" size={16} /> Download CV
-                  <span className="ml-1 opacity-50">PDF</span>
+                  <AnimatedIcon name="mail" size={16} /> Start a Project
                 </a>
                 <a href="#work" className="btn btn-ghost" data-cursor="Scroll">
-                  See Work <Icon name="arrow" size={16} />
+                  See Work <AnimatedIcon name="arrow" size={16} />
                 </a>
               </div>
             </Reveal>
@@ -238,11 +198,11 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
 
         {/* Floating meta strip */}
-        <motion.div style={{ y: sy2 }} className="mt-10 md:mt-16 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <motion.div style={{ y: sy2 }} className="mt-12 md:mt-24 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
               <div className="flex min-w-0 items-center gap-3 md:gap-4">
-                <span className="metric-icon shrink-0"><Icon name={m.icon} size={20} /></span>
+                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
                 <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
                   <div className="eyebrow mt-1 truncate">{m.k}</div>
@@ -261,37 +221,21 @@ function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="section">
       <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
-      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
-        <Reveal className="lg:col-span-7">
-          <div className="grid gap-5">
-            <p className="body-md">
-              Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
-            </p>
-            <p className="body-md">
-              I write my own animation systems, sweat over 60fps on mid-range Androids, and believe good interfaces feel physical. Currently open to senior mobile roles and long-term product partnerships.
-            </p>
-            <ul className="flex flex-wrap gap-2 pt-1" aria-label="Core technologies">
-              {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
-            </ul>
-          </div>
+      <div className="container-narrow grid gap-6">
+        <Reveal>
+          <p className="body-md">
+            Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
+          </p>
         </Reveal>
-        <Reveal delay={0.1} className="lg:col-span-5">
-          <dl className="glass-soft rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-            {FACTS.map((f) => (
-              <div key={f.label} className="flex min-w-0 items-center gap-3">
-                <span className="metric-icon shrink-0"><Icon name={f.icon} size={18} /></span>
-                <div className="min-w-0">
-                  <dt className="eyebrow">{f.label}</dt>
-                  <dd className="body-sm mt-1 text-[color:var(--platinum)] truncate">{f.value}</dd>
-                </div>
-              </div>
-            ))}
-            <div className="sm:col-span-2 lg:col-span-1 pt-3 border-t border-white/10">
-              <a href={CV_URL} download aria-label="Download Muhammad Shayan's CV (PDF)" className="btn btn-ghost w-full justify-center">
-                <Icon name="download" size={15} /> Download CV
-              </a>
-            </div>
-          </dl>
+        <Reveal delay={0.1}>
+          <p className="body-md">
+            I write my own animation systems, sweat over 60fps on mid-range Androids, and believe good interfaces feel physical. Currently open to senior mobile roles and long-term product partnerships.
+          </p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <ul className="flex flex-wrap gap-2 pt-4" aria-label="Core technologies">
+            {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
+          </ul>
         </Reveal>
       </div>
     </section>
@@ -325,7 +269,7 @@ function Work() {
                   </span>
                 </span>
                 <span className="work-row__arrow" aria-hidden>
-                  <Icon name="arrow" size={18} />
+                  <AnimatedIcon name="arrow" size={18} />
                 </span>
               </a>
             </li>
@@ -352,14 +296,14 @@ function Lab() {
                 className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
               >
                 <span className="flex items-center justify-between">
-                  <span className="text-[color:var(--platinum)]/70 icon-float"><Icon name="orbit" size={20} /></span>
+                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={20} /></span>
                   <span className="eyebrow">{l.status}</span>
                 </span>
                 <span className="block mt-6">
                   <span className="hd-3 block">{l.title}</span>
                   <span className="body-sm mt-2 block">{l.note}</span>
                   <span className="mt-3 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-60 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
-                    Explore <Icon name="arrow" size={14} />
+                    Explore <AnimatedIcon name="arrow" size={14} />
                   </span>
                 </span>
               </a>
@@ -390,63 +334,22 @@ function Ribbon() {
 
 /* ---------- Contact ---------- */
 function Contact() {
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [copied, setCopied] = useState(false);
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-
-  function validate(f: typeof form) {
-    const next: Record<string, string> = {};
-    if (!f.name.trim()) next.name = "Please add your name.";
-    else if (f.name.trim().length > 80) next.name = "Name must be under 80 characters.";
-    if (!f.email.trim()) next.email = "Please add an email so I can reply.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) next.email = "That email doesn't look right.";
-    if (f.subject.length > 140) next.subject = "Subject must be under 140 characters.";
-    if (!f.message.trim()) next.message = "Tell me a little about the project.";
-    else if (f.message.trim().length < 20) next.message = "A bit more detail helps — 20 characters minimum.";
-    else if (f.message.length > 2000) next.message = "Message must be under 2000 characters.";
-    return next;
-  }
-
-  function update(key: keyof typeof form, value: string) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-    if (errors[key]) setErrors(({ [key]: _drop, ...rest }) => rest);
-    if (state === "sent" || state === "error") setState("idle");
-  }
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    const found = validate(form);
-    setErrors(found);
-    if (Object.keys(found).length > 0) {
-      setState("error");
-      const first = document.getElementById(Object.keys(found)[0]);
-      first?.focus();
-      return;
-    }
     setState("sending");
+    // Mailto handoff — no backend
     const body = encodeURIComponent(`From: ${form.name} <${form.email}>\n\n${form.message}`);
-    const subject = encodeURIComponent(form.subject.trim() || "Project inquiry");
-    try {
-      window.location.href = `${personalLinks.email.link}?subject=${subject}&body=${body}`;
-      window.setTimeout(() => setState("sent"), 500);
-    } catch {
-      setState("error");
-    }
+    const subject = encodeURIComponent(form.subject || "Project inquiry");
+    setTimeout(() => {
+      window.location.href = `mailto:hello@shayxo.dev?subject=${subject}&body=${body}`;
+      setState("sent");
+    }, 400);
   }
 
-  async function copyEmail() {
-    try {
-      await navigator.clipboard.writeText(personalLinks.email.label);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      setCopied(false);
-    }
-  }
-
-  const disabled = state === "sending";
-  const hasErrors = Object.keys(errors).length > 0;
+  const disabled = !form.name || !form.email || !form.message || state === "sending";
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="section">
@@ -457,30 +360,21 @@ function Contact() {
             <div className="space-y-6">
               <div>
                 <span className="eyebrow">Email</span>
-                <a href={personalLinks.email.link} className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
-                  <span className="metric-icon shrink-0"><Icon name="mail" size={18} /></span>
-                  <span className="truncate">{personalLinks.email.label}</span>
+                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
+                  <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={20} /></span>
+                  <span className="truncate">hello@shayxo.dev</span>
                 </a>
-                <button
-                  type="button"
-                  onClick={copyEmail}
-                  aria-label="Copy email address to clipboard"
-                  className="mt-3 btn btn-ghost"
-                >
-                  <Icon name={copied ? "check" : "copy"} size={14} /> {copied ? "Copied" : "Copy email"}
-                </button>
-                <span aria-live="polite" className="sr-only">{copied ? "Email address copied" : ""}</span>
               </div>
               <div>
                 <span className="eyebrow">Elsewhere</span>
                 <div className="mt-3 flex flex-col gap-3">
-                  <a href={personalLinks.github.link} target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <span className="shrink-0"><Icon name="github" size={18} /></span>
+                  <a href="https://github.com/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <span className="shrink-0"><AnimatedIcon name="github" size={18} /></span>
                     <span className="truncate">github.com/shayann07</span>
                     <span className="sr-only">(opens in a new tab)</span>
                   </a>
-                  <a href={personalLinks.linkedin.link} target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <span className="shrink-0"><Icon name="linkedin" size={18} /></span>
+                  <a href="https://www.linkedin.com/in/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                    <span className="shrink-0"><AnimatedIcon name="linkedin" size={18} /></span>
                     <span className="truncate">linkedin.com/in/shayann07</span>
                     <span className="sr-only">(opens in a new tab)</span>
                   </a>
@@ -490,62 +384,36 @@ function Contact() {
             <div className="pt-5 border-t border-white/10">
               <div className="eyebrow flex items-center gap-2"><span className="live-dot" /> Currently available</div>
               <div className="body-sm mt-2">Booking projects starting August 2026.</div>
-              <a href={CV_URL} download aria-label="Download Muhammad Shayan's CV (PDF)" className="btn btn-ghost mt-4 w-full justify-center">
-                <Icon name="download" size={15} /> Download CV
-              </a>
             </div>
           </aside>
         </Reveal>
 
         <Reveal delay={0.1} className="lg:col-span-8">
-          <form onSubmit={submit} noValidate aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+          <form onSubmit={submit} aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
             <div className="field md:col-span-1">
               <label htmlFor="name">Name</label>
-              <input id="name" name="name" autoComplete="name" maxLength={80} className="input" placeholder="Ada Lovelace"
-                aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined}
-                value={form.name} onChange={(e) => update("name", e.target.value)} />
-              {errors.name && <span id="name-error" className="field-error">{errors.name}</span>}
+              <input id="name" name="name" autoComplete="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             </div>
             <div className="field md:col-span-1">
               <label htmlFor="email">Email</label>
-              <input id="email" name="email" autoComplete="email" inputMode="email" type="email" maxLength={120} className="input" placeholder="you@company.com"
-                aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined}
-                value={form.email} onChange={(e) => update("email", e.target.value)} />
-              {errors.email && <span id="email-error" className="field-error">{errors.email}</span>}
+              <input id="email" name="email" autoComplete="email" inputMode="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
             </div>
             <div className="field md:col-span-2">
-              <label htmlFor="subject">Subject <span className="opacity-50">(optional)</span></label>
-              <input id="subject" name="subject" maxLength={140} className="input" placeholder="What are we building?"
-                aria-invalid={!!errors.subject} aria-describedby={errors.subject ? "subject-error" : undefined}
-                value={form.subject} onChange={(e) => update("subject", e.target.value)} />
-              {errors.subject && <span id="subject-error" className="field-error">{errors.subject}</span>}
+              <label htmlFor="subject">Subject</label>
+              <input id="subject" name="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
             </div>
             <div className="field md:col-span-2">
               <label htmlFor="message">Message</label>
-              <textarea id="message" name="message" maxLength={2000} className="textarea" placeholder="Tell me about the product, timeline, and stack…"
-                aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error message-hint" : "message-hint"}
-                value={form.message} onChange={(e) => update("message", e.target.value)} />
-              <span className="mt-1 flex items-center justify-between gap-3">
-                <span id="message-hint" className="body-sm opacity-60">Minimum 20 characters.</span>
-                <span className="eyebrow opacity-50">{form.message.length}/2000</span>
-              </span>
-              {errors.message && <span id="message-error" className="field-error">{errors.message}</span>}
+              <textarea id="message" name="message" required maxLength={2000} aria-describedby="message-hint" className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+              <span id="message-hint" className="body-sm opacity-60">Max 2000 characters.</span>
             </div>
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <p role="status" aria-live="polite" className={`eyebrow flex items-center gap-2 ${state === "error" ? "text-[color:var(--destructive)]" : "opacity-60"}`}>
-                {state === "error" ? (
-                  <><Icon name="alert" size={14} /> {hasErrors ? "Check the highlighted fields." : "Couldn't open your mail app — copy my email instead."}</>
-                ) : state === "sent" ? (
-                  <><Icon name="check" size={14} /> Message handed off to your mail app.</>
-                ) : state === "sending" ? (
-                  "Opening your mail app…"
-                ) : (
-                  "Sends via your mail app — no data stored."
-                )}
+              <p role="status" aria-live="polite" className="eyebrow opacity-60">
+                {state === "sent" ? "Message handed off to your mail app." : state === "sending" ? "Opening your mail app…" : "Sends via your mail app — no data stored."}
               </p>
               <button type="submit" disabled={disabled} className="btn btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
-                {state === "sent" ? "Sent" : state === "sending" ? "Sending…" : "Send Message"}
-                <Icon name={state === "sent" ? "check" : "arrow"} size={14} />
+                {state === "sent" ? "Sent ✓" : state === "sending" ? "Sending…" : "Send Message"}
+                {state === "idle" && <AnimatedIcon name="arrow" size={14} />}
               </button>
             </div>
           </form>
@@ -573,51 +441,12 @@ function Footer() {
 }
 
 /* ---------- Page ---------- */
-function CloudBg() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const p = max > 0 ? window.scrollY / max : 0;
-      el.style.setProperty("--cloud-scroll", p.toFixed(4));
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  return (
-    <div className="cloud-bg" aria-hidden ref={ref}>
-      <div className="cloud-bg__layer" />
-      <div className="cloud-bg__wash" />
-      <div className="cloud-bg__mist cloud-bg__mist--upper" />
-      <div className="cloud-bg__mist cloud-bg__mist--main" />
-      <div className="cloud-bg__mist cloud-bg__mist--low" />
-      <div className="cloud-bg__vignette" />
-    </div>
-  );
-}
-
 function Page() {
   const { scrollY } = useScroll();
 
   return (
     <div className="grain relative isolate min-h-dvh overflow-x-clip">
-      <CloudBg />
+      <div className="cloud-bg" aria-hidden />
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header />

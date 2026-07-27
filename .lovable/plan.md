@@ -1,41 +1,56 @@
-## Audit: what's actually happening
+## Rebuild: Kinetic Monolith Spatial Bento
 
-I inspected the live page. The cloud layer **is** in the DOM and rendering — it isn't a missing element or a z-index bug:
+Complete rebuild of the portfolio around the selected direction. Whole page, one unified spatial-bento surface, monochrome platinum tokens, pointer/scroll-driven parallax across z-stacked glass planes.
 
-- `src/routes/index.tsx:581` renders `<div className="cloud-bg" aria-hidden />` inside `.grain relative isolate`.
-- Computed styles confirm: `position: fixed`, full viewport (1522×904), `z-index: -2`, `opacity: 1`, gradients present, both drift pseudo-layers animating (`cloud-drift-a/b`, `blur(120px)`, opacity 0.55).
+## Design system (locked)
 
-The problem is that it's **visually invisible**, not absent. Three reasons:
+Tokens rewritten in `src/styles.css`:
 
-1. **The cloud colors are almost black.** `--cloud-1 #3b2a63`, `--cloud-2 #1a3a5f`, `--cloud-3 #5a2440`, `--cloud-4 #0d1a2a` — each mixed at only 45–60% over `--void #05060a`. The dominant layer (`--cloud-4`, a near-black navy at 60% covering an ellipse 100%×80%) flattens the other three into the void.
-2. **The layer is `position: fixed` with no scroll response.** Everything below the hero sees the exact same static wash, so the page reads as flat black once you scroll.
-3. **Content sits on top with its own dark scrims.** The liquid-glass tiles use dark backdrop scrims, so what little tint exists gets absorbed.
+- Void `#030304`, panel base `#131317`, mid `#8A8F99`, silver `#C8CCD4`, light `#F0F1F3`. No hue.
+- Sora (display, 400/600/800), Manrope (body, 400/500/700). Loaded via `<link>` in `__root.tsx`.
+- Glass tiers (near/mid/far) with different `backdrop-blur`, `saturate`, opacity, border alpha, shadow depth — mapped to z-position in the bento.
+- One inverted tile per group (white surface, dark text) as the accent anchor — the only "brightness accent" in a hueless palette.
+- Radii on a 3-step scale: `1.5rem`, `2rem`, `2.5rem`. Uppercase eyebrows with `0.2–0.3em` tracking.
 
-Net: the previous version's visible cloudy aurora was replaced by a much darker, lower-contrast palette during the cosmic-black retune.
+## Page structure (single scroll, one bento)
 
-## Plan
+Replace the current multi-section layout with one continuous 12-column bento surface:
 
-**1. Retune the cloud palette (`src/styles.css`)**
-- Raise the cloud hues into visible territory while staying cosmic-black overall: brighter violet, teal, and plum stops, and drop the near-black `--cloud-4` from a dominant fill to a subtle vignette.
-- Increase per-gradient mix strength so the wash is readable against `#05060a` without turning the page purple.
+```text
+┌──────────────────────────────┬──────────┐
+│ HERO plane (Muhammad Shayan) │ 4 metric │
+│ chips: Android/Flutter/ML    │ tiles 2x2│
+├──────────────────────┬───────┴──────────┤
+│ Flagship: AI Trust   │ Lab experiments  │
+│ Ledger (lens flare)  │ + Karachi live   │
+├──────────┬───────────┼──────────────────┤
+│LeafBloom │ GitPulse  │ Medicare         │
+├──────────┴───────────┴──────────────────┤
+│ Contact strip (dashed) — GH · LI · Mail │
+└─────────────────────────────────────────┘
+```
 
-**2. Rebuild the cloud composition**
-- Add a third drifting blob (currently only `::before` / `::after`) on its own slower animation so the motion never visibly loops in sync.
-- Larger, softer radii with staggered durations; keep `translate3d` + `will-change: transform` so it stays GPU-composited.
-- Add a soft radial vignette on top so edges stay dark and center reads cloudy — this is what gave the earlier version depth.
+Fixed glass pill header (Shayan mark · nav · KHI time) stays; mobile bottom pill nav stays. Everything else is one bento.
 
-**3. Make the background respond to scroll**
-- Give the cloud container a very slow parallax drift tied to scroll position (CSS-driven, transform only, no per-frame React state) so lower sections get fresh cloud coverage instead of the same static frame.
+## Spatial motion
 
-**4. Keep glass legible**
-- Slightly reduce the darkness of the tile scrims so the clouds show through the glass, which is the whole point of the liquid-glass look, while preserving text contrast.
+- **Ambient**: two blurred glow orbs fixed behind the bento drift with `useScroll` progress (translate only) — the only "light source" for the glass.
+- **Pointer parallax**: single top-level `useMotionValue` for cursor; each tile subscribes with a depth weight (near tiles translate more, far tiles translate less). Springs on the values, transforms applied via `translate3d` for GPU.
+- **Hover**: tiles tighten letter-spacing on the hero, scale-up on metrics, lens-flare sweep on the flagship, list items shift right and brighten in the lab list.
+- **Reveal**: staggered `whileInView` scale/opacity per tile, disabled under `prefers-reduced-motion`.
 
-**5. Respect motion + mobile budgets**
-- Keep drift animations off under `prefers-reduced-motion`.
-- Keep the existing mobile override (`blur(70px)`, lower opacity), retuned to the new palette so mobile still shows clouds rather than mud.
+## Files touched
 
-**6. Verify**
-- Screenshot the hero, a mid-page section, and the footer via Playwright to confirm the clouds are visible at all scroll depths, and re-check mobile width.
+- `src/styles.css` — rewrite tokens, glass tiers, eyebrow/heading utilities, remove unused liquid-glass carry-over.
+- `src/routes/index.tsx` — rebuild `Page` around the new bento; keep `Header`, `MobileNav`, `SplitEnter`; delete `HeroVisual`, `WorkGallery`, `ProjectPoster`, `SignalSection`, `LabSection`, `Contact` sections in favor of new bento tile components (`HeroTile`, `MetricTile`, `FlagshipTile`, `LabTile`, `WorkTile`, `ContactStrip`) inside one `<SpatialBento>`.
+- `src/routes/__root.tsx` — add Sora + Manrope `<link>` in head (keep existing links).
+- Keep `ShaderBackground` and `Cursor` as-is (they already fit monochrome).
+- Update route `head()` meta (title/description) to reflect the spatial rebrand.
 
-### Technical notes
-All changes are confined to `src/styles.css` (the `.cloud-bg` block, cloud tokens, glass scrim tokens, and the reduced-motion / mobile media queries), plus a possible one-line class addition on the existing `.cloud-bg` div in `src/routes/index.tsx` for the scroll parallax. No structural or content changes.
+## Content
+
+All real content from the current file is preserved: 4 metrics, 4 projects (AI Trust Ledger flagship + LeafBloom, GitPulse, Medicare), 3 lab experiments, Karachi live time, GitHub/LinkedIn/email. Copy tightened to fit tile density.
+
+## Out of scope
+
+No new dependencies. No backend/data changes. MCP server untouched. Perf HUD, theme switcher, modals — not part of this pass.
