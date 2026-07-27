@@ -424,6 +424,8 @@ body { cursor: none; }
 .spatial {
   --rx: 0deg;
   --ry: 0deg;
+  --px: 50%;
+  --py: 50%;
   position: relative;
   width: 100%;
   max-width: 320px;
@@ -455,26 +457,45 @@ body { cursor: none; }
   border-radius: 22px;
   transform-style: preserve-3d;
   overflow: hidden;
-  background: linear-gradient(150deg, rgb(237 235 222 / 0.09), rgb(12 11 16 / 0.55) 60%);
+  background:
+    radial-gradient(120% 90% at var(--px) var(--py), rgb(237 235 222 / 0.13), transparent 62%),
+    linear-gradient(150deg, rgb(237 235 222 / 0.08), rgb(12 11 16 / 0.58) 60%);
   border: 1px solid rgb(237 235 222 / 0.14);
   backdrop-filter: blur(22px) saturate(160%);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   box-shadow:
     inset 0 1px 0 rgb(237 235 222 / 0.18),
+    inset 0 -18px 34px -22px rgb(0 0 0 / 0.75),
     0 30px 60px -30px rgb(0 0 0 / 0.85);
 }
+/* soft cast shadow rendered on the plane behind each pane — cheap occlusion */
+.spatial__contact {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 34px;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent 78%);
+  filter: blur(18px);
+}
+.spatial__contact--back { inset: 6% 20% 34% 0%; transform: translateZ(-96px) scale(1.04); }
+.spatial__contact--mid { inset: 18% 2% 28% 26%; transform: translateZ(-26px) scale(1.05); }
+.spatial__contact--front { inset: 58% 24% -4% -2%; transform: translateZ(40px) scale(1.06); opacity: 0.9; }
+.spatial__contact--slab { inset: 4% 26% 10% 2%; transform: translateZ(-40px) scale(1.05); }
 /* travelling specular sheen shared by every glass object */
 .spatial__sheen {
   position: absolute;
   inset: -40% -60%;
   pointer-events: none;
-  background: linear-gradient(
-    100deg,
-    transparent 42%,
-    rgb(237 235 222 / 0.10) 50%,
-    transparent 58%
-  );
-  animation: spatial-sheen 9s linear infinite;
+  background:
+    radial-gradient(42% 42% at var(--px) var(--py), rgb(237 235 222 / 0.10), transparent 70%),
+    linear-gradient(
+      100deg,
+      transparent 43%,
+      rgb(237 235 222 / 0.09) 49%,
+      rgb(237 235 222 / 0.14) 51%,
+      transparent 57%
+    );
+  mix-blend-mode: screen;
+  animation: spatial-sheen 11s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 .spatial__paneHead {
   position: relative;
@@ -500,16 +521,18 @@ body { cursor: none; }
 }
 .spatial__pane--back {
   inset: 2% 22% 40% -2%;
-  transform: translateZ(-70px) translateX(-6%);
+  transform: translateZ(-70px) translateX(-6%) scale(0.985);
   padding: 14px 16px 22px;
   display: flex;
   flex-direction: column;
-  opacity: 0.85;
+  opacity: 0.8;
+  filter: saturate(0.82) brightness(0.88);
 }
 .spatial__pane--mid {
   inset: 14% 0 34% 26%;
   transform: translateZ(0px);
   padding: 16px;
+  filter: saturate(0.94) brightness(0.96);
 }
 .spatial__pane--front {
   inset: 54% 26% 0% -4%;
@@ -1193,7 +1216,7 @@ body { cursor: none; }
   .work-panes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .work-pane {
-  --rx: 0deg; --ry: 0deg; --px: 50%; --py: 50%;
+  --rx: 0deg; --ry: 0deg; --px: 50%; --py: 50%; --lift: 0;
   position: relative;
   display: block;
   overflow: hidden;
@@ -1204,14 +1227,22 @@ body { cursor: none; }
   transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(0, 0, 0);
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.35s ease;
   background:
-    linear-gradient(155deg, rgb(237 235 222 / 0.10), rgb(10 9 14 / 0.62) 62%);
+    radial-gradient(90% 80% at var(--px) var(--py), rgb(237 235 222 / calc(0.06 + var(--lift, 0) * 0.06)), transparent 60%),
+    linear-gradient(155deg, rgb(237 235 222 / 0.09), rgb(10 9 14 / 0.64) 62%);
   border: 1px solid rgb(237 235 222 / 0.13);
   backdrop-filter: blur(24px) saturate(165%);
   -webkit-backdrop-filter: blur(24px) saturate(165%);
-  box-shadow: inset 0 1px 0 rgb(237 235 222 / 0.18), 0 36px 70px -34px rgb(0 0 0 / 0.9);
-  will-change: transform;
+  box-shadow:
+    inset 0 1px 0 rgb(237 235 222 / 0.18),
+    inset 0 -22px 40px -26px rgb(0 0 0 / 0.7),
+    0 36px 70px -34px rgb(0 0 0 / 0.9);
 }
-.work-pane[data-depth="far"] { transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(0, 0, -18px); }
+.work-pane[data-depth="far"] {
+  transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(0, 0, -18px) scale(0.99);
+  filter: saturate(0.9) brightness(0.94);
+  box-shadow: inset 0 1px 0 rgb(237 235 222 / 0.14), 0 26px 54px -30px rgb(0 0 0 / 0.9);
+}
+.work-pane[data-depth="far"]:hover { filter: none; }
 @media (min-width: 768px) {
   .work-panes > li:nth-child(even) .work-pane { margin-top: clamp(18px, 3vw, 42px); }
 }
@@ -1419,7 +1450,29 @@ body { cursor: none; }
     0 0 74px -20px rgb(var(--crimson-rgb) / 0.6);
 }
 
+/* ---------- Performance budget: coarse pointers & small screens ---------- */
+@media (max-width: 767px), (pointer: coarse) {
+  .spatial__contact,
+  .spatial__sheen,
+  .spatial__scan { display: none; }
+  .spatial__pane,
+  .work-pane {
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    will-change: auto;
+  }
+  .spatial__glow,
+  .spatial-cluster__glow { filter: blur(24px); }
+  .work-pane__trail { display: none; }
+  .spatial, .spatial-cluster, .work-panes { contain: layout paint; }
+}
+@media (max-width: 767px) {
+  /* keep offscreen spatial work out of the raster budget */
+  .work-panes > li { content-visibility: auto; contain-intrinsic-size: 260px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .spatial__contact { display: none; }
   .work-pane,
   .work-pane:hover,
   .work-pane[data-depth="far"] { transform: none !important; transition: none !important; }
