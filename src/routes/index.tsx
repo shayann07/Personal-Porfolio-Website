@@ -4,6 +4,7 @@ import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react
 import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { SpatialStack } from "@/components/SpatialStack";
 import { useReveal } from "@/hooks/useReveal";
 import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
