@@ -17,11 +17,12 @@ export function scrollToHash(hash: string) {
   const id = hash.replace(/^#/, "");
   const el = document.getElementById(id);
   if (!el) return false;
-  const top = el.getBoundingClientRect().top + window.scrollY - headerOffset();
-  window.scrollTo({ top: Math.max(0, top), behavior: prefersReduced() ? "auto" : "smooth" });
-  // keep keyboard focus in sync with the visual jump
+  // Focus first: focusing can itself nudge the scroll position (scroll-padding),
+  // so the explicit scroll must come last to own the final offset.
   el.setAttribute("tabindex", "-1");
   el.focus({ preventScroll: true });
+  const top = el.getBoundingClientRect().top + window.scrollY - headerOffset();
+  window.scrollTo({ top: Math.max(0, top), behavior: prefersReduced() ? "auto" : "smooth" });
   history.replaceState(null, "", `#${id}`);
   return true;
 }
