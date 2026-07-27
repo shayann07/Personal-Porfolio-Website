@@ -47,14 +47,16 @@ export function ShaderBackground() {
         float md = exp(-2.2*length(uv - m));
         n += md*0.35;
 
-        // palette: cosmic ink -> deep cosmic -> cool slate -> platinum bloom
-        vec3 c0 = vec3(0.075, 0.071, 0.098);      // #131219 deep cosmic shadow
+        // palette: cosmic ink -> cosmic -> plum slate -> crimson ember -> cotton bloom
+        vec3 c0 = vec3(0.078, 0.071, 0.098);      // #141219 cosmic shadow
         vec3 c1 = vec3(0.137, 0.129, 0.173);      // #23212C cosmic
-        vec3 c2 = vec3(0.290, 0.278, 0.353);      // #4a475a lifted cosmic slate
-        vec3 c3 = vec3(0.945, 0.996, 0.784);      // #F1FEC8 vanilla bloom
+        vec3 c2 = vec3(0.227, 0.204, 0.275);      // #3a3446 plum slate
+        vec3 cE = vec3(0.353, 0.082, 0.125);      // #5A1520 crimson ember
+        vec3 c3 = vec3(0.929, 0.922, 0.871);      // #EDEBDE cotton bloom
 
         vec3 col = mix(c0, c1, smoothstep(0.34, 0.66, n));
         col = mix(col, c2, smoothstep(0.64, 0.88, n)*0.78);
+        col = mix(col, cE, smoothstep(0.84, 0.96, n)*0.30);
         col = mix(col, c3, smoothstep(0.90, 1.00, n)*0.42);
 
         // deeper vignette for premium edge falloff
