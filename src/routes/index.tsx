@@ -114,14 +114,9 @@ function SectionHead({ id, eyebrow, title, kicker }: { id?: string; eyebrow: str
 
 /* ---------- Header + Nav ---------- */
 function Header({ active }: { active: string }) {
-  const time = useKarachiTime();
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-[var(--space-gutter)] py-4">
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3">
-        <a href="#top" data-cursor="Home" className="pill">
-          <span className="mark">S</span>
-          <span className="nav-link">Shayan</span>
-        </a>
+      <div className="mx-auto flex max-w-[1280px] items-center justify-center gap-3">
         <div className="hidden md:block">
           <nav aria-label="Primary" className="pill">
             {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
@@ -137,14 +132,6 @@ function Header({ active }: { active: string }) {
               </a>
             ))}
           </nav>
-        </div>
-        <div className="hidden sm:block">
-          <div className="pill">
-            <span className="nav-link">
-              <span className="live-dot" aria-hidden />
-              KHI {time || "--:--"}
-            </span>
-          </div>
         </div>
       </div>
     </header>
@@ -184,12 +171,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   return (
     <section id="top" aria-labelledby="hero-title" className="section pt-[max(5.5rem,9vh)]">
       <div className="container-x">
-        <Reveal>
-          <div className="flex items-center gap-2 eyebrow">
-            <span className="live-dot" /> Available · Q3 2026
-          </div>
-        </Reveal>
-        <div className="relative mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
+        <div className="relative grid grid-cols-1 md:grid-cols-12 items-end gap-8">
           <div className="md:col-span-8 relative z-10">
             <h1 id="hero-title" className="hd-hero">
               <span className="block"><SplitReveal text="Muhammad" /></span>
@@ -217,14 +199,14 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
 
         {/* Floating meta strip */}
-        <motion.div style={{ y: sy2 }} className="mt-12 md:mt-24 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <motion.div style={{ y: sy2 }} className="mt-10 md:mt-16 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] px-4 py-4 md:px-6 md:py-5 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 md:gap-6">
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
-              <div className="flex min-w-0 items-center gap-3 md:gap-4">
-                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={18} /></span>
                 <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
-                  <div className="eyebrow mt-1 truncate">{m.k}</div>
+                  <div className="eyebrow mt-0.5 truncate">{m.k}</div>
                 </div>
               </div>
             </Reveal>
@@ -445,12 +427,12 @@ function Contact() {
 /* ---------- Footer ---------- */
 function Footer() {
   return (
-    <footer className="section pt-0">
+    <footer className="pb-[calc(var(--space-section)/2)] pt-0">
       <div className="container-x">
         <Reveal>
           <div className="wordmark-bg leading-none" aria-hidden>SHAYAN</div>
         </Reveal>
-        <div className="mt-8 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10 pt-6 text-center md:text-left">
+        <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10 pt-5 text-center md:text-left">
           <div className="eyebrow">© 2026 Muhammad Shayan · Karachi</div>
           <div className="eyebrow opacity-60">Built with TanStack Start · Motion · Tailwind v4</div>
         </div>
