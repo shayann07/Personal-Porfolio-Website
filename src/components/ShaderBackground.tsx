@@ -47,11 +47,11 @@ export function ShaderBackground() {
         float md = exp(-2.2*length(uv - m));
         n += md*0.35;
 
-        // palette: deep obsidian -> violet -> soft lilac
-        vec3 c0 = vec3(0.035, 0.035, 0.075);      // #090913
-        vec3 c1 = vec3(0.16, 0.09, 0.35);         // deep violet
-        vec3 c2 = vec3(0.66, 0.55, 1.0);          // #a78bfa
-        vec3 c3 = vec3(0.94, 0.94, 0.98);
+        // palette: void -> cool graphite -> slate -> platinum bloom
+        vec3 c0 = vec3(0.035, 0.037, 0.043);      // #090913 -> neutralised void
+        vec3 c1 = vec3(0.078, 0.086, 0.106);      // #14161b cool graphite
+        vec3 c2 = vec3(0.227, 0.247, 0.290);      // #3a3f4a slate
+        vec3 c3 = vec3(0.949, 0.953, 0.965);      // #f2f3f6 platinum
 
         vec3 col = mix(c0, c1, smoothstep(0.30, 0.62, n));
         col = mix(col, c2, smoothstep(0.60, 0.86, n)*0.85);
