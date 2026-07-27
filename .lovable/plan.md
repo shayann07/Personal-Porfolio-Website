@@ -1,56 +1,38 @@
-## Rebuild: Kinetic Monolith Spatial Bento
+## Palette: Cosmic + Crimson Signal
 
-Complete rebuild of the portfolio around the selected direction. Whole page, one unified spatial-bento surface, monochrome platinum tokens, pointer/scroll-driven parallax across z-stacked glass planes.
+Retire vanilla `#F1FEC8` entirely. New roles:
 
-## Design system (locked)
+| Role | Value | Used for |
+|---|---|---|
+| Void / background | `#23212C` Cosmic | page base, shader floor |
+| Deep shade | `#1A1820` | vignette, cloud depth, card scrims |
+| Foreground | `#EDEBDE` Cotton | all body/heading text, icons |
+| Muted foreground | Cotton @ 62% | captions, meta, labels |
+| Accent / signal | `#8B1221` Crimson | CTAs, hover arrows, active nav, focus ring, chart/stat highlights |
+| Accent lift | `#B8202F` | crimson hover/glow state (raw crimson is dark on cosmic) |
+| Glass edge | Cotton @ 8–14% | borders, specular highlights |
 
-Tokens rewritten in `src/styles.css`:
+Crimson stays a *signal* colour: one accent per view, never as a large fill. Text on crimson is Cotton.
 
-- Void `#030304`, panel base `#131317`, mid `#8A8F99`, silver `#C8CCD4`, light `#F0F1F3`. No hue.
-- Sora (display, 400/600/800), Manrope (body, 400/500/700). Loaded via `<link>` in `__root.tsx`.
-- Glass tiers (near/mid/far) with different `backdrop-blur`, `saturate`, opacity, border alpha, shadow depth — mapped to z-position in the bento.
-- One inverted tile per group (white surface, dark text) as the accent anchor — the only "brightness accent" in a hueless palette.
-- Radii on a 3-step scale: `1.5rem`, `2rem`, `2.5rem`. Uppercase eyebrows with `0.2–0.3em` tracking.
+## Files to change
 
-## Page structure (single scroll, one bento)
+**`src/styles.css`**
+- `--silver: #d9e6ad` → Cotton-derived neutral; `--platinum` → `#EDEBDE`.
+- `--cloud-1..4` → cosmic/plum-ink neutrals (`#2E2B3A`, `#332F3E`, `#1A1820`, `#120F16`) with a faint crimson-tinted cloud (`#3A1A22`) at low opacity so the aurora reads warm rather than gray.
+- `--primary` → crimson, `--primary-foreground` → Cotton; `--ring` → crimson lift.
+- Replace hardcoded `#F1FEC8` / `#cbdb9a` occurrences (work-row arrow gradient, hero orb, selection, wordmark gradients) with Cotton→crimson equivalents.
+- `.hero-orb` conic gradient re-lit in cosmic ink with a single crimson quadrant and Cotton specular.
+- `::selection` background → crimson, colour → Cotton.
 
-Replace the current multi-section layout with one continuous 12-column bento surface:
+**`src/components/ShaderBackground.tsx`**
+- Shader ramp: `c0` near-black cosmic `#141219`, `c1` `#23212C`, `c2` plum-slate `#3A3446`, `c3` bloom → Cotton `#EDEBDE` (bloom weight kept at current strength).
+- Add a low-weight crimson tint band (`#5A1520`) between `c2` and the bloom so highlights warm toward red before hitting cotton, instead of going neutral gray.
+- Vignette and grain unchanged.
 
-```text
-┌──────────────────────────────┬──────────┐
-│ HERO plane (Muhammad Shayan) │ 4 metric │
-│ chips: Android/Flutter/ML    │ tiles 2x2│
-├──────────────────────┬───────┴──────────┤
-│ Flagship: AI Trust   │ Lab experiments  │
-│ Ledger (lens flare)  │ + Karachi live   │
-├──────────┬───────────┼──────────────────┤
-│LeafBloom │ GitPulse  │ Medicare         │
-├──────────┴───────────┴──────────────────┤
-│ Contact strip (dashed) — GH · LI · Mail │
-└─────────────────────────────────────────┘
-```
+**Sections / components** (`src/routes/index.tsx`, section files, `AnimatedIcon.tsx`)
+- Audit for any remaining vanilla-family literals and swap to tokens; icons inherit `currentColor` (Cotton) with crimson only on active/hover.
 
-Fixed glass pill header (Shayan mark · nav · KHI time) stays; mobile bottom pill nav stays. Everything else is one bento.
-
-## Spatial motion
-
-- **Ambient**: two blurred glow orbs fixed behind the bento drift with `useScroll` progress (translate only) — the only "light source" for the glass.
-- **Pointer parallax**: single top-level `useMotionValue` for cursor; each tile subscribes with a depth weight (near tiles translate more, far tiles translate less). Springs on the values, transforms applied via `translate3d` for GPU.
-- **Hover**: tiles tighten letter-spacing on the hero, scale-up on metrics, lens-flare sweep on the flagship, list items shift right and brighten in the lab list.
-- **Reveal**: staggered `whileInView` scale/opacity per tile, disabled under `prefers-reduced-motion`.
-
-## Files touched
-
-- `src/styles.css` — rewrite tokens, glass tiers, eyebrow/heading utilities, remove unused liquid-glass carry-over.
-- `src/routes/index.tsx` — rebuild `Page` around the new bento; keep `Header`, `MobileNav`, `SplitEnter`; delete `HeroVisual`, `WorkGallery`, `ProjectPoster`, `SignalSection`, `LabSection`, `Contact` sections in favor of new bento tile components (`HeroTile`, `MetricTile`, `FlagshipTile`, `LabTile`, `WorkTile`, `ContactStrip`) inside one `<SpatialBento>`.
-- `src/routes/__root.tsx` — add Sora + Manrope `<link>` in head (keep existing links).
-- Keep `ShaderBackground` and `Cursor` as-is (they already fit monochrome).
-- Update route `head()` meta (title/description) to reflect the spatial rebrand.
-
-## Content
-
-All real content from the current file is preserved: 4 metrics, 4 projects (AI Trust Ledger flagship + LeafBloom, GitPulse, Medicare), 3 lab experiments, Karachi live time, GitHub/LinkedIn/email. Copy tightened to fit tile density.
-
-## Out of scope
-
-No new dependencies. No backend/data changes. MCP server untouched. Perf HUD, theme switcher, modals — not part of this pass.
+## Verification
+- Re-run `bunx vitest run` (motion specs are colour-agnostic, should pass unchanged).
+- Regenerate visual baselines with `test:visual:update`, since every baseline shifts with the recolour.
+- Contrast check: Cotton on Cosmic ≈ 13:1 (AAA). Crimson `#8B1221` on Cosmic is only ~2:1, so crimson is never used for body text — only fills, rules, and glow, with Cotton text on top.
