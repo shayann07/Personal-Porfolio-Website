@@ -261,21 +261,37 @@ function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="section">
       <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
-      <div className="container-narrow grid gap-6">
-        <Reveal>
-          <p className="body-md">
-            Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
-          </p>
+      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
+        <Reveal className="lg:col-span-7">
+          <div className="grid gap-5">
+            <p className="body-md">
+              Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
+            </p>
+            <p className="body-md">
+              I write my own animation systems, sweat over 60fps on mid-range Androids, and believe good interfaces feel physical. Currently open to senior mobile roles and long-term product partnerships.
+            </p>
+            <ul className="flex flex-wrap gap-2 pt-1" aria-label="Core technologies">
+              {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
+            </ul>
+          </div>
         </Reveal>
-        <Reveal delay={0.1}>
-          <p className="body-md">
-            I write my own animation systems, sweat over 60fps on mid-range Androids, and believe good interfaces feel physical. Currently open to senior mobile roles and long-term product partnerships.
-          </p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <ul className="flex flex-wrap gap-2 pt-4" aria-label="Core technologies">
-            {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
-          </ul>
+        <Reveal delay={0.1} className="lg:col-span-5">
+          <dl className="glass-soft rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+            {FACTS.map((f) => (
+              <div key={f.label} className="flex min-w-0 items-center gap-3">
+                <span className="metric-icon shrink-0"><Icon name={f.icon} size={18} /></span>
+                <div className="min-w-0">
+                  <dt className="eyebrow">{f.label}</dt>
+                  <dd className="body-sm mt-1 text-[color:var(--platinum)] truncate">{f.value}</dd>
+                </div>
+              </div>
+            ))}
+            <div className="sm:col-span-2 lg:col-span-1 pt-3 border-t border-white/10">
+              <a href={CV_URL} download aria-label="Download Muhammad Shayan's CV (PDF)" className="btn btn-ghost w-full justify-center">
+                <Icon name="download" size={15} /> Download CV
+              </a>
+            </div>
+          </dl>
         </Reveal>
       </div>
     </section>
