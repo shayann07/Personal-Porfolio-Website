@@ -604,7 +604,7 @@ body { cursor: none; }
 }
 .spatial-card--a { inset: 4% 26% 34% 0; transform: translateZ(-40px); justify-content: flex-start; }
 .spatial-card--b {
-  inset: 40% 0 30% 30%;
+  inset: 42% -8% 28% 30%;
   transform: translateZ(60px);
   flex-direction: row; align-items: center; gap: 12px;
   box-shadow: inset 0 1px 0 rgb(237 235 222 / 0.24), 0 40px 70px -28px rgb(0 0 0 / 0.9), 0 0 56px -24px rgb(var(--crimson-rgb) / 0.5);
@@ -635,7 +635,7 @@ body { cursor: none; }
 }
 .spatial-card__num--sm { display: block; font-size: clamp(1.1rem, 1.8vw, 1.4rem); margin-bottom: 4px; }
 .spatial-cluster__icon { color: var(--platinum); opacity: 0.85; }
-.spatial-cluster__ticks { margin-top: auto; display: flex; align-items: flex-end; gap: 4px; height: 34px; }
+.spatial-cluster__ticks { margin-top: auto; display: flex; align-items: flex-end; gap: 4px; height: 30px; width: 58%; }
 .spatial-cluster__ticks > span {
   flex: 1; height: 100%;
   border-radius: 2px;
