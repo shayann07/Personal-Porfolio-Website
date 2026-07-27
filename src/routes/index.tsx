@@ -325,7 +325,7 @@ function Work() {
                   </span>
                 </span>
                 <span className="work-row__arrow" aria-hidden>
-                  <AnimatedIcon name="arrow" size={18} />
+                  <Icon name="arrow" size={18} />
                 </span>
               </a>
             </li>
@@ -352,14 +352,14 @@ function Lab() {
                 className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
               >
                 <span className="flex items-center justify-between">
-                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={20} /></span>
+                  <span className="text-[color:var(--platinum)]/70 icon-float"><Icon name="orbit" size={20} /></span>
                   <span className="eyebrow">{l.status}</span>
                 </span>
                 <span className="block mt-6">
                   <span className="hd-3 block">{l.title}</span>
                   <span className="body-sm mt-2 block">{l.note}</span>
                   <span className="mt-3 flex items-center gap-2 eyebrow text-[color:var(--platinum)] opacity-60 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
-                    Explore <AnimatedIcon name="arrow" size={14} />
+                    Explore <Icon name="arrow" size={14} />
                   </span>
                 </span>
               </a>
@@ -417,7 +417,7 @@ function Contact() {
               <div>
                 <span className="eyebrow">Email</span>
                 <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
-                  <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={20} /></span>
+                  <span className="shrink-0 text-[color:var(--platinum)]/70"><Icon name="mail" size={20} /></span>
                   <span className="truncate">hello@shayxo.dev</span>
                 </a>
               </div>
@@ -425,12 +425,12 @@ function Contact() {
                 <span className="eyebrow">Elsewhere</span>
                 <div className="mt-3 flex flex-col gap-3">
                   <a href="https://github.com/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <span className="shrink-0"><AnimatedIcon name="github" size={18} /></span>
+                    <span className="shrink-0"><Icon name="github" size={18} /></span>
                     <span className="truncate">github.com/shayann07</span>
                     <span className="sr-only">(opens in a new tab)</span>
                   </a>
                   <a href="https://www.linkedin.com/in/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
-                    <span className="shrink-0"><AnimatedIcon name="linkedin" size={18} /></span>
+                    <span className="shrink-0"><Icon name="linkedin" size={18} /></span>
                     <span className="truncate">linkedin.com/in/shayann07</span>
                     <span className="sr-only">(opens in a new tab)</span>
                   </a>
@@ -469,7 +469,7 @@ function Contact() {
               </p>
               <button type="submit" disabled={disabled} className="btn btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
                 {state === "sent" ? "Sent ✓" : state === "sending" ? "Sending…" : "Send Message"}
-                {state === "idle" && <AnimatedIcon name="arrow" size={14} />}
+                {state === "idle" && <Icon name="arrow" size={14} />}
               </button>
             </div>
           </form>
