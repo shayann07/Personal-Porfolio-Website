@@ -55,26 +55,36 @@
   --color-mid: var(--mid);
   --color-crimson: var(--crimson);
   --color-crimson-lift: var(--crimson-lift);
+  --color-lavender: var(--lavender);
+  --color-cotton: var(--cotton);
 }
 
 :root {
-  --void: #23212C;
-  --panel: #17161d;
-  --mid: #8f8a92;
-  --silver: #c9c5b8;
-  --platinum: #EDEBDE;
-  --crimson: #8B1221;
-  --crimson-lift: #B8202F;
+  /* ---- SINGLE SOURCE OF TRUTH: raw palette ---- */
+  --cosmic: #23212C;      /* base ink */
+  --cosmic-deep: #16151d; /* deeper ink */
+  --cotton: #EDEBDE;      /* primary light */
+  --lavender: #D2C3F6;    /* cool accent light */
+  --crimson: #B32436;     /* signal (lightened) */
+  --crimson-lift: #D94054;/* signal highlight */
+  --crimson-rgb: 217 64 84;
 
-  --cloud-1: #2e2b3a; /* cosmic graphite */
-  --cloud-2: #332f3e; /* plum ink */
-  --cloud-3: #1a1820; /* deep shade */
-  --cloud-4: #120f16; /* near-black */
-  --cloud-5: #3a1a22; /* crimson ember, low weight */
+  /* ---- derived roles ---- */
+  --void: var(--cosmic);
+  --panel: #1b1a23;
+  --mid: #a9a4b4;         /* AA on cosmic */
+  --silver: #d6d2c8;
+  --platinum: var(--cotton);
+
+  --cloud-1: #35304a; /* lavender-leaning graphite */
+  --cloud-2: #2b2738; /* plum ink */
+  --cloud-3: #15131b; /* deep shade */
+  --cloud-4: #0d0c11; /* near-black anchor */
+  --cloud-5: #4a1a26; /* crimson ember */
 
   --background: var(--void);
   --foreground: var(--platinum);
-  --hairline: rgb(255 255 255 / 0.10);
+  --hairline: rgb(237 235 222 / 0.12);
 
   --card: var(--panel);
   --card-foreground: var(--platinum);
@@ -82,11 +92,11 @@
   --popover-foreground: var(--platinum);
   --primary: var(--crimson);
   --primary-foreground: var(--platinum);
-  --secondary: rgb(255 255 255 / 0.05);
+  --secondary: rgb(237 235 222 / 0.06);
   --secondary-foreground: var(--platinum);
-  --muted: rgb(255 255 255 / 0.04);
+  --muted: rgb(237 235 222 / 0.05);
   --muted-foreground: var(--mid);
-  --accent: rgb(255 255 255 / 0.07);
+  --accent: rgb(237 235 222 / 0.08);
   --accent-foreground: var(--platinum);
   --destructive: oklch(0.65 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
