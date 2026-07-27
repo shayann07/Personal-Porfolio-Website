@@ -1391,7 +1391,6 @@ body { cursor: none; }
 .work-pane:hover .wplate__draw,
 .work-pane:focus-visible .wplate__draw { stroke: rgb(var(--crimson-rgb) / 0.95); }
 .wplate__area {
-  fill: linear-gradient(none);
   fill: color-mix(in oklab, var(--platinum) 7%, transparent);
   opacity: 0.7;
 }
