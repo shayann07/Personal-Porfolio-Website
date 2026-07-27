@@ -62,10 +62,10 @@
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #6d4fc2; /* violet */
-  --cloud-2: #2f7fbf; /* teal-blue */
-  --cloud-3: #a8447a; /* magenta plum */
-  --cloud-4: #1c4d6b; /* steel navy */
+  --cloud-1: #7a4dff; /* screenshot violet core */
+  --cloud-2: #4b1fb8; /* royal purple body */
+  --cloud-3: #b58cff; /* lavender bloom */
+  --cloud-4: #170b3d; /* cosmic violet shadow */
 
   --background: var(--void);
   --foreground: var(--platinum);
@@ -117,82 +117,176 @@ body { cursor: none; }
   border-radius: 12px;
 }
 
-/* ============ CLOUDY AURORA BACKGROUND ============ */
+/* ============ SCREENSHOT-MATCHED CLOUDY COSMIC BACKGROUND ============ */
 .cloud-bg {
   position: fixed;
   inset: 0;
   z-index: -2;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 85% 62% at 14% 16%, color-mix(in oklab, var(--cloud-1) 72%, transparent) 0%, transparent 62%),
-    radial-gradient(ellipse 75% 58% at 88% 26%, color-mix(in oklab, var(--cloud-2) 66%, transparent) 0%, transparent 62%),
-    radial-gradient(ellipse 95% 62% at 54% 92%, color-mix(in oklab, var(--cloud-3) 58%, transparent) 0%, transparent 66%),
-    radial-gradient(ellipse 90% 70% at 26% 66%, color-mix(in oklab, var(--cloud-4) 46%, transparent) 0%, transparent 68%),
+    radial-gradient(ellipse 56% 72% at 78% 48%, color-mix(in oklab, var(--cloud-1) 30%, transparent) 0%, transparent 68%),
+    radial-gradient(ellipse 82% 64% at 70% 101%, color-mix(in oklab, var(--cloud-3) 38%, transparent) 0%, transparent 62%),
+    radial-gradient(ellipse 58% 80% at 102% 28%, color-mix(in oklab, var(--cloud-2) 38%, transparent) 0%, transparent 70%),
+    linear-gradient(90deg, var(--void) 0%, var(--void) 28%, color-mix(in oklab, var(--cloud-4) 68%, var(--void)) 66%, color-mix(in oklab, var(--cloud-2) 38%, var(--void)) 100%),
     var(--void);
 }
 
-/* Slow scroll-linked drift so lower sections get fresh cloud coverage */
 .cloud-bg__layer {
   position: absolute;
-  inset: -20%;
+  inset: -16%;
   will-change: transform;
-  transform: translate3d(0, calc(var(--cloud-scroll, 0) * -6vh), 0);
+  transform: translate3d(calc(var(--cloud-scroll, 0) * -3vw), calc(var(--cloud-scroll, 0) * -9vh), 0);
+  opacity: 0.95;
 }
 
-/* Vignette: keeps edges cosmic-black so the centre reads cloudy */
+.cloud-bg__wash,
+.cloud-bg__mist {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.cloud-bg__wash {
+  inset: -8%;
+  background:
+    radial-gradient(ellipse 42% 36% at 68% 76%, color-mix(in oklab, var(--cloud-3) 70%, transparent) 0%, transparent 64%),
+    radial-gradient(ellipse 34% 42% at 84% 18%, color-mix(in oklab, var(--cloud-1) 38%, transparent) 0%, transparent 68%),
+    radial-gradient(ellipse 72% 56% at 58% 92%, color-mix(in oklab, var(--cloud-2) 45%, transparent) 0%, transparent 72%);
+  filter: blur(46px) saturate(130%);
+  opacity: 0.78;
+  transform: translate3d(0, calc(var(--cloud-scroll, 0) * -7vh), 0);
+}
+
+.cloud-bg__mist {
+  border-radius: 999px;
+  filter: blur(28px) saturate(145%);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  background:
+    radial-gradient(circle at 28% 42%, color-mix(in oklab, var(--cloud-3) 78%, transparent) 0%, transparent 18%),
+    radial-gradient(circle at 44% 52%, color-mix(in oklab, var(--cloud-1) 70%, transparent) 0%, transparent 22%),
+    radial-gradient(circle at 62% 35%, color-mix(in oklab, var(--cloud-3) 48%, transparent) 0%, transparent 20%),
+    radial-gradient(circle at 76% 58%, color-mix(in oklab, var(--cloud-2) 52%, transparent) 0%, transparent 22%),
+    radial-gradient(circle at 52% 72%, color-mix(in oklab, var(--cloud-1) 58%, transparent) 0%, transparent 24%);
+  mask-image:
+    radial-gradient(ellipse 48% 30% at 30% 50%, black 0%, transparent 72%),
+    radial-gradient(ellipse 54% 32% at 58% 52%, black 0%, transparent 76%),
+    radial-gradient(ellipse 36% 28% at 80% 40%, black 0%, transparent 70%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 48% 30% at 30% 50%, black 0%, transparent 72%),
+    radial-gradient(ellipse 54% 32% at 58% 52%, black 0%, transparent 76%),
+    radial-gradient(ellipse 36% 28% at 80% 40%, black 0%, transparent 70%);
+}
+
+.cloud-bg__mist--main {
+  width: 72vw;
+  height: 38vh;
+  left: 36vw;
+  bottom: 1vh;
+  transform: rotate(-2deg) translate3d(calc(var(--cloud-scroll, 0) * -5vw), calc(var(--cloud-scroll, 0) * -10vh), 0);
+  animation: cloud-breathe-main 18s ease-in-out infinite alternate;
+}
+
+.cloud-bg__mist--upper {
+  width: 42vw;
+  height: 34vh;
+  right: -2vw;
+  top: 13vh;
+  opacity: 0.38;
+  transform: rotate(24deg) translate3d(calc(var(--cloud-scroll, 0) * -2vw), calc(var(--cloud-scroll, 0) * -6vh), 0);
+  animation: cloud-breathe-upper 24s ease-in-out infinite alternate;
+}
+
+.cloud-bg__mist--low {
+  width: 54vw;
+  height: 28vh;
+  left: 45vw;
+  bottom: -7vh;
+  opacity: 0.48;
+  transform: rotate(8deg) translate3d(calc(var(--cloud-scroll, 0) * -6vw), calc(var(--cloud-scroll, 0) * -4vh), 0);
+  animation: cloud-breathe-low 28s ease-in-out infinite alternate;
+}
+
 .cloud-bg__vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 78% 68% at 50% 45%, transparent 0%, transparent 42%, color-mix(in oklab, var(--void) 78%, transparent) 100%);
+    linear-gradient(90deg, rgb(5 6 10 / 0.86) 0%, rgb(5 6 10 / 0.28) 46%, rgb(5 6 10 / 0.12) 74%, rgb(5 6 10 / 0.38) 100%),
+    radial-gradient(ellipse 74% 72% at 63% 50%, transparent 0%, transparent 44%, color-mix(in oklab, var(--void) 74%, transparent) 100%);
 }
 
 .cloud-bg::before,
 .cloud-bg::after,
-.cloud-bg__layer::before {
+.cloud-bg__layer::before,
+.cloud-bg__layer::after {
   content: "";
   position: absolute;
-  width: 70vmax;
-  height: 70vmax;
+  width: 72vmax;
+  height: 72vmax;
   border-radius: 50%;
-  filter: blur(130px);
-  opacity: 0.6;
+  filter: blur(118px);
+  opacity: 0.58;
   will-change: transform;
   pointer-events: none;
 }
 .cloud-bg::before {
-  top: -20%;
-  left: -15%;
-  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-1) 85%, transparent) 0%, transparent 62%);
+  top: 32%;
+  left: 30%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-1) 62%, transparent) 0%, transparent 64%);
   animation: cloud-drift-a 32s ease-in-out infinite alternate;
 }
 .cloud-bg::after {
-  bottom: -25%;
-  right: -20%;
-  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-2) 78%, transparent) 0%, transparent 62%);
+  top: -14%;
+  right: -10%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-2) 66%, transparent) 0%, transparent 66%);
   animation: cloud-drift-b 44s ease-in-out infinite alternate;
 }
 .cloud-bg__layer::before {
-  top: 22%;
-  left: 38%;
-  width: 60vmax;
-  height: 60vmax;
-  opacity: 0.5;
-  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-3) 72%, transparent) 0%, transparent 62%);
+  top: 46%;
+  left: 35%;
+  width: 64vmax;
+  height: 54vmax;
+  opacity: 0.52;
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--cloud-3) 76%, transparent) 0%, transparent 64%);
   animation: cloud-drift-c 61s ease-in-out infinite alternate;
+}
+.cloud-bg__layer::after {
+  top: 8%;
+  right: 3%;
+  width: 42vmax;
+  height: 52vmax;
+  opacity: 0.34;
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--cloud-3) 58%, transparent) 0%, transparent 68%);
+  animation: cloud-drift-d 52s ease-in-out infinite alternate;
 }
 @keyframes cloud-drift-a {
   0% { transform: translate3d(0,0,0) scale(1); }
-  100% { transform: translate3d(15vw, 10vh, 0) scale(1.15); }
+  100% { transform: translate3d(8vw, -5vh, 0) scale(1.1); }
 }
 @keyframes cloud-drift-b {
   0% { transform: translate3d(0,0,0) scale(1); }
-  100% { transform: translate3d(-12vw, -8vh, 0) scale(1.2); }
+  100% { transform: translate3d(-7vw, 6vh, 0) scale(1.16); }
 }
 @keyframes cloud-drift-c {
-  0% { transform: translate3d(-8vw, 6vh, 0) scale(0.95); }
-  100% { transform: translate3d(10vw, -12vh, 0) scale(1.25); }
+  0% { transform: translate3d(-4vw, 4vh, 0) scale(0.96); }
+  100% { transform: translate3d(6vw, -8vh, 0) scale(1.18); }
+}
+@keyframes cloud-drift-d {
+  0% { transform: translate3d(3vw, -2vh, 0) rotate(0deg) scale(0.98); }
+  100% { transform: translate3d(-5vw, 7vh, 0) rotate(8deg) scale(1.12); }
+}
+@keyframes cloud-breathe-main {
+  0% { opacity: 0.52; filter: blur(30px) saturate(140%); }
+  100% { opacity: 0.72; filter: blur(24px) saturate(160%); }
+}
+@keyframes cloud-breathe-upper {
+  0% { opacity: 0.28; }
+  100% { opacity: 0.48; }
+}
+@keyframes cloud-breathe-low {
+  0% { opacity: 0.36; }
+  100% { opacity: 0.58; }
 }
 
 /* Grain overlay */
