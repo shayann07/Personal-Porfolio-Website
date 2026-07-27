@@ -113,7 +113,7 @@ function SectionHead({ id, eyebrow, title, kicker }: { id?: string; eyebrow: str
 }
 
 /* ---------- Header + Nav ---------- */
-function Header() {
+function Header({ active }: { active: string }) {
   const time = useKarachiTime();
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-[var(--space-gutter)] py-4">
@@ -125,7 +125,16 @@ function Header() {
         <div className="hidden md:block">
           <nav aria-label="Primary" className="pill">
             {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
-              <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
+              <a
+                key={label}
+                href={href}
+                data-cursor="Jump"
+                className="nav-link"
+                data-active={active === href.slice(1)}
+                aria-current={active === href.slice(1) ? "true" : undefined}
+              >
+                {label}
+              </a>
             ))}
           </nav>
         </div>
@@ -142,7 +151,7 @@ function Header() {
   );
 }
 
-function MobileNav() {
+function MobileNav({ active }: { active: string }) {
   return (
     <nav
       aria-label="Section navigation"
@@ -150,7 +159,15 @@ function MobileNav() {
     >
       <div className="pill w-full justify-between">
         {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
-          <a key={l} href={h} className="nav-link flex-1 justify-center">{l}</a>
+          <a
+            key={l}
+            href={h}
+            className="nav-link flex-1 justify-center"
+            data-active={active === h.slice(1)}
+            aria-current={active === h.slice(1) ? "true" : undefined}
+          >
+            {l}
+          </a>
         ))}
       </div>
     </nav>
