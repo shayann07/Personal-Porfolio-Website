@@ -5,6 +5,7 @@ import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { useReveal } from "@/hooks/useReveal";
+import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
 export const Route = createFileRoute("/")({
   head: () => ({
