@@ -1159,8 +1159,7 @@ body { cursor: none; }
   font-size: var(--text-sm);
   font-weight: 700;
   letter-spacing: -0.005em;
-  text-transform: uppercase;
-  font-weight: 700;
+  text-transform: none;
   transform: translateY(-160%);
   transition: transform 0.25s ease;
 }
