@@ -50,12 +50,12 @@ export function ShaderBackground() {
         // palette: void -> cool graphite -> slate -> platinum bloom
         vec3 c0 = vec3(0.035, 0.037, 0.043);      // #090913 -> neutralised void
         vec3 c1 = vec3(0.078, 0.086, 0.106);      // #14161b cool graphite
-        vec3 c2 = vec3(0.227, 0.247, 0.290);      // #3a3f4a slate
+        vec3 c2 = vec3(0.325, 0.352, 0.408);      // lifted #3a3f4a slate
         vec3 c3 = vec3(0.949, 0.953, 0.965);      // #f2f3f6 platinum
 
         vec3 col = mix(c0, c1, smoothstep(0.30, 0.62, n));
         col = mix(col, c2, smoothstep(0.60, 0.86, n)*0.85);
-        col = mix(col, c3, smoothstep(0.92, 1.00, n)*0.35);
+        col = mix(col, c3, smoothstep(0.90, 1.00, n)*0.48);
 
         // subtle vignette
         float v = smoothstep(1.2, 0.2, length(uv));
