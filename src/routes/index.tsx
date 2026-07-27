@@ -5,6 +5,7 @@ import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { useReveal } from "@/hooks/useReveal";
+import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -112,7 +113,7 @@ function SectionHead({ id, eyebrow, title, kicker }: { id?: string; eyebrow: str
 }
 
 /* ---------- Header + Nav ---------- */
-function Header() {
+function Header({ active }: { active: string }) {
   const time = useKarachiTime();
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-[var(--space-gutter)] py-4">
@@ -124,7 +125,16 @@ function Header() {
         <div className="hidden md:block">
           <nav aria-label="Primary" className="pill">
             {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
-              <a key={label} href={href} data-cursor="Jump" className="nav-link">{label}</a>
+              <a
+                key={label}
+                href={href}
+                data-cursor="Jump"
+                className="nav-link"
+                data-active={active === href.slice(1)}
+                aria-current={active === href.slice(1) ? "true" : undefined}
+              >
+                {label}
+              </a>
             ))}
           </nav>
         </div>
@@ -141,7 +151,7 @@ function Header() {
   );
 }
 
-function MobileNav() {
+function MobileNav({ active }: { active: string }) {
   return (
     <nav
       aria-label="Section navigation"
@@ -149,7 +159,15 @@ function MobileNav() {
     >
       <div className="pill w-full justify-between">
         {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
-          <a key={l} href={h} className="nav-link flex-1 justify-center">{l}</a>
+          <a
+            key={l}
+            href={h}
+            className="nav-link flex-1 justify-center"
+            data-active={active === h.slice(1)}
+            aria-current={active === h.slice(1) ? "true" : undefined}
+          >
+            {l}
+          </a>
         ))}
       </div>
     </nav>
@@ -444,14 +462,23 @@ function Footer() {
 /* ---------- Page ---------- */
 function Page() {
   const { scrollY } = useScroll();
+  const { active } = useSectionNav();
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const anchor = (e.target as HTMLElement).closest?.("a[href^='#']") as HTMLAnchorElement | null;
+    if (!anchor) return;
+    const href = anchor.getAttribute("href") ?? "";
+    if (href === "#main") return;
+    if (scrollToHash(href)) e.preventDefault();
+  };
 
   return (
-    <div className="grain relative isolate min-h-dvh overflow-x-clip">
+    <div className="grain relative isolate min-h-dvh overflow-x-clip" onClick={handleAnchorClick}>
       <ShaderBackground />
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
-      <Header />
-      <MobileNav />
+      <Header active={active} />
+      <MobileNav active={active} />
 
       <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
         <Hero scrollY={scrollY} />
