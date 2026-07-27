@@ -461,6 +461,7 @@ function Page() {
       <Cursor />
       <Header active={active} />
       <MobileNav active={active} />
+      <SpatialNav active={active} />
 
       <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
         <Hero scrollY={scrollY} />
