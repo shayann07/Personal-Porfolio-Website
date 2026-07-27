@@ -57,9 +57,9 @@ export function ShaderBackground() {
         col = mix(col, c2, smoothstep(0.64, 0.88, n)*0.78);
         col = mix(col, c3, smoothstep(0.90, 1.00, n)*0.42);
 
-        // subtle vignette
-        float v = smoothstep(1.2, 0.2, length(uv));
-        col *= mix(0.55, 1.0, v);
+        // deeper vignette for premium edge falloff
+        float v = smoothstep(1.3, 0.15, length(uv));
+        col *= mix(0.40, 1.0, v);
 
         // grain
         col += (hash(gl_FragCoord.xy + u_t) - 0.5)*0.03;
