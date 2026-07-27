@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
 /* ---------- Data ---------- */
 const METRICS = [
   { v: "3+", k: "Live Apps", icon: "bolt" },
-  { v: "10k+", k: "Installs", icon: "orbit" },
+  { v: "10k+", k: "Installs", icon: "download" },
   { v: "99%+", k: "Stability", icon: "spark" },
   { v: "60%", k: "Perf Gain", icon: "gear" },
 ];
@@ -37,9 +37,9 @@ const WORK = [
 ];
 
 const LAB = [
-  { title: "VectorMap.os", note: "Offline-first vector maps", status: "WIP" },
-  { title: "ShaderPlay Flutter", note: "GLSL runtime in Skia", status: "Done" },
-  { title: "TensorFlow.Mobile", note: "Micro-model tooling", status: "Beta" },
+  { title: "VectorMap.os", note: "Offline-first vector maps", status: "WIP", icon: "layers" },
+  { title: "ShaderPlay Flutter", note: "GLSL runtime in Skia", status: "Done", icon: "wave" },
+  { title: "TensorFlow.Mobile", note: "Micro-model tooling", status: "Beta", icon: "chip" },
 ];
 
 const STACK = ["Android", "Kotlin", "Jetpack Compose", "Flutter", "Dart", "TensorFlow Lite", "Firebase", "GraphQL", "MVVM", "Stripe"];
@@ -314,7 +314,7 @@ function Lab() {
                 className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
               >
                 <span className="flex items-center justify-between">
-                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={20} /></span>
+                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name={l.icon} size={20} /></span>
                   <span className="eyebrow">{l.status}</span>
                 </span>
                 <span className="block mt-6">
