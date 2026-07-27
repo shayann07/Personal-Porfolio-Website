@@ -217,7 +217,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
 
         <motion.div style={{ y: sy2 }} className="metrics-strip">
           {METRICS.map((m, i) => (
-            <Reveal key={m.k} delay={i * 0.08}>
+            <Reveal key={m.k} delay={i * 0.08} className="metric-reveal">
               <div className="metric-item">
                 <span className="metric-icon"><AnimatedIcon name={m.icon} size={20} /></span>
                 <div className="min-w-0">
