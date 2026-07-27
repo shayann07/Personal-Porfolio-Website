@@ -51,7 +51,7 @@ export function ShaderBackground() {
         vec3 c0 = vec3(0.075, 0.071, 0.098);      // #131219 deep cosmic shadow
         vec3 c1 = vec3(0.137, 0.129, 0.173);      // #23212C cosmic
         vec3 c2 = vec3(0.290, 0.278, 0.353);      // #4a475a lifted cosmic slate
-        vec3 c3 = vec3(0.949, 0.953, 0.965);      // #f2f3f6 platinum
+        vec3 c3 = vec3(0.945, 0.996, 0.784);      // #F1FEC8 vanilla bloom
 
         vec3 col = mix(c0, c1, smoothstep(0.34, 0.66, n));
         col = mix(col, c2, smoothstep(0.64, 0.88, n)*0.78);
