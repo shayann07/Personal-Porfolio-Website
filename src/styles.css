@@ -720,6 +720,8 @@ body { cursor: none; }
   .hd-hero, .hd-1, .hd-2 { line-height: 1.04; letter-spacing: -0.02em; overflow-wrap: anywhere; }
   .body-md, .body-sm { line-height: 1.65; }
   .section:first-child { padding-block-start: clamp(5rem, 18vw, 7rem); }
+  /* Fixed mobile nav bar must never cover the last block of content */
+  body { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom)); }
 }
 
 /* Tap targets */
