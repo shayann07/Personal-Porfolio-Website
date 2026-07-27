@@ -17,6 +17,7 @@ import os
 import sys
 from pathlib import Path
 
+import numpy as np
 from PIL import Image, ImageChops
 from playwright.async_api import async_playwright
 
@@ -53,7 +54,8 @@ def diff_ratio(a: Path, b: Path, out: Path) -> float:
     if ia.size != ib.size:
         return 1.0
     delta = ImageChops.difference(ia, ib)
-    changed = sum(1 for px in delta.getdata() if px[0] > 12 or px[1] > 12 or px[2] > 12)
+    arr = np.asarray(delta, dtype=np.int16)
+    changed = int((arr.max(axis=2) > 12).sum())
     ratio = changed / (ia.size[0] * ia.size[1])
     if ratio > 0:
         out.parent.mkdir(parents=True, exist_ok=True)
