@@ -154,29 +154,6 @@ function Header({ active }: { active: string }) {
   );
 }
 
-function MobileNav({ active }: { active: string }) {
-  return (
-    <nav
-      aria-label="Section navigation"
-      className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[380px] -translate-x-1/2 md:hidden"
-    >
-      <div className="pill w-full justify-between">
-        {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
-          <a
-            key={l}
-            href={h}
-            className="nav-link flex-1 justify-center"
-            data-active={active === h.slice(1)}
-            aria-current={active === h.slice(1) ? "true" : undefined}
-          >
-            {l}
-          </a>
-        ))}
-      </div>
-    </nav>
-  );
-}
-
 /* ---------- Hero ---------- */
 function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   const y1 = useTransform(scrollY, [0, 500], [0, 120]);
