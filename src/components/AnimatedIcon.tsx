@@ -64,8 +64,26 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
     case "orbit":
       return (
         <svg {...common}>
-          <circle cx="12" cy="12" r="2.5" />
-          <motion.ellipse cx="12" cy="12" rx="9" ry="4" animate={reduce ? undefined : { rotate: 360 }} transition={{ duration: 12, repeat: loop, ease: "linear" }} style={{ transformOrigin: "12px 12px" }} />
+          {/* core */}
+          <circle cx="12" cy="12" r="2.25" fill="currentColor" fillOpacity="0.18" />
+          <circle cx="12" cy="12" r="2.25" />
+          {/* two tilted orbital rings */}
+          <motion.g
+            style={{ transformOrigin: "12px 12px" }}
+            animate={reduce ? undefined : { rotate: 360 }}
+            transition={{ duration: 16, repeat: loop, ease: "linear" }}
+          >
+            <ellipse cx="12" cy="12" rx="9.25" ry="4" transform="rotate(-24 12 12)" opacity="0.85" />
+            <ellipse cx="12" cy="12" rx="9.25" ry="4" transform="rotate(56 12 12)" opacity="0.4" />
+          </motion.g>
+          {/* satellite travelling the primary ring */}
+          <motion.g
+            style={{ transformOrigin: "12px 12px" }}
+            animate={reduce ? undefined : { rotate: 360 }}
+            transition={{ duration: 6, repeat: loop, ease: "linear" }}
+          >
+            <circle cx="20.45" cy="8.24" r="1.5" fill="currentColor" stroke="none" />
+          </motion.g>
         </svg>
       );
     case "mail":
