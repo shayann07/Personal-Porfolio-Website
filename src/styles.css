@@ -611,17 +611,38 @@ body { cursor: none; }
   color: var(--platinum);
 }
 .spatial__icon--sm { opacity: 0.7; }
+/* quiet marker — a hairline ring, not a red LED. Crimson is reserved
+   for genuinely live state via .spatial__dot--live. */
 .spatial__dot {
-  width: 7px; height: 7px; border-radius: 999px;
-  background: var(--crimson-lift, rgb(var(--crimson-rgb)));
-  box-shadow: 0 0 0 4px rgb(var(--crimson-rgb) / 0.18);
+  width: 6px; height: 6px; border-radius: 999px;
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--platinum) 42%, transparent);
+  box-shadow: none;
 }
+.spatial__dot--live {
+  background: rgb(var(--crimson-rgb) / 0.95);
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgb(var(--crimson-rgb) / 0.14);
+  animation: spatial-live 3.6s ease-in-out infinite;
+}
+@keyframes spatial-live {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+/* sentence-case sans replaces the wide-tracked uppercase mono */
 .spatial__label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  text-transform: none;
+  color: color-mix(in oklab, var(--platinum) 76%, transparent);
+}
+.spatial__label--unit {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--platinum) 72%, transparent);
+  letter-spacing: 0.06em;
+  color: color-mix(in oklab, var(--platinum) 55%, transparent);
 }
 .spatial__icon { color: var(--platinum); }
 .spatial__meter {
@@ -680,8 +701,8 @@ body { cursor: none; }
   position: absolute;
   inset: 0 34% 12% 4%;
   overflow: hidden;
-  border-radius: 26px;
-  padding: 16px 16px 18px;
+  border-radius: 30px;
+  padding: 18px 18px 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -707,9 +728,10 @@ body { cursor: none; }
   flex: 1;
   height: 22%;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgb(var(--crimson-rgb) / 0.9), rgb(210 195 246 / 0.35));
+  background: linear-gradient(180deg, rgb(237 235 222 / 0.55), rgb(var(--crimson-rgb) / 0.55));
+  opacity: 0.8;
   transform-origin: center;
-  animation: spatial-wave 2.6s ease-in-out infinite;
+  animation: spatial-wave 3.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 .spatial-slab__rows {
   position: relative;
@@ -721,16 +743,20 @@ body { cursor: none; }
 .spatial-slab__rows > li {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: 12px;
-  background: rgb(237 235 222 / 0.05);
-  border: 1px solid rgb(237 235 222 / 0.08);
-  animation: spatial-rowpulse 5.4s ease-in-out infinite;
+  gap: 10px;
+  padding: 9px 2px;
+  border-radius: 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid rgb(237 235 222 / 0.09);
+  animation: spatial-rowpulse 6.4s ease-in-out infinite;
 }
+.spatial-slab__rows > li:first-child { border-top: 0; }
+/* a growing hairline instead of a coloured bullet */
 .spatial-slab__rows > li > i {
-  width: 5px; height: 5px; border-radius: 999px;
-  background: rgb(210 195 246 / 0.85);
+  width: 14px; height: 1px; border-radius: 999px;
+  background: color-mix(in oklab, var(--platinum) 45%, transparent);
+  transition: width 0.4s ease;
 }
 
 /* floating gauge instead of a metric card */
@@ -751,7 +777,7 @@ body { cursor: none; }
   box-shadow:
     inset 0 1px 0 rgb(237 235 222 / 0.22),
     0 40px 70px -30px rgb(0 0 0 / 0.9),
-    0 0 60px -22px rgb(var(--crimson-rgb) / 0.45);
+    0 0 60px -26px rgb(var(--crimson-rgb) / 0.35);
   animation: spatial-chip 9s ease-in-out infinite;
 }
 .spatial-gauge > svg {
@@ -761,10 +787,10 @@ body { cursor: none; }
   fill: none;
   stroke-linecap: round;
 }
-.spatial-gauge__track { stroke: rgb(237 235 222 / 0.10); stroke-width: 3; }
+.spatial-gauge__track { stroke: rgb(237 235 222 / 0.10); stroke-width: 1.6; }
 .spatial-gauge__arc {
-  stroke: rgb(var(--crimson-rgb) / 0.9);
-  stroke-width: 3;
+  stroke: rgb(var(--crimson-rgb) / 0.8);
+  stroke-width: 1.6;
   stroke-dasharray: 264;
   stroke-dashoffset: 74;
   filter: drop-shadow(0 0 6px rgb(var(--crimson-rgb) / 0.5));
@@ -784,11 +810,11 @@ body { cursor: none; }
   position: absolute;
   left: 2%; bottom: 1%;
   display: flex; align-items: center; gap: 9px;
-  padding: 8px 14px;
+  padding: 7px 13px;
   border-radius: 999px;
   transform: translateZ(46px);
-  background: rgb(10 9 14 / 0.55);
-  border: 1px solid rgb(237 235 222 / 0.12);
+  background: rgb(10 9 14 / 0.42);
+  border: 1px solid rgb(237 235 222 / 0.07);
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
@@ -812,8 +838,8 @@ body { cursor: none; }
   50% { height: 92%; opacity: 1; }
 }
 @keyframes spatial-rowpulse {
-  0%, 100% { background: rgb(237 235 222 / 0.05); }
-  50% { background: rgb(237 235 222 / 0.11); }
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
 }
 @keyframes spatial-arc {
   0%, 100% { stroke-dashoffset: 96; }
