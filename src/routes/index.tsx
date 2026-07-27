@@ -37,7 +37,7 @@ const WORK = [
 ];
 
 const LAB = [
-  { title: "VectorMap.os", note: "Offline-first vector maps", status: "WIP", icon: "layers" },
+  { title: "VectorMap.os", note: "Offline-first vector maps", status: "WIP", icon: "map" },
   { title: "ShaderPlay Flutter", note: "GLSL runtime in Skia", status: "Done", icon: "wave" },
   { title: "TensorFlow.Mobile", note: "Micro-model tooling", status: "Beta", icon: "chip" },
 ];
@@ -221,7 +221,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
               <div className="flex min-w-0 items-center gap-3 md:gap-4">
-                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
+                <span className="icon-box text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
                 <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
                   <div className="eyebrow mt-1 truncate">{m.k}</div>
@@ -314,7 +314,7 @@ function Lab() {
                 className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
               >
                 <span className="flex items-center justify-between">
-                  <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name={l.icon} size={20} /></span>
+                  <span className="icon-box text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name={l.icon} size={20} /></span>
                   <span className="eyebrow">{l.status}</span>
                 </span>
                 <span className="block mt-6">
@@ -379,7 +379,7 @@ function Contact() {
               <div>
                 <span className="eyebrow">Email</span>
                 <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
-                  <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={20} /></span>
+                  <span className="icon-box text-[color:var(--platinum)]/70"><AnimatedIcon name="mail" size={20} /></span>
                   <span className="truncate">hello@shayxo.dev</span>
                 </a>
               </div>
