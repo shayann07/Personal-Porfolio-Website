@@ -356,8 +356,8 @@ body { cursor: none; }
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 999px;
-  background: #6ee7b7;
-  box-shadow: 0 0 12px #6ee7b7;
+  background: var(--crimson-lift);
+  box-shadow: 0 0 12px var(--crimson-lift);
   animation: live-pulse 2s ease-in-out infinite;
 }
 @keyframes live-pulse {
