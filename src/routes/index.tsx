@@ -2,18 +2,41 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
 import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
-import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { Icon } from "@/components/Icon";
 import { useReveal } from "@/hooks/useReveal";
+import { CV_URL } from "@/config/links";
+import { personalLinks } from "@/config/personalLinks";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Muhammad Shayan — Mobile Engineer" },
-      { name: "description", content: "Portfolio of Muhammad Shayan — Mobile Engineer building Android, Flutter, and on-device ML products from Karachi." },
-      { property: "og:title", content: "Muhammad Shayan — Mobile Engineer" },
-      { property: "og:description", content: "Android, Flutter, on-device ML, and offline-first mobile systems by Muhammad Shayan." },
+      { title: "Muhammad Shayan — Android, Flutter & On-Device ML Engineer" },
+      { name: "description", content: "Mobile engineer in Karachi building Android (Kotlin, Compose), Flutter and on-device ML products — offline-first fintech, health and vision apps." },
+      { property: "og:title", content: "Muhammad Shayan — Android, Flutter & On-Device ML Engineer" },
+      { property: "og:description", content: "Android, Flutter, TensorFlow Lite and offline-first mobile systems. Selected work, experiments and contact." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: "/og-image.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Muhammad Shayan — Android, Flutter & On-Device ML Engineer" },
+      { name: "twitter:description", content: "Android, Flutter, TensorFlow Lite and offline-first mobile systems." },
+      { name: "twitter:image", content: "/og-image.png" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Muhammad Shayan",
+          jobTitle: "Mobile Engineer",
+          email: personalLinks.email.link,
+          address: { "@type": "PostalAddress", addressLocality: "Karachi", addressCountry: "PK" },
+          knowsAbout: ["Android", "Kotlin", "Jetpack Compose", "Flutter", "TensorFlow Lite"],
+          sameAs: [personalLinks.github.link, personalLinks.linkedin.link],
+        }),
+      },
     ],
   }),
   component: Page,
@@ -21,11 +44,18 @@ export const Route = createFileRoute("/")({
 
 /* ---------- Data ---------- */
 const METRICS = [
-  { v: "3+", k: "Live Apps", icon: "bolt" },
-  { v: "10k+", k: "Installs", icon: "orbit" },
-  { v: "99%+", k: "Stability", icon: "spark" },
-  { v: "60%", k: "Perf Gain", icon: "gear" },
-];
+  { v: "3+", k: "Live Apps", icon: "rocket" },
+  { v: "10k+", k: "Installs", icon: "installs" },
+  { v: "99%+", k: "Stability", icon: "stability" },
+  { v: "60%", k: "Perf Gain", icon: "perf" },
+] as const;
+
+const FACTS = [
+  { label: "Role", value: "Senior Mobile Engineer", icon: "chip" },
+  { label: "Based in", value: "Karachi, PK · UTC+5", icon: "pin" },
+  { label: "Experience", value: "4 years shipping", icon: "clock" },
+  { label: "Focus", value: "Kotlin · Flutter · TFLite", icon: "layers" },
+] as const;
 
 const WORK = [
   { title: "AI Trust Ledger", desc: "Fintech: ROI cycles, portfolio tracking, resilient financial flows.", tag: "Fintech · Kotlin", year: "2025" },
