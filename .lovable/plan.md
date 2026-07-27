@@ -1,56 +1,35 @@
-## Rebuild: Kinetic Monolith Spatial Bento
+## Goal
+Fix the empty About band, upgrade icons, tighten spacing, add a resume download, complete SEO, and make the contact form give real success/failure feedback.
 
-Complete rebuild of the portfolio around the selected direction. Whole page, one unified spatial-bento surface, monochrome platinum tokens, pointer/scroll-driven parallax across z-stacked glass planes.
+## 1. Empty section (img 1)
+The About band reserves a wide left column that renders nothing, so the heading floats above a blank region. Rebuild About as a two-column composition where the left column carries actual content — a compact "at a glance" glass panel (role, location, availability, years shipping, current focus) — and the right column keeps the prose plus stack chips. On mobile it stacks with the panel below the prose.
 
-## Design system (locked)
+## 2. Animated icons (img 2 and site-wide)
+Replace the hand-drawn SVG set with Lucide icons wrapped in a shared motion component:
+- New `src/components/Icon.tsx` — maps a semantic name to a Lucide icon, applies consistent size/stroke, and layers motion (subtle idle loop, hover/in-view response, draw-in on reveal), all disabled under `prefers-reduced-motion`, `aria-hidden` by default.
+- Metric strip gets meaningful icons (Rocket / Download / ShieldCheck / Gauge) instead of the current abstract marks, at a larger optical size aligned to the numerals.
+- Swap every `AnimatedIcon` usage across the page to the new component and delete the old file.
 
-Tokens rewritten in `src/styles.css`:
+## 3. Spacing pass
+- Reduce `--space-section` and section-head margins; remove the doubled gap between the section heading and content blocks.
+- Normalise the vertical rhythm between hero → metric strip → About, and tighten the marquee's oversized surrounding margin.
+- Audit each section for stacked padding (section padding + card padding + reveal margins) and collapse to a single spacing token per level.
 
-- Void `#030304`, panel base `#131317`, mid `#8A8F99`, silver `#C8CCD4`, light `#F0F1F3`. No hue.
-- Sora (display, 400/600/800), Manrope (body, 400/500/700). Loaded via `<link>` in `__root.tsx`.
-- Glass tiers (near/mid/far) with different `backdrop-blur`, `saturate`, opacity, border alpha, shadow depth — mapped to z-position in the bento.
-- One inverted tile per group (white surface, dark text) as the accent anchor — the only "brightness accent" in a hueless palette.
-- Radii on a 3-step scale: `1.5rem`, `2rem`, `2.5rem`. Uppercase eyebrows with `0.2–0.3em` tracking.
+## 4. Resume download
+Add a "Download CV" button next to the hero CTAs and a matching entry in the contact aside, pointing at the existing `/muhammad_shayan_cv.pdf` via `src/config/links.ts`. Real `<a download>` with a descriptive `aria-label`, visible focus ring, and file-type/size hint.
 
-## Page structure (single scroll, one bento)
+## 5. SEO
+- Expand the route `head()`: keyword-led title, canonical link, `og:url`, `og:image` + `twitter:image` using the existing `/og-image.png` (absolute URL derived at request time), `twitter:card` upgraded to `summary_large_image`.
+- Root gets sitewide defaults (site name, viewport, Person JSON-LD); the home route gets Person/WebSite structured data with real links.
+- Add `public/robots.txt` (allow all) and a `src/routes/sitemap[.]xml.ts` server route listing the single indexable route.
 
-Replace the current multi-section layout with one continuous 12-column bento surface:
+## 6. Contact form states
+Keep the mailto handoff (your choice) but make it honest:
+- Client-side validation with inline field errors (required, email format) before submit.
+- Real states: idle → validating → opening mail app → handed off, plus a failure path if the mailto handoff can't be triggered, with a "copy email address" fallback that confirms on copy.
+- `aria-live` status region, error summary linked to fields via `aria-describedby`, disabled submit only while in flight.
 
-```text
-┌──────────────────────────────┬──────────┐
-│ HERO plane (Muhammad Shayan) │ 4 metric │
-│ chips: Android/Flutter/ML    │ tiles 2x2│
-├──────────────────────┬───────┴──────────┤
-│ Flagship: AI Trust   │ Lab experiments  │
-│ Ledger (lens flare)  │ + Karachi live   │
-├──────────┬───────────┼──────────────────┤
-│LeafBloom │ GitPulse  │ Medicare         │
-├──────────┴───────────┴──────────────────┤
-│ Contact strip (dashed) — GH · LI · Mail │
-└─────────────────────────────────────────┘
-```
-
-Fixed glass pill header (Shayan mark · nav · KHI time) stays; mobile bottom pill nav stays. Everything else is one bento.
-
-## Spatial motion
-
-- **Ambient**: two blurred glow orbs fixed behind the bento drift with `useScroll` progress (translate only) — the only "light source" for the glass.
-- **Pointer parallax**: single top-level `useMotionValue` for cursor; each tile subscribes with a depth weight (near tiles translate more, far tiles translate less). Springs on the values, transforms applied via `translate3d` for GPU.
-- **Hover**: tiles tighten letter-spacing on the hero, scale-up on metrics, lens-flare sweep on the flagship, list items shift right and brighten in the lab list.
-- **Reveal**: staggered `whileInView` scale/opacity per tile, disabled under `prefers-reduced-motion`.
-
-## Files touched
-
-- `src/styles.css` — rewrite tokens, glass tiers, eyebrow/heading utilities, remove unused liquid-glass carry-over.
-- `src/routes/index.tsx` — rebuild `Page` around the new bento; keep `Header`, `MobileNav`, `SplitEnter`; delete `HeroVisual`, `WorkGallery`, `ProjectPoster`, `SignalSection`, `LabSection`, `Contact` sections in favor of new bento tile components (`HeroTile`, `MetricTile`, `FlagshipTile`, `LabTile`, `WorkTile`, `ContactStrip`) inside one `<SpatialBento>`.
-- `src/routes/__root.tsx` — add Sora + Manrope `<link>` in head (keep existing links).
-- Keep `ShaderBackground` and `Cursor` as-is (they already fit monochrome).
-- Update route `head()` meta (title/description) to reflect the spatial rebrand.
-
-## Content
-
-All real content from the current file is preserved: 4 metrics, 4 projects (AI Trust Ledger flagship + LeafBloom, GitPulse, Medicare), 3 lab experiments, Karachi live time, GitHub/LinkedIn/email. Copy tightened to fit tile density.
-
-## Out of scope
-
-No new dependencies. No backend/data changes. MCP server untouched. Perf HUD, theme switcher, modals — not part of this pass.
+## Technical notes
+- Icons via `lucide-react` (already available) + framer-motion wrapper; no new deps expected.
+- Spacing changes stay in `src/styles.css` tokens so the whole page shifts consistently.
+- Sitemap uses the empty `BASE_URL` placeholder since no custom domain is set yet.
