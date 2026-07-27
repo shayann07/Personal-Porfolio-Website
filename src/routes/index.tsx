@@ -212,7 +212,11 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
             </Reveal>
           </div>
           <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end" aria-hidden>
-            <div className="hero-orb" aria-hidden />
+            <div className="hero-orb" aria-hidden>
+              <span className="hero-orb__body" />
+              <span className="hero-orb__ring" />
+              <span className="hero-orb__ring hero-orb__ring--2" />
+            </div>
           </motion.div>
         </div>
 
