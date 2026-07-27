@@ -145,30 +145,46 @@ export function SpatialCluster() {
       <div className="spatial-cluster__scene">
         <span className="spatial-cluster__glow" />
 
-        <div className="spatial-card spatial-card--a">
-          <span className="spatial__label">years shipping</span>
-          <strong className="spatial-card__num">04</strong>
-          <div className="spatial-cluster__ticks">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <span key={i} style={{ animationDelay: `${i * 0.1}s` }} />
+        <span className="spatial-cluster__rule" />
+
+        <div className="spatial-slab">
+          <span className="spatial__sheen" />
+          <div className="spatial-slab__head">
+            <span className="spatial__dot" />
+            <span className="spatial__label">runtime</span>
+          </div>
+          <div className="spatial-slab__wave">
+            {Array.from({ length: 22 }).map((_, i) => (
+              <span key={i} style={{ animationDelay: `${i * 0.07}s` }} />
             ))}
           </div>
+          <ul className="spatial-slab__rows">
+            {["kotlin · compose", "flutter · dart", "tflite · edge"].map((t, i) => (
+              <li key={t} style={{ animationDelay: `${i * 0.9}s` }}>
+                <i />
+                <span className="spatial__label">{t}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="spatial-card spatial-card--b">
-          <span className="spatial-cluster__icon"><AnimatedIcon name="bolt" size={18} /></span>
-          <div>
-            <strong className="spatial-card__num spatial-card__num--sm">60fps</strong>
-            <span className="spatial__label">mid-range target</span>
+        <div className="spatial-gauge">
+          <svg viewBox="0 0 100 100" aria-hidden>
+            <circle className="spatial-gauge__track" cx="50" cy="50" r="42" />
+            <circle className="spatial-gauge__arc" cx="50" cy="50" r="42" />
+          </svg>
+          <div className="spatial-gauge__mid">
+            <strong>60</strong>
+            <span className="spatial__label">fps</span>
           </div>
         </div>
 
-        <div className="spatial-card spatial-card--c">
+        <div className="spatial-tag">
           <span className="spatial__dot" />
           <span className="spatial__label">karachi · pkt</span>
         </div>
 
-        <div className="spatial-card spatial-card--d">
+        <div className="spatial-chipfloat">
           <AnimatedIcon name="layers" size={18} />
         </div>
       </div>
