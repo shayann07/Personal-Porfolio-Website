@@ -9,12 +9,12 @@
   --font-display: "Sora", "Manrope", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --radius: 1.5rem;
-  --radius-sm: 0.75rem;
-  --radius-md: 1.25rem;
-  --radius-lg: 1.75rem;
-  --radius-xl: 2.25rem;
-  --radius-2xl: 2.75rem;
+  --radius: 1.25rem;
+  --radius-sm: 0.65rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.35rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2.2rem;
   --radius-pill: 999px;
 
   --text-micro: clamp(9.5px, 0.12vw + 8.75px, 11px);
@@ -22,13 +22,13 @@
   --text-sm: clamp(12.5px, 0.2vw + 11.5px, 14.5px);
   --text-base: clamp(14px, 0.24vw + 13px, 16.5px);
   --text-lg: clamp(16px, 0.34vw + 14.6px, 19px);
-  --text-h3: clamp(20px, 0.85vw + 16.5px, 28px);
-  --text-h2: clamp(28px, 2vw + 16px, 46px);
-  --text-h1: clamp(38px, 4vw + 14px, 76px);
-  --text-display: clamp(52px, 8vw + 8px, 132px);
+  --text-h3: clamp(19px, 0.55vw + 16px, 25px);
+  --text-h2: clamp(26px, 1.35vw + 17px, 40px);
+  --text-h1: clamp(36px, 3vw + 14px, 64px);
+  --text-display: clamp(50px, 6vw + 8px, 106px);
 
-  --space-gutter: clamp(1.1rem, 2vw + 0.5rem, 2.25rem);
-  --space-section: clamp(4rem, 8vw + 2rem, 9rem);
+  --space-gutter: clamp(1rem, 1.65vw + 0.55rem, 2rem);
+  --space-section: clamp(3rem, 5vw + 1.35rem, 6.75rem);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -56,16 +56,22 @@
 }
 
 :root {
-  --void: #05060a;
-  --panel: #0d0f16;
+  --void: #030409;
+  --panel: #090b12;
   --mid: #8a90a0;
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #7a4dff; /* screenshot violet core */
-  --cloud-2: #4b1fb8; /* royal purple body */
-  --cloud-3: #b58cff; /* lavender bloom */
-  --cloud-4: #170b3d; /* cosmic violet shadow */
+  --cloud-1: #8c6cff;
+  --cloud-2: #335cff;
+  --cloud-3: #68e8ff;
+  --cloud-4: #0b1234;
+  --cloud-5: #ff78d2;
+
+  --glass-scrim: rgb(0 0 0 / 0.56);
+  --glass-scrim-strong: rgb(0 0 0 / 0.72);
+  --glass-sheen: rgb(255 255 255 / 0.12);
+  --glass-edge: rgb(255 255 255 / 0.16);
 
   --background: var(--void);
   --foreground: var(--platinum);
