@@ -1155,9 +1155,10 @@ body { cursor: none; }
   border-radius: 999px;
   background: var(--crimson-lift);
   color: var(--platinum);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.18em;
+  font-family: var(--label-family);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: -0.005em;
   text-transform: uppercase;
   font-weight: 700;
   transform: translateY(-160%);
@@ -1418,26 +1419,29 @@ body { cursor: none; }
   align-items: center;
   gap: 9px;
   color: color-mix(in oklab, var(--platinum) 62%, transparent);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
   transition: color 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .snav__dot {
-  width: 7px; height: 7px;
+  width: var(--dot-size); height: var(--dot-size);
   border-radius: 999px;
-  background: rgb(237 235 222 / 0.32);
+  background: var(--dot-quiet-bg);
+  border: var(--dot-ring);
   transition: background 0.3s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .snav__item[data-active] { color: var(--platinum); }
 .snav__item[data-active] .snav__dot {
-  background: rgb(var(--crimson-rgb) / 1);
-  box-shadow: 0 0 0 4px rgb(var(--crimson-rgb) / 0.18), 0 0 18px rgb(var(--crimson-rgb) / 0.55);
-  transform: scale(1.25);
+  background: var(--dot-live-bg);
+  border-color: transparent;
+  box-shadow: var(--dot-live-halo);
+  transform: scale(1.15);
 }
 .snav__item:hover { color: var(--platinum); }
-.snav__item:hover .snav__dot { background: rgb(237 235 222 / 0.7); }
+.snav__item:hover .snav__dot { border-color: color-mix(in oklab, var(--platinum) 80%, transparent); }
 
 /* desktop: vertical depth rail */
 @media (min-width: 768px) {
