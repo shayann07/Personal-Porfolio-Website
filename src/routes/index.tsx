@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
-import { memo, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
+import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { useReveal } from "@/hooks/useReveal";
 
@@ -463,54 +464,12 @@ function Footer() {
 }
 
 /* ---------- Page ---------- */
-function CloudBg() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const p = max > 0 ? window.scrollY / max : 0;
-      el.style.setProperty("--cloud-scroll", p.toFixed(4));
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  return (
-    <div className="cloud-bg" aria-hidden ref={ref}>
-      <div className="cloud-bg__layer" />
-      <div className="cloud-bg__wash" />
-      <div className="cloud-bg__mist cloud-bg__mist--upper" />
-      <div className="cloud-bg__mist cloud-bg__mist--main" />
-      <div className="cloud-bg__mist cloud-bg__mist--low" />
-      <div className="cloud-bg__vignette" />
-    </div>
-  );
-}
-
 function Page() {
   const { scrollY } = useScroll();
 
   return (
     <div className="grain relative isolate min-h-dvh overflow-x-clip">
-      <CloudBg />
+      <ShaderBackground />
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header />
