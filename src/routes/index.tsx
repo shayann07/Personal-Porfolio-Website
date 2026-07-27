@@ -5,6 +5,8 @@ import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
 import { SpatialStack, SpatialCluster } from "@/components/SpatialStack";
+import { SpatialWork } from "@/components/SpatialWork";
+import { SpatialNav } from "@/components/SpatialNav";
 import { useReveal } from "@/hooks/useReveal";
 import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
@@ -152,29 +154,6 @@ function Header({ active }: { active: string }) {
   );
 }
 
-function MobileNav({ active }: { active: string }) {
-  return (
-    <nav
-      aria-label="Section navigation"
-      className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[380px] -translate-x-1/2 md:hidden"
-    >
-      <div className="pill w-full justify-between">
-        {[["Work", "#work"], ["Lab", "#lab"], ["About", "#about"], ["Contact", "#contact"]].map(([l, h]) => (
-          <a
-            key={l}
-            href={h}
-            className="nav-link flex-1 justify-center"
-            data-active={active === h.slice(1)}
-            aria-current={active === h.slice(1) ? "true" : undefined}
-          >
-            {l}
-          </a>
-        ))}
-      </div>
-    </nav>
-  );
-}
-
 /* ---------- Hero ---------- */
 function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   const y1 = useTransform(scrollY, [0, 500], [0, 120]);
@@ -273,32 +252,7 @@ function Work() {
     <section id="work" aria-labelledby="work-title" className="section">
       <SectionHead id="work-title" eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
       <div className="container-x">
-        <ul className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-2xl)] overflow-hidden">
-          {WORK.map((w, i) => (
-            <li key={w.title}>
-              <a
-                href="#contact"
-                data-cursor="View"
-                aria-label={`${w.title} — ${w.tag}, ${w.year}. Enquire about this project.`}
-                className="work-row group"
-              >
-                <span className="work-row__num">{String(i + 1).padStart(2, "0")}</span>
-                <span className="block min-w-0">
-                  <span className="work-row__title block truncate">{w.title}</span>
-                  <span className="body-sm mt-2 block">{w.desc}</span>
-                  <span className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                    <span className="eyebrow">{w.tag}</span>
-                    <span className="opacity-40" aria-hidden>·</span>
-                    <span className="eyebrow">{w.year}</span>
-                  </span>
-                </span>
-                <span className="work-row__arrow" aria-hidden>
-                  <AnimatedIcon name="arrow" size={18} />
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <SpatialWork items={WORK} />
       </div>
     </section>
   );
@@ -483,7 +437,7 @@ function Page() {
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header active={active} />
-      <MobileNav active={active} />
+      <SpatialNav active={active} />
 
       <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
         <Hero scrollY={scrollY} />
