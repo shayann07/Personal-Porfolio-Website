@@ -62,10 +62,10 @@
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #3b2a63; /* deep violet */
-  --cloud-2: #1a3a5f; /* teal-blue */
-  --cloud-3: #5a2440; /* magenta plum */
-  --cloud-4: #0d1a2a; /* deep navy */
+  --cloud-1: #6d4fc2; /* violet */
+  --cloud-2: #2f7fbf; /* teal-blue */
+  --cloud-3: #a8447a; /* magenta plum */
+  --cloud-4: #1c4d6b; /* steel navy */
 
   --background: var(--void);
   --foreground: var(--platinum);
