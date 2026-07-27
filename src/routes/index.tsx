@@ -460,7 +460,6 @@ function Page() {
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header active={active} />
-      <MobileNav active={active} />
       <SpatialNav active={active} />
 
       <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
