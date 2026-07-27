@@ -28,17 +28,19 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
   const loop = reduce ? 0 : Infinity;
   // Shared cadence so icons in the same tile row feel synchronised.
   const beat = 2.4;
-  // Keep SSR/client markup identical (no reduce branch here) and neutralise the
-  // draw-on by collapsing its duration under reduced motion instead.
-  const draw = { initial: { pathLength: 0 }, animate: { pathLength: 1 } };
+
 
   switch (name) {
     case "arrow":
       return (
-        <svg {...common}>
-          <motion.path d="M4 12h13" {...draw} transition={{ duration: reduce ? 0 : 0.5, ease: "easeOut" }} />
-          <motion.path d="M13 7l5 5-5 5" {...draw} transition={{ duration: reduce ? 0 : 0.4, ease: "easeOut", delay: reduce ? 0 : 0.25 }} />
-        </svg>
+        <motion.svg
+          {...common}
+          animate={reduce ? { x: 0 } : { x: [0, 2, 0] }}
+          transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
+        >
+          <path d="M4 12h13" />
+          <path d="M13 7l5 5-5 5" />
+        </motion.svg>
       );
     case "spark":
       return (
@@ -174,8 +176,12 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
     case "mail":
       return (
         <svg {...common}>
-          <motion.rect x="3" y="5" width="18" height="14" rx="2.5" {...draw} transition={{ duration: reduce ? 0 : 0.7, ease: "easeOut" }} />
-          <motion.path d="M3.5 7.5l8.5 5.5 8.5-5.5" {...draw} transition={{ duration: reduce ? 0 : 0.5, ease: "easeOut", delay: reduce ? 0 : 0.25 }} />
+          <rect x="3" y="5" width="18" height="14" rx="2.5" />
+          <motion.path
+            d="M3.5 7.5l8.5 5.5 8.5-5.5"
+            animate={reduce ? { y: 0, opacity: 1 } : { y: [0, 0.8, 0], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
+          />
         </svg>
       );
     case "github":
