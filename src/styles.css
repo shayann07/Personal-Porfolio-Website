@@ -710,7 +710,11 @@ body { cursor: none; }
   .textarea { min-height: 128px; }
 
   /* Cheaper aurora on phones */
-  .cloud-bg::before, .cloud-bg::after { filter: blur(70px); opacity: 0.45; }
+  .cloud-bg::before, .cloud-bg::after, .cloud-bg__layer::before {
+    filter: blur(80px);
+    opacity: 0.52;
+  }
+  .cloud-bg__layer::before { width: 70vmax; height: 70vmax; }
 }
 
 /* Tap targets */
