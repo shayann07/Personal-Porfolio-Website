@@ -4,6 +4,7 @@ import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react
 import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
+import { SpatialStack } from "@/components/SpatialStack";
 import { useReveal } from "@/hooks/useReveal";
 import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
@@ -212,11 +213,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
             </Reveal>
           </div>
           <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end" aria-hidden>
-            <div className="hero-orb" aria-hidden>
-              <span className="hero-orb__body" />
-              <span className="hero-orb__ring" />
-              <span className="hero-orb__ring hero-orb__ring--2" />
-            </div>
+            <SpatialStack />
           </motion.div>
         </div>
 

@@ -420,104 +420,176 @@ body { cursor: none; }
 .char-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; }
 .char-mask > span { display: inline-block; will-change: transform, opacity; }
 
-/* ============ ECLIPSE VISUAL ============ */
-/* A dark planetary body with a crimson corona and orbital arcs.
-   No conic banding (the old "CD-ROM" look). */
-.hero-orb {
+/* ============ SPATIAL UI (visionOS-style pane stack) ============ */
+.spatial {
+  --rx: 0deg;
+  --ry: 0deg;
   position: relative;
   width: 100%;
-  max-width: 310px;
-  margin-inline-end: clamp(0px, 2vw, 28px);
-  aspect-ratio: 1;
-  isolation: isolate;
-  animation: orb-float 11s ease-in-out infinite;
-  will-change: transform;
+  max-width: 320px;
+  aspect-ratio: 1 / 1.06;
+  perspective: 1100px;
+  perspective-origin: 55% 45%;
 }
-/* corona bloom behind the body */
-.hero-orb::before {
-  content: "";
-  position: absolute;
-  inset: 4%;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 50% 50%, transparent 54%, rgb(var(--crimson-rgb) / 0.55) 60%, rgb(var(--crimson-rgb) / 0.10) 72%, transparent 84%),
-    radial-gradient(circle at 50% 50%, transparent 56%, rgb(210 195 246 / 0.20) 64%, transparent 88%);
-  filter: blur(10px);
-  z-index: -1;
-}
-/* faint outer halo */
-.hero-orb::after {
-  content: "";
-  position: absolute;
-  inset: -14%;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgb(var(--crimson-rgb) / 0.14) 0%, transparent 62%);
-  filter: blur(24px);
-  z-index: -2;
-}
-.hero-orb__body {
-  position: absolute;
-  inset: 12%;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 34% 26%, rgb(210 195 246 / 0.22) 0%, transparent 42%),
-    radial-gradient(circle at 62% 74%, rgb(var(--crimson-rgb) / 0.20) 0%, transparent 55%),
-    radial-gradient(circle at 50% 45%, #221f2b 0%, #131118 58%, #0a0910 100%);
-  box-shadow:
-    inset -26px -34px 70px rgb(0 0 0 / 0.75),
-    inset 14px 16px 44px rgb(210 195 246 / 0.07),
-    inset 0 0 0 1px rgb(237 235 222 / 0.07),
-    0 30px 90px -34px rgb(var(--crimson-rgb) / 0.45);
-  overflow: hidden;
-}
-/* crescent rim light along the terminator */
-.hero-orb__body::before {
-  content: "";
+.spatial__scene {
   position: absolute;
   inset: 0;
-  border-radius: 999px;
-  background: radial-gradient(circle at 78% 70%, rgb(var(--crimson-rgb) / 0.85) 0%, transparent 38%);
-  mask: radial-gradient(circle at 50% 50%, transparent 86%, #000 92%);
-  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 86%, #000 92%);
-  opacity: 0.9;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(9deg + var(--rx))) rotateY(calc(-16deg + var(--ry)));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: spatial-float 12s ease-in-out infinite;
+  will-change: transform;
 }
-/* soft latitude sheen instead of hard conic spokes */
-.hero-orb__body::after {
-  content: "";
+.spatial__glow {
   position: absolute;
-  inset: -20%;
+  inset: 8% -6% -10% -6%;
+  border-radius: 40px;
   background:
-    repeating-linear-gradient(180deg, rgb(237 235 222 / 0.035) 0 1px, transparent 1px 14px);
-  opacity: 0.5;
-  animation: orb-sheen 18s linear infinite;
+    radial-gradient(60% 55% at 60% 40%, rgb(var(--crimson-rgb) / 0.30), transparent 70%),
+    radial-gradient(55% 50% at 25% 75%, rgb(210 195 246 / 0.22), transparent 72%);
+  filter: blur(34px);
+  transform: translateZ(-140px);
 }
-/* orbital arcs */
-.hero-orb__ring {
+.spatial__pane {
   position: absolute;
-  inset: 2%;
+  border-radius: 22px;
+  transform-style: preserve-3d;
+  background: linear-gradient(150deg, rgb(237 235 222 / 0.09), rgb(12 11 16 / 0.55) 60%);
+  border: 1px solid rgb(237 235 222 / 0.14);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgb(237 235 222 / 0.18),
+    0 30px 60px -30px rgb(0 0 0 / 0.85);
+}
+.spatial__pane--back {
+  inset: 2% 22% 40% -2%;
+  transform: translateZ(-70px) translateX(-6%);
+  padding: 16px;
+  opacity: 0.85;
+}
+.spatial__pane--mid {
+  inset: 14% 0 34% 26%;
+  transform: translateZ(0px);
+  padding: 16px;
+}
+.spatial__pane--front {
+  inset: 54% 26% 0% -4%;
+  transform: translateZ(76px);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  border-color: rgb(237 235 222 / 0.20);
+  box-shadow:
+    inset 0 1px 0 rgb(237 235 222 / 0.24),
+    0 40px 70px -28px rgb(0 0 0 / 0.9),
+    0 0 60px -22px rgb(var(--crimson-rgb) / 0.55);
+}
+.spatial__pane--chip {
+  top: 8%;
+  right: -4%;
+  width: 46px;
+  height: 46px;
+  inset-block-end: auto;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  transform: translateZ(120px);
+  color: var(--platinum);
+  animation: spatial-chip 7s ease-in-out infinite;
+}
+
+/* back pane: signal bars */
+.spatial__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 100%;
+}
+.spatial__bars > span {
+  flex: 1;
+  border-radius: 3px;
+  background: linear-gradient(180deg, rgb(var(--crimson-rgb) / 0.75), rgb(210 195 246 / 0.28));
+  transform-origin: bottom;
+  animation: spatial-bar 2.8s ease-in-out infinite;
+}
+
+/* mid pane: module grid */
+.spatial__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 8px;
+  height: 100%;
+}
+.spatial__grid > span {
+  border-radius: 10px;
+  background: rgb(237 235 222 / 0.07);
+  border: 1px solid rgb(237 235 222 / 0.10);
+  animation: spatial-cell 4.2s ease-in-out infinite;
+}
+
+/* front pane content */
+.spatial__row { display: flex; align-items: center; gap: 8px; }
+.spatial__dot {
+  width: 7px; height: 7px; border-radius: 999px;
+  background: var(--crimson-lift, rgb(var(--crimson-rgb)));
+  box-shadow: 0 0 0 4px rgb(var(--crimson-rgb) / 0.18);
+}
+.spatial__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--platinum) 72%, transparent);
+}
+.spatial__icon { color: var(--platinum); }
+.spatial__meter {
+  height: 5px;
   border-radius: 999px;
-  border: 1px solid rgb(210 195 246 / 0.16);
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  animation: slow-spin 42s linear infinite;
-  pointer-events: none;
+  background: rgb(237 235 222 / 0.10);
+  overflow: hidden;
 }
-.hero-orb__ring--2 {
-  inset: -8%;
-  border-color: rgb(var(--crimson-rgb) / 0.28);
-  border-top-color: transparent;
-  border-right-color: transparent;
-  animation-duration: 78s;
-  animation-direction: reverse;
+.spatial__meter > i {
+  display: block;
+  height: 100%;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgb(var(--crimson-rgb) / 0.9), rgb(210 195 246 / 0.7));
+  animation: spatial-meter 4.6s ease-in-out infinite;
 }
-@keyframes orb-float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -12px, 0); }
+
+@keyframes spatial-float {
+  0%, 100% { translate: 0 0 0; }
+  50% { translate: 0 -14px 0; }
 }
-@keyframes orb-sheen {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, 14px, 0); }
+@keyframes spatial-chip {
+  0%, 100% { translate: 0 0 0; }
+  50% { translate: 0 -10px 0; }
 }
+@keyframes spatial-bar {
+  0%, 100% { transform: scaleY(0.72); opacity: 0.7; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+@keyframes spatial-cell {
+  0%, 100% { background: rgb(237 235 222 / 0.05); }
+  50% { background: rgb(237 235 222 / 0.13); }
+}
+@keyframes spatial-meter {
+  0%, 100% { width: 32%; }
+  50% { width: 84%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spatial__scene, .spatial__pane--chip,
+  .spatial__bars > span, .spatial__grid > span, .spatial__meter > i { animation: none !important; }
+}
+@media (max-width: 767px) {
+  .spatial { max-width: 250px; margin-inline: auto; }
+  .spatial__pane { backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); }
+}
+
 @keyframes slow-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -786,7 +858,7 @@ body { cursor: none; }
   .section-head { margin-bottom: 1.75rem; }
   .marquee { padding: 0.75rem 0; }
   .wordmark-bg { font-size: clamp(64px, 22vw, 120px); }
-  .hero-orb { max-width: 200px; }
+  .spatial { max-width: 210px; }
   .textarea { min-height: 128px; }
 
   /* Cheaper aurora on phones */
@@ -806,7 +878,7 @@ body { cursor: none; }
   .section-head { margin-bottom: clamp(1.75rem, 3vw, 2.5rem); }
   .work-row { padding: 1.35rem 1.4rem; }
   .work-row__title { font-size: clamp(24px, 3.4vw, 34px); }
-  .hero-orb { max-width: 300px; }
+  .spatial { max-width: 300px; }
   .nav-link { padding: 0 0.7rem; letter-spacing: 0.16em; }
   .wordmark-bg { font-size: clamp(90px, 16vw, 150px); }
 }
