@@ -67,6 +67,7 @@
   --lavender: #D2C3F6;    /* cool accent light */
   --crimson: #B32436;     /* signal (lightened) */
   --crimson-lift: #D94054;/* signal highlight */
+  --crimson-deep: #8F1A29;
   --crimson-rgb: 217 64 84;
 
   /* ---- derived roles ---- */
@@ -508,7 +509,7 @@ body { cursor: none; }
   cursor: pointer;
 }
 .btn-primary {
-  background: linear-gradient(180deg, var(--crimson-lift), var(--crimson));
+  background: linear-gradient(180deg, var(--crimson), var(--crimson-deep));
   color: var(--cotton);
   border: 1px solid rgb(var(--crimson-rgb) / 0.9);
   box-shadow: 0 20px 40px -18px rgb(var(--crimson-rgb) / 0.55), inset 0 -1px 0 rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(237 235 222 / 0.24);
@@ -565,7 +566,7 @@ body { cursor: none; }
 }
 .work-row:hover .work-row__arrow {
   transform: rotate(-45deg);
-  background: linear-gradient(180deg, var(--crimson-lift), var(--crimson));
+  background: linear-gradient(180deg, var(--crimson), var(--crimson-deep));
   border-color: rgb(var(--crimson-rgb) / 0.9);
   box-shadow: 0 0 0 4px rgb(var(--crimson-rgb) / 0.16);
   color: var(--cotton);
