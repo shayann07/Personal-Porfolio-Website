@@ -83,6 +83,37 @@
   --cloud-4: #0d0c11; /* near-black anchor */
   --cloud-5: #4a1a26; /* crimson ember */
 
+  /* ---- SHARED DESIGN SYSTEM TOKENS ---- */
+  /* spacing rhythm */
+  --gap-2xs: 0.35rem;
+  --gap-xs: 0.55rem;
+  --gap-sm: 0.85rem;
+  --gap-md: clamp(1rem, 1.2vw + 0.6rem, 1.5rem);
+  --gap-lg: clamp(1.5rem, 2vw + 0.8rem, 2.5rem);
+  --gap-xl: clamp(2rem, 3vw + 1rem, 3.5rem);
+  --stack-copy: clamp(0.85rem, 0.6vw + 0.6rem, 1.15rem);
+  --section-head-gap: clamp(1.4rem, 2.4vw + 0.4rem, 2.6rem);
+  --section-tail-gap: clamp(1.25rem, 2vw + 0.5rem, 2.25rem);
+
+  /* marker (dot) system — quiet by default, crimson only when live */
+  --dot-size: 6px;
+  --dot-ring: 1px solid color-mix(in oklab, var(--platinum) 40%, transparent);
+  --dot-quiet-bg: transparent;
+  --dot-live-bg: rgb(var(--crimson-rgb) / 0.95);
+  --dot-live-halo: 0 0 0 3px rgb(var(--crimson-rgb) / 0.13);
+
+  /* typography — sentence-case sans labels; mono reserved for units */
+  --label-family: var(--font-sans);
+  --label-size: var(--text-xs);
+  --label-weight: 600;
+  --label-tracking: 0.005em;
+  --label-transform: none;
+  --label-color: color-mix(in oklab, var(--platinum) 72%, transparent);
+  --label-color-quiet: color-mix(in oklab, var(--platinum) 55%, transparent);
+  --unit-family: var(--font-mono);
+  --unit-size: var(--text-micro);
+  --unit-tracking: 0.06em;
+
   --background: var(--void);
   --foreground: var(--platinum);
   --hairline: rgb(237 235 222 / 0.12);
@@ -237,12 +268,21 @@ body { cursor: none; }
 @utility body-md { font-size: var(--text-base); line-height: 1.6; color: color-mix(in oklab, var(--platinum) 80%, transparent); }
 @utility body-sm { font-size: var(--text-sm); line-height: 1.6; color: color-mix(in oklab, var(--platinum) 68%, transparent); }
 @utility eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: color-mix(in oklab, var(--platinum) 62%, transparent);
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  font-weight: var(--label-weight);
+  color: var(--label-color);
+}
+/* mono is reserved for units (ms, fps, %, counts) */
+@utility unit {
+  font-family: var(--unit-family);
+  font-size: var(--unit-size);
+  letter-spacing: var(--unit-tracking);
+  font-weight: 500;
+  color: var(--label-color-quiet);
+  font-variant-numeric: tabular-nums;
 }
 @utility stat-num {
   font-family: var(--font-display);
@@ -341,12 +381,12 @@ body { cursor: none; }
   min-height: 2rem;
   padding: 0 0.9rem;
   border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: color-mix(in oklab, var(--platinum) 78%, transparent);
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  font-weight: var(--label-weight);
+  color: color-mix(in oklab, var(--platinum) 82%, transparent);
   transition: background 0.3s ease, color 0.3s ease;
 }
 .nav-link:hover { background: rgb(237 235 222 / 0.10); color: var(--platinum); }
@@ -367,17 +407,17 @@ body { cursor: none; }
 }
 
 .live-dot {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: var(--dot-size);
+  height: var(--dot-size);
   border-radius: 999px;
-  background: color-mix(in oklab, var(--crimson-lift) 78%, var(--platinum));
-  box-shadow: 0 0 0 3px rgb(var(--crimson-rgb) / 0.12);
+  background: var(--dot-live-bg);
+  box-shadow: var(--dot-live-halo);
   animation: live-pulse 3.6s ease-in-out infinite;
 }
 /* neutral variant for non-live markers (clock, footers, meta rows) */
 .live-dot--muted {
-  background: transparent;
-  border: 1px solid color-mix(in oklab, var(--platinum) 40%, transparent);
+  background: var(--dot-quiet-bg);
+  border: var(--dot-ring);
   box-shadow: none;
   animation: none;
 }
@@ -396,11 +436,11 @@ body { cursor: none; }
   background: linear-gradient(180deg, rgb(9 8 13 / 0.40), rgb(9 8 13 / 0.60));
   border: 1px solid rgb(237 235 222 / 0.13);
   backdrop-filter: blur(24px) saturate(160%);
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-weight: 700;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  font-weight: var(--label-weight);
   color: color-mix(in oklab, var(--platinum) 85%, transparent);
   transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
@@ -411,11 +451,13 @@ body { cursor: none; }
   position: relative;
   padding-block: var(--space-section);
 }
+/* pulls the following block closer to the closing paragraph */
+.section--tight-bottom { padding-bottom: var(--section-tail-gap); }
 .section-head {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: clamp(2rem, 4vw + 0.5rem, 4rem);
+  gap: var(--gap-2xs);
+  margin-bottom: var(--section-head-gap);
 }
 .section-head .rule {
   width: 3rem;
@@ -621,15 +663,15 @@ body { cursor: none; }
 /* quiet marker — a hairline ring, not a red LED. Crimson is reserved
    for genuinely live state via .spatial__dot--live. */
 .spatial__dot {
-  width: 6px; height: 6px; border-radius: 999px;
-  background: transparent;
-  border: 1px solid color-mix(in oklab, var(--platinum) 42%, transparent);
+  width: var(--dot-size); height: var(--dot-size); border-radius: 999px;
+  background: var(--dot-quiet-bg);
+  border: var(--dot-ring);
   box-shadow: none;
 }
 .spatial__dot--live {
-  background: rgb(var(--crimson-rgb) / 0.95);
+  background: var(--dot-live-bg);
   border-color: transparent;
-  box-shadow: 0 0 0 3px rgb(var(--crimson-rgb) / 0.14);
+  box-shadow: var(--dot-live-halo);
   animation: spatial-live 3.6s ease-in-out infinite;
 }
 @keyframes spatial-live {
@@ -638,18 +680,19 @@ body { cursor: none; }
 }
 /* sentence-case sans replaces the wide-tracked uppercase mono */
 .spatial__label {
-  font-family: var(--font-sans);
-  font-size: 12px;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
   font-weight: 500;
-  letter-spacing: -0.005em;
-  text-transform: none;
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
   color: color-mix(in oklab, var(--platinum) 76%, transparent);
 }
 .spatial__label--unit {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  color: color-mix(in oklab, var(--platinum) 55%, transparent);
+  font-family: var(--unit-family);
+  font-size: var(--unit-size);
+  letter-spacing: var(--unit-tracking);
+  color: var(--label-color-quiet);
+  font-variant-numeric: tabular-nums;
 }
 .spatial__icon { color: var(--platinum); }
 .spatial__meter {
@@ -920,12 +963,12 @@ body { cursor: none; }
   gap: 0.5rem;
 }
 .field label {
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: color-mix(in oklab, var(--platinum) 72%, transparent);
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  font-weight: var(--label-weight);
+  color: var(--label-color);
 }
 .input, .textarea {
   width: 100%;
@@ -955,10 +998,10 @@ body { cursor: none; }
   gap: 0.75rem;
   padding: 1rem 1.5rem;
   border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-family: var(--label-family);
+  font-size: var(--text-sm);
+  letter-spacing: -0.005em;
+  text-transform: none;
   font-weight: 700;
   transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.3s ease, background 0.3s ease;
   cursor: pointer;
@@ -1114,11 +1157,11 @@ body { cursor: none; }
   border-radius: 999px;
   background: var(--crimson-lift);
   color: var(--platinum);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-family: var(--label-family);
+  font-size: var(--text-sm);
   font-weight: 700;
+  letter-spacing: -0.005em;
+  text-transform: none;
   transform: translateY(-160%);
   transition: transform 0.25s ease;
 }
@@ -1377,26 +1420,29 @@ body { cursor: none; }
   align-items: center;
   gap: 9px;
   color: color-mix(in oklab, var(--platinum) 62%, transparent);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
   transition: color 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .snav__dot {
-  width: 7px; height: 7px;
+  width: var(--dot-size); height: var(--dot-size);
   border-radius: 999px;
-  background: rgb(237 235 222 / 0.32);
+  background: var(--dot-quiet-bg);
+  border: var(--dot-ring);
   transition: background 0.3s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .snav__item[data-active] { color: var(--platinum); }
 .snav__item[data-active] .snav__dot {
-  background: rgb(var(--crimson-rgb) / 1);
-  box-shadow: 0 0 0 4px rgb(var(--crimson-rgb) / 0.18), 0 0 18px rgb(var(--crimson-rgb) / 0.55);
-  transform: scale(1.25);
+  background: var(--dot-live-bg);
+  border-color: transparent;
+  box-shadow: var(--dot-live-halo);
+  transform: scale(1.15);
 }
 .snav__item:hover { color: var(--platinum); }
-.snav__item:hover .snav__dot { background: rgb(237 235 222 / 0.7); }
+.snav__item:hover .snav__dot { border-color: color-mix(in oklab, var(--platinum) 80%, transparent); }
 
 /* desktop: vertical depth rail */
 @media (min-width: 768px) {
