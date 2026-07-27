@@ -48,30 +48,49 @@ export function SpatialStack() {
 
         {/* back pane — signal graph */}
         <div className="spatial__pane spatial__pane--back">
+          <span className="spatial__sheen" />
+          <div className="spatial__paneHead">
+            <span className="spatial__label">latency</span>
+            <span className="spatial__label spatial__label--dim">ms</span>
+          </div>
           <div className="spatial__bars">
-            {[38, 62, 44, 78, 56, 92, 70].map((h, i) => (
-              <span key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.18}s` }} />
+            {[38, 62, 44, 78, 56, 92, 70, 48].map((h, i) => (
+              <span key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.16}s` }} />
             ))}
           </div>
+          <span className="spatial__baseline" />
         </div>
 
         {/* mid pane — module grid */}
         <div className="spatial__pane spatial__pane--mid">
+          <span className="spatial__sheen" />
           <div className="spatial__grid">
             {Array.from({ length: 9 }).map((_, i) => (
-              <span key={i} style={{ animationDelay: `${i * 0.12}s` }} />
+              <span
+                key={i}
+                data-hot={i === 4 ? "" : undefined}
+                style={{ animationDelay: `${i * 0.12}s` }}
+              />
             ))}
           </div>
+          <span className="spatial__scan" />
         </div>
 
         {/* front pane — the "card" */}
         <div className="spatial__pane spatial__pane--front">
-          <div className="spatial__row">
-            <span className="spatial__dot" />
-            <span className="spatial__label">on-device</span>
+          <span className="spatial__sheen" />
+          <div className="spatial__row spatial__row--between">
+            <span className="spatial__row">
+              <span className="spatial__dot" />
+              <span className="spatial__label">on-device</span>
+            </span>
+            <span className="spatial__icon spatial__icon--sm">
+              <AnimatedIcon name="chip" size={18} />
+            </span>
           </div>
-          <div className="spatial__icon">
-            <AnimatedIcon name="chip" size={26} />
+          <div className="spatial__readout">
+            <strong>18.4</strong>
+            <span className="spatial__label">ms / frame</span>
           </div>
           <div className="spatial__meter"><i /></div>
         </div>
