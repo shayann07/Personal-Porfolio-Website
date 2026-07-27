@@ -56,15 +56,15 @@
 }
 
 :root {
-  --void: #020204;
+  --void: #23212C;
   --panel: #07080c;
   --mid: #8a90a0;
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #1a1d23; /* graphite, dimmed */
-  --cloud-2: #262a32; /* slate, dimmed */
-  --cloud-3: #0c0e13; /* deep neutral, near-black */
+  --cloud-1: #2e2b3a; /* graphite, dimmed */
+  --cloud-2: #3a3648; /* slate, dimmed */
+  --cloud-3: #17161d; /* deep neutral, near-black */
   --cloud-4: #050810; /* deep navy, near-black */
 
   --background: var(--void);
