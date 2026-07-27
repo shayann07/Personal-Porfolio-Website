@@ -4,7 +4,7 @@ import { memo, useEffect, useState, type FormEvent, type ReactNode } from "react
 import { Cursor } from "@/components/Cursor";
 import { ShaderBackground } from "@/components/ShaderBackground";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
-import { SpatialStack } from "@/components/SpatialStack";
+import { SpatialStack, SpatialCluster } from "@/components/SpatialStack";
 import { useReveal } from "@/hooks/useReveal";
 import { useSectionNav, scrollToHash } from "@/hooks/useSectionNav";
 
@@ -241,7 +241,11 @@ function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="section">
       <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
-      <div className="container-narrow grid gap-6">
+      <div className="container-x grid gap-10 md:grid-cols-12 md:gap-12 items-start">
+        <div className="md:col-span-5 md:sticky md:top-28 flex justify-center md:justify-start">
+          <SpatialCluster />
+        </div>
+        <div className="md:col-span-7 grid gap-6">
         <Reveal>
           <p className="body-md">
             Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
@@ -257,6 +261,7 @@ function About() {
             {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
           </ul>
         </Reveal>
+        </div>
       </div>
     </section>
   );
