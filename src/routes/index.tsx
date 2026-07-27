@@ -446,7 +446,11 @@ function Page() {
 
   return (
     <div className="grain relative isolate min-h-dvh overflow-x-clip">
-      <div className="cloud-bg" aria-hidden />
+      <div className="cloud-bg" aria-hidden>
+        <div className="orb orb-a" />
+        <div className="orb orb-b" />
+        <div className="orb orb-c" />
+      </div>
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
       <Header />
