@@ -390,22 +390,63 @@ function Ribbon() {
 
 /* ---------- Contact ---------- */
 function Contact() {
-  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [copied, setCopied] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+
+  function validate(f: typeof form) {
+    const next: Record<string, string> = {};
+    if (!f.name.trim()) next.name = "Please add your name.";
+    else if (f.name.trim().length > 80) next.name = "Name must be under 80 characters.";
+    if (!f.email.trim()) next.email = "Please add an email so I can reply.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) next.email = "That email doesn't look right.";
+    if (f.subject.length > 140) next.subject = "Subject must be under 140 characters.";
+    if (!f.message.trim()) next.message = "Tell me a little about the project.";
+    else if (f.message.trim().length < 20) next.message = "A bit more detail helps — 20 characters minimum.";
+    else if (f.message.length > 2000) next.message = "Message must be under 2000 characters.";
+    return next;
+  }
+
+  function update(key: keyof typeof form, value: string) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    if (errors[key]) setErrors(({ [key]: _drop, ...rest }) => rest);
+    if (state === "sent" || state === "error") setState("idle");
+  }
 
   function submit(e: FormEvent) {
     e.preventDefault();
+    const found = validate(form);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      setState("error");
+      const first = document.getElementById(Object.keys(found)[0]);
+      first?.focus();
+      return;
+    }
     setState("sending");
-    // Mailto handoff — no backend
     const body = encodeURIComponent(`From: ${form.name} <${form.email}>\n\n${form.message}`);
-    const subject = encodeURIComponent(form.subject || "Project inquiry");
-    setTimeout(() => {
-      window.location.href = `mailto:hello@shayxo.dev?subject=${subject}&body=${body}`;
-      setState("sent");
-    }, 400);
+    const subject = encodeURIComponent(form.subject.trim() || "Project inquiry");
+    try {
+      window.location.href = `${personalLinks.email.link}?subject=${subject}&body=${body}`;
+      window.setTimeout(() => setState("sent"), 500);
+    } catch {
+      setState("error");
+    }
   }
 
-  const disabled = !form.name || !form.email || !form.message || state === "sending";
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(personalLinks.email.label);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  const disabled = state === "sending";
+  const hasErrors = Object.keys(errors).length > 0;
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="section">
@@ -416,20 +457,29 @@ function Contact() {
             <div className="space-y-6">
               <div>
                 <span className="eyebrow">Email</span>
-                <a href="mailto:hello@shayxo.dev" className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
-                  <span className="shrink-0 text-[color:var(--platinum)]/70"><Icon name="mail" size={20} /></span>
-                  <span className="truncate">hello@shayxo.dev</span>
+                <a href={personalLinks.email.link} className="hd-3 mt-2 flex min-w-0 items-center gap-3 hover:opacity-70 transition-opacity">
+                  <span className="metric-icon shrink-0"><Icon name="mail" size={18} /></span>
+                  <span className="truncate">{personalLinks.email.label}</span>
                 </a>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  aria-label="Copy email address to clipboard"
+                  className="mt-3 btn btn-ghost"
+                >
+                  <Icon name={copied ? "check" : "copy"} size={14} /> {copied ? "Copied" : "Copy email"}
+                </button>
+                <span aria-live="polite" className="sr-only">{copied ? "Email address copied" : ""}</span>
               </div>
               <div>
                 <span className="eyebrow">Elsewhere</span>
                 <div className="mt-3 flex flex-col gap-3">
-                  <a href="https://github.com/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                  <a href={personalLinks.github.link} target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
                     <span className="shrink-0"><Icon name="github" size={18} /></span>
                     <span className="truncate">github.com/shayann07</span>
                     <span className="sr-only">(opens in a new tab)</span>
                   </a>
-                  <a href="https://www.linkedin.com/in/shayann07" target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
+                  <a href={personalLinks.linkedin.link} target="_blank" rel="noreferrer noopener" className="flex min-w-0 items-center gap-3 body-md hover:text-[color:var(--platinum)] transition-colors">
                     <span className="shrink-0"><Icon name="linkedin" size={18} /></span>
                     <span className="truncate">linkedin.com/in/shayann07</span>
                     <span className="sr-only">(opens in a new tab)</span>
@@ -440,36 +490,62 @@ function Contact() {
             <div className="pt-5 border-t border-white/10">
               <div className="eyebrow flex items-center gap-2"><span className="live-dot" /> Currently available</div>
               <div className="body-sm mt-2">Booking projects starting August 2026.</div>
+              <a href={CV_URL} download aria-label="Download Muhammad Shayan's CV (PDF)" className="btn btn-ghost mt-4 w-full justify-center">
+                <Icon name="download" size={15} /> Download CV
+              </a>
             </div>
           </aside>
         </Reveal>
 
         <Reveal delay={0.1} className="lg:col-span-8">
-          <form onSubmit={submit} aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+          <form onSubmit={submit} noValidate aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
             <div className="field md:col-span-1">
               <label htmlFor="name">Name</label>
-              <input id="name" name="name" autoComplete="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <input id="name" name="name" autoComplete="name" maxLength={80} className="input" placeholder="Ada Lovelace"
+                aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined}
+                value={form.name} onChange={(e) => update("name", e.target.value)} />
+              {errors.name && <span id="name-error" className="field-error">{errors.name}</span>}
             </div>
             <div className="field md:col-span-1">
               <label htmlFor="email">Email</label>
-              <input id="email" name="email" autoComplete="email" inputMode="email" required type="email" maxLength={120} className="input" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <input id="email" name="email" autoComplete="email" inputMode="email" type="email" maxLength={120} className="input" placeholder="you@company.com"
+                aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined}
+                value={form.email} onChange={(e) => update("email", e.target.value)} />
+              {errors.email && <span id="email-error" className="field-error">{errors.email}</span>}
             </div>
             <div className="field md:col-span-2">
-              <label htmlFor="subject">Subject</label>
-              <input id="subject" name="subject" maxLength={140} className="input" placeholder="What are we building?" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
+              <label htmlFor="subject">Subject <span className="opacity-50">(optional)</span></label>
+              <input id="subject" name="subject" maxLength={140} className="input" placeholder="What are we building?"
+                aria-invalid={!!errors.subject} aria-describedby={errors.subject ? "subject-error" : undefined}
+                value={form.subject} onChange={(e) => update("subject", e.target.value)} />
+              {errors.subject && <span id="subject-error" className="field-error">{errors.subject}</span>}
             </div>
             <div className="field md:col-span-2">
               <label htmlFor="message">Message</label>
-              <textarea id="message" name="message" required maxLength={2000} aria-describedby="message-hint" className="textarea" placeholder="Tell me about the product, timeline, and stack…" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
-              <span id="message-hint" className="body-sm opacity-60">Max 2000 characters.</span>
+              <textarea id="message" name="message" maxLength={2000} className="textarea" placeholder="Tell me about the product, timeline, and stack…"
+                aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error message-hint" : "message-hint"}
+                value={form.message} onChange={(e) => update("message", e.target.value)} />
+              <span className="mt-1 flex items-center justify-between gap-3">
+                <span id="message-hint" className="body-sm opacity-60">Minimum 20 characters.</span>
+                <span className="eyebrow opacity-50">{form.message.length}/2000</span>
+              </span>
+              {errors.message && <span id="message-error" className="field-error">{errors.message}</span>}
             </div>
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <p role="status" aria-live="polite" className="eyebrow opacity-60">
-                {state === "sent" ? "Message handed off to your mail app." : state === "sending" ? "Opening your mail app…" : "Sends via your mail app — no data stored."}
+              <p role="status" aria-live="polite" className={`eyebrow flex items-center gap-2 ${state === "error" ? "text-[color:var(--destructive)]" : "opacity-60"}`}>
+                {state === "error" ? (
+                  <><Icon name="alert" size={14} /> {hasErrors ? "Check the highlighted fields." : "Couldn't open your mail app — copy my email instead."}</>
+                ) : state === "sent" ? (
+                  <><Icon name="check" size={14} /> Message handed off to your mail app.</>
+                ) : state === "sending" ? (
+                  "Opening your mail app…"
+                ) : (
+                  "Sends via your mail app — no data stored."
+                )}
               </p>
               <button type="submit" disabled={disabled} className="btn btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
-                {state === "sent" ? "Sent ✓" : state === "sending" ? "Sending…" : "Send Message"}
-                {state === "idle" && <Icon name="arrow" size={14} />}
+                {state === "sent" ? "Sent" : state === "sending" ? "Sending…" : "Send Message"}
+                <Icon name={state === "sent" ? "check" : "arrow"} size={14} />
               </button>
             </div>
           </form>
