@@ -3,97 +3,133 @@ import { motion, useReducedMotion } from "framer-motion";
 
 type Props = { name: string; className?: string; size?: number };
 
+/**
+ * All glyphs are drawn on a 24x24 grid with a consistent 2px optical padding,
+ * so every icon occupies an identical square box and aligns across tiles.
+ * Under prefers-reduced-motion every glyph renders in its resting state.
+ */
 export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", size = 20 }: Props) {
   const reduce = useReducedMotion();
-  const stroke = "currentColor";
   const sw = 1.6;
   const common = {
     width: size,
     height: size,
     viewBox: "0 0 24 24",
     fill: "none",
-    stroke,
+    stroke: "currentColor",
     strokeWidth: sw,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
-    className,
+    className: `block shrink-0 ${className}`,
+    style: { width: size, height: size },
     "aria-hidden": true,
     focusable: false,
   };
   const loop = reduce ? 0 : Infinity;
+  // Shared cadence so icons in the same tile row feel synchronised.
+  const beat = 2.4;
+
 
   switch (name) {
     case "arrow":
       return (
-        <svg {...common}>
-          <motion.path d="M5 12h14" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6 }} />
-          <motion.path d="M13 6l6 6-6 6" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.5, delay: 0.3 }} />
-        </svg>
+        <motion.svg
+          {...common}
+          animate={reduce ? { x: 0 } : { x: [0, 2, 0] }}
+          transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
+        >
+          <path d="M4 12h13" />
+          <path d="M13 7l5 5-5 5" />
+        </motion.svg>
       );
     case "spark":
       return (
         <svg {...common}>
           <motion.path
-            d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"
-            initial={{ opacity: 0.3 }}
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2.4, repeat: loop }}
+            d="M12 3v5M12 16v5M3 12h5M16 12h5"
+            animate={reduce ? { opacity: 1 } : { opacity: [0.45, 1, 0.45] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
+          />
+          <motion.path
+            d="M5.8 5.8l3 3M15.2 15.2l3 3M18.2 5.8l-3 3M8.8 15.2l-3 3"
+            opacity="0.55"
+            animate={reduce ? { opacity: 0.55 } : { opacity: [0.25, 0.7, 0.25] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut", delay: beat / 2 }}
           />
         </svg>
       );
     case "gear":
       return (
-      <motion.svg {...common} animate={reduce ? undefined : { rotate: 360 }} transition={{ duration: 18, repeat: loop, ease: "linear" }}>
+        <motion.svg
+          {...common}
+          style={{ ...common.style, transformOrigin: "50% 50%" }}
+          animate={reduce ? { rotate: 0 } : { rotate: 360 }}
+          transition={{ duration: 18, repeat: loop, ease: "linear" }}
+        >
           <circle cx="12" cy="12" r="3" />
-          <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" />
+          <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M5.2 18.8L7.3 16.7M16.7 7.3l2.1-2.1" />
         </motion.svg>
       );
     case "bolt":
       return (
         <svg {...common}>
           <motion.path
-            d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"
+            d="M13 2.5L5 13.5h6l-1 8 8-11h-6l1-8z"
             fill="currentColor"
-            fillOpacity="0.15"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: [0.95, 1.05, 0.95] }}
-            transition={{ duration: 2, repeat: loop }}
+            fillOpacity="0.16"
+            style={{ transformOrigin: "50% 50%" }}
+            animate={reduce ? { scale: 1 } : { scale: [0.96, 1.04, 0.96] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
           />
         </svg>
       );
     case "orbit":
       return (
         <svg {...common}>
-          <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
-          <motion.circle
-            cx="12" cy="12" r="7.5"
-            opacity="0.45"
-            animate={reduce ? undefined : { opacity: [0.2, 0.55, 0.2] }}
-            transition={{ duration: 3, repeat: loop, ease: "easeInOut" }}
-          />
+          <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none" />
+          {/* outer ring: clockwise */}
           <motion.g
             style={{ transformOrigin: "12px 12px" }}
-            animate={reduce ? undefined : { rotate: 360 }}
-            transition={{ duration: 8, repeat: loop, ease: "linear" }}
+            animate={reduce ? { rotate: 0 } : { rotate: 360 }}
+            transition={{ duration: 9, repeat: loop, ease: "linear" }}
           >
-            <circle cx="19.5" cy="12" r="1.6" fill="currentColor" stroke="none" />
+            <ellipse cx="12" cy="12" rx="9" ry="4.2" opacity="0.5" />
+            <circle cx="21" cy="12" r="1.5" fill="currentColor" stroke="none" />
+          </motion.g>
+          {/* inner ring: counter-clockwise for depth */}
+          <motion.g
+            style={{ transformOrigin: "12px 12px" }}
+            animate={reduce ? { rotate: 60 } : { rotate: [60, -300] }}
+            transition={{ duration: 14, repeat: loop, ease: "linear" }}
+          >
+            <ellipse cx="12" cy="12" rx="6" ry="9" opacity="0.28" />
           </motion.g>
         </svg>
       );
     case "download":
       return (
         <svg {...common}>
-          <motion.path
-            d="M12 3v10"
-            animate={reduce ? undefined : { y: [0, 2, 0] }}
-            transition={{ duration: 1.8, repeat: loop, ease: "easeInOut" }}
+          <motion.g
+            animate={reduce ? { y: 0 } : { y: [0, 2, 0] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
+          >
+            <path d="M12 3.5v9" />
+            <path d="M8.2 9.2l3.8 3.8 3.8-3.8" />
+          </motion.g>
+          <path d="M4.5 17v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2" opacity="0.7" />
+        </svg>
+      );
+    case "map":
+      return (
+        <svg {...common}>
+          <path d="M9 4.5L3.5 6.8v12.7L9 17.2l6 2.3 5.5-2.3V4.5L15 6.8 9 4.5z" fill="currentColor" fillOpacity="0.12" />
+          <path d="M9 4.5v12.7M15 6.8v12.7" opacity="0.55" />
+          <motion.circle
+            cx="12" cy="11" r="1.8" fill="currentColor" stroke="none"
+            style={{ transformOrigin: "12px 11px" }}
+            animate={reduce ? { scale: 1, opacity: 1 } : { scale: [0.8, 1.15, 0.8], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
           />
-          <motion.path
-            d="M8 9.5l4 4 4-4"
-            animate={reduce ? undefined : { y: [0, 2, 0] }}
-            transition={{ duration: 1.8, repeat: loop, ease: "easeInOut" }}
-          />
-          <path d="M4 17.5v1.5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5" opacity="0.7" />
         </svg>
       );
     case "layers":
@@ -102,25 +138,25 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
           <motion.path
             d="M12 3l8 4.5-8 4.5-8-4.5L12 3z"
             fill="currentColor" fillOpacity="0.16"
-            animate={reduce ? undefined : { y: [0, -1.2, 0] }}
+            animate={reduce ? { y: 0 } : { y: [0, -1.2, 0] }}
             transition={{ duration: 3, repeat: loop, ease: "easeInOut" }}
           />
-          <motion.path d="M4 12l8 4.5 8-4.5" opacity="0.75" animate={reduce ? undefined : { y: [0, 1, 0] }} transition={{ duration: 3, repeat: loop, ease: "easeInOut", delay: 0.2 }} />
-          <motion.path d="M4 16.5L12 21l8-4.5" opacity="0.45" animate={reduce ? undefined : { y: [0, 1.6, 0] }} transition={{ duration: 3, repeat: loop, ease: "easeInOut", delay: 0.4 }} />
+          <motion.path d="M4 12l8 4.5 8-4.5" opacity="0.75" animate={reduce ? { y: 0 } : { y: [0, 1, 0] }} transition={{ duration: 3, repeat: loop, ease: "easeInOut", delay: 0.15 }} />
+          <motion.path d="M4 16.5L12 21l8-4.5" opacity="0.45" animate={reduce ? { y: 0 } : { y: [0, 1.6, 0] }} transition={{ duration: 3, repeat: loop, ease: "easeInOut", delay: 0.3 }} />
         </svg>
       );
     case "wave":
       return (
         <svg {...common}>
           <motion.path
-            d="M2 12c2.5-5 5-5 7.5 0s5 5 7.5 0 5-5 5 0"
-            animate={reduce ? undefined : { x: [0, -5, 0] }}
+            d="M2 11.5c2.5-5 5-5 7.5 0s5 5 7.5 0 5-5 5 0"
+            animate={reduce ? { x: 0 } : { x: [0, -5, 0] }}
             transition={{ duration: 3.2, repeat: loop, ease: "easeInOut" }}
           />
           <motion.path
-            d="M2 17c2.5-4 5-4 7.5 0s5 4 7.5 0 5-4 5 0"
+            d="M2 16.5c2.5-4 5-4 7.5 0s5 4 7.5 0 5-4 5 0"
             opacity="0.45"
-            animate={reduce ? undefined : { x: [0, 5, 0] }}
+            animate={reduce ? { x: 0 } : { x: [0, 5, 0] }}
             transition={{ duration: 3.8, repeat: loop, ease: "easeInOut" }}
           />
         </svg>
@@ -131,17 +167,21 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
           <rect x="7" y="7" width="10" height="10" rx="2.5" fill="currentColor" fillOpacity="0.14" />
           <motion.rect
             x="10.25" y="10.25" width="3.5" height="3.5" rx="1" fill="currentColor" stroke="none"
-            animate={reduce ? undefined : { opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 2, repeat: loop, ease: "easeInOut" }}
+            animate={reduce ? { opacity: 1 } : { opacity: [0.35, 1, 0.35] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
           />
-          <path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" opacity="0.65" />
+          <path d="M10 3.5v3.5M14 3.5v3.5M10 17v3.5M14 17v3.5M3.5 10H7M3.5 14H7M17 10h3.5M17 14h3.5" opacity="0.65" />
         </svg>
       );
     case "mail":
       return (
         <svg {...common}>
-          <motion.rect x="3" y="5" width="18" height="14" rx="2.5" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.8 }} />
-          <motion.path d="M3 7l9 6 9-6" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6, delay: 0.3 }} />
+          <rect x="3" y="5" width="18" height="14" rx="2.5" />
+          <motion.path
+            d="M3.5 7.5l8.5 5.5 8.5-5.5"
+            animate={reduce ? { y: 0, opacity: 1 } : { y: [0, 0.8, 0], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: beat, repeat: loop, ease: "easeInOut" }}
+          />
         </svg>
       );
     case "github":
@@ -154,13 +194,13 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
       return (
         <svg {...common}>
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 1 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
-          <rect x="2" y="9" width="4" height="12" />
-          <circle cx="4" cy="4" r="2" />
+          <rect x="2.5" y="9" width="4" height="12" />
+          <circle cx="4.5" cy="4.5" r="2" />
         </svg>
       );
     case "plus":
       return (
-        <motion.svg {...common} whileHover={{ rotate: 90 }} transition={{ duration: 0.4 }}>
+        <motion.svg {...common} whileHover={reduce ? undefined : { rotate: 90 }} transition={{ duration: 0.35 }}>
           <path d="M12 5v14M5 12h14" />
         </motion.svg>
       );
