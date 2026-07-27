@@ -53,19 +53,24 @@
   --color-platinum: var(--platinum);
   --color-silver: var(--silver);
   --color-mid: var(--mid);
+  --color-crimson: var(--crimson);
+  --color-crimson-lift: var(--crimson-lift);
 }
 
 :root {
   --void: #23212C;
-  --panel: #07080c;
-  --mid: #8a90a0;
-  --silver: #d9e6ad;
-  --platinum: #F1FEC8;
+  --panel: #17161d;
+  --mid: #8f8a92;
+  --silver: #c9c5b8;
+  --platinum: #EDEBDE;
+  --crimson: #8B1221;
+  --crimson-lift: #B8202F;
 
-  --cloud-1: #2e2b3a; /* graphite, dimmed */
-  --cloud-2: #3a3648; /* slate, dimmed */
-  --cloud-3: #17161d; /* deep neutral, near-black */
-  --cloud-4: #050810; /* deep navy, near-black */
+  --cloud-1: #2e2b3a; /* cosmic graphite */
+  --cloud-2: #332f3e; /* plum ink */
+  --cloud-3: #1a1820; /* deep shade */
+  --cloud-4: #120f16; /* near-black */
+  --cloud-5: #3a1a22; /* crimson ember, low weight */
 
   --background: var(--void);
   --foreground: var(--platinum);
@@ -75,8 +80,8 @@
   --card-foreground: var(--platinum);
   --popover: var(--panel);
   --popover-foreground: var(--platinum);
-  --primary: var(--platinum);
-  --primary-foreground: var(--void);
+  --primary: var(--crimson);
+  --primary-foreground: var(--platinum);
   --secondary: rgb(255 255 255 / 0.05);
   --secondary-foreground: var(--platinum);
   --muted: rgb(255 255 255 / 0.04);
@@ -87,7 +92,7 @@
   --destructive-foreground: oklch(0.98 0 0);
   --border: var(--hairline);
   --input: var(--hairline);
-  --ring: var(--silver);
+  --ring: var(--crimson-lift);
 }
 
 * { border-color: var(--hairline); }
@@ -115,7 +120,7 @@ section[id]:focus { outline: none; }
 body { cursor: none; }
 @media (pointer: coarse) { body { cursor: auto; } }
 
-::selection { background: var(--platinum); color: var(--void); }
+::selection { background: var(--crimson); color: var(--platinum); }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -123,7 +128,7 @@ body { cursor: none; }
 ::-webkit-scrollbar-thumb:hover { background: rgb(255 255 255 / 0.22); }
 
 :focus-visible {
-  outline: 2px solid var(--silver);
+  outline: 2px solid var(--crimson-lift);
   outline-offset: 3px;
   border-radius: 12px;
 }
@@ -138,6 +143,7 @@ body { cursor: none; }
     radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in oklab, var(--cloud-1) 38%, transparent) 0%, transparent 58%),
     radial-gradient(ellipse 70% 55% at 85% 30%, color-mix(in oklab, var(--cloud-2) 34%, transparent) 0%, transparent 58%),
     radial-gradient(ellipse 90% 60% at 50% 90%, color-mix(in oklab, var(--cloud-3) 36%, transparent) 0%, transparent 62%),
+    radial-gradient(ellipse 60% 45% at 78% 72%, color-mix(in oklab, var(--cloud-5) 30%, transparent) 0%, transparent 62%),
     radial-gradient(ellipse 100% 80% at 30% 60%, color-mix(in oklab, var(--cloud-4) 48%, transparent) 0%, transparent 68%),
     var(--void);
 }
@@ -161,7 +167,7 @@ body { cursor: none; }
 .cloud-bg::after {
   bottom: -25%;
   right: -20%;
-  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-2) 60%, transparent) 0%, transparent 60%);
+  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-5) 55%, transparent) 0%, transparent 60%);
   animation: cloud-drift-b 44s ease-in-out infinite alternate;
 }
 @keyframes cloud-drift-a {
@@ -338,7 +344,7 @@ body { cursor: none; }
   width: 1.9rem;
   height: 1.9rem;
   border-radius: 999px;
-  background: linear-gradient(140deg, #F1FEC8, #b9c98a);
+  background: linear-gradient(140deg, #EDEBDE, #b8202f);
   color: var(--void);
   font-family: var(--font-display);
   font-weight: 800;
@@ -393,7 +399,7 @@ body { cursor: none; }
 .section-head .rule {
   width: 3rem;
   height: 1px;
-  background: linear-gradient(90deg, var(--platinum), transparent);
+  background: linear-gradient(90deg, var(--crimson-lift), transparent);
 }
 
 /* Char reveal */
@@ -409,12 +415,12 @@ body { cursor: none; }
   border-radius: 999px;
   background:
     radial-gradient(circle at 30% 25%, rgb(255 255 255 / 0.6) 0%, rgb(255 255 255 / 0.06) 22%, transparent 45%),
-    radial-gradient(circle at 70% 80%, rgb(226 231 240 / 0.28) 0%, transparent 45%),
-    conic-gradient(from 210deg, #23262d, #3a3f4a, #14161b, #4a505c, #23262d);
+    radial-gradient(circle at 70% 80%, rgb(184 32 47 / 0.30) 0%, transparent 48%),
+    conic-gradient(from 210deg, #23212c, #3a3446, #1a1820, #5a1520, #23212c);
   box-shadow:
     inset 0 0 60px rgb(0 0 0 / 0.6),
     inset 0 2px 0 rgb(255 255 255 / 0.35),
-    0 40px 90px -30px rgb(214 232 160 / 0.28);
+    0 40px 90px -30px rgb(139 18 33 / 0.38);
   animation: orb-float 8s ease-in-out infinite;
 }
 .hero-orb::before, .hero-orb::after {
@@ -492,11 +498,11 @@ body { cursor: none; }
   cursor: pointer;
 }
 .btn-primary {
-  background: linear-gradient(180deg, #F1FEC8, #cbdb9a);
-  color: var(--void);
-  box-shadow: 0 20px 40px -18px rgb(241 254 200 / 0.3), inset 0 -1px 0 rgb(0 0 0 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.8);
+  background: linear-gradient(180deg, var(--crimson-lift), var(--crimson));
+  color: var(--platinum);
+  box-shadow: 0 20px 40px -18px rgb(139 18 33 / 0.55), inset 0 -1px 0 rgb(0 0 0 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.22);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 26px 50px -18px rgb(241 254 200 / 0.4); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 26px 50px -18px rgb(184 32 47 / 0.6); }
 .btn-ghost {
   background: linear-gradient(180deg, rgb(0 0 0 / 0.3), rgb(0 0 0 / 0.5));
   color: var(--platinum);
@@ -546,7 +552,7 @@ body { cursor: none; }
   backdrop-filter: blur(20px);
   transition: transform 0.5s cubic-bezier(0.2,0.7,0.2,1), background 0.4s;
 }
-.work-row:hover .work-row__arrow { transform: rotate(-45deg); background: linear-gradient(180deg, #F1FEC8, #cbdb9a); color: var(--void); }
+.work-row:hover .work-row__arrow { transform: rotate(-45deg); background: linear-gradient(180deg, var(--crimson-lift), var(--crimson)); color: var(--platinum); }
 
 /* Marquee */
 .marquee {
@@ -577,8 +583,8 @@ body { cursor: none; }
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 999px;
-  background: var(--silver);
-  opacity: 0.55;
+  background: var(--crimson-lift);
+  opacity: 0.7;
 }
 .marquee__item--outline {
   color: transparent;
@@ -633,8 +639,8 @@ body { cursor: none; }
   z-index: 100;
   padding: 0.7rem 1.1rem;
   border-radius: 999px;
-  background: var(--platinum);
-  color: var(--void);
+  background: var(--crimson);
+  color: var(--platinum);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: 0.18em;
