@@ -101,6 +101,18 @@ html, body {
   overscroll-behavior: none;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+@media (min-width: 768px) { html { scroll-padding-top: 6rem; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Anchor targets clear the fixed glass header */
+section[id] { scroll-margin-top: 5rem; }
+@media (min-width: 768px) { section[id] { scroll-margin-top: 6rem; } }
+section[id]:focus { outline: none; }
+
 body { cursor: none; }
 @media (pointer: coarse) { body { cursor: auto; } }
 
