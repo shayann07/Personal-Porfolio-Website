@@ -463,18 +463,18 @@ body { cursor: none; }
     0 30px 60px -30px rgb(0 0 0 / 0.85);
 }
 .spatial__pane--back {
-  inset: 4% 16% 30% 0;
+  inset: 2% 22% 40% -2%;
   transform: translateZ(-70px) translateX(-6%);
   padding: 16px;
   opacity: 0.85;
 }
 .spatial__pane--mid {
-  inset: 22% 0 20% 22%;
+  inset: 14% 0 34% 26%;
   transform: translateZ(0px);
   padding: 16px;
 }
 .spatial__pane--front {
-  inset: 46% 14% 2% 4%;
+  inset: 54% 26% 0% -4%;
   transform: translateZ(76px);
   padding: 14px 16px;
   display: flex;
