@@ -64,28 +64,8 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
     case "orbit":
       return (
         <svg {...common}>
-          <circle cx="12" cy="12" r="2.6" />
-          <motion.g
-            animate={reduce ? undefined : { rotate: 360 }}
-            transition={{ duration: 12, repeat: loop, ease: "linear" }}
-            style={{ transformOrigin: "12px 12px", transformBox: "view-box" }}
-          >
-            <ellipse cx="12" cy="12" rx="9.2" ry="4.2" />
-            <circle cx="21.2" cy="12" r="1.5" fill="currentColor" stroke="none" />
-          </motion.g>
-        </svg>
-      );
-    case "download":
-      return (
-        <svg {...common}>
-          <path d="M4 16.5V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2.5" />
-          <motion.g
-            animate={reduce ? undefined : { y: [0, 2.5, 0] }}
-            transition={{ duration: 2, repeat: loop, ease: "easeInOut" }}
-          >
-            <path d="M12 3v10.5" />
-            <path d="M7.75 9.75L12 14l4.25-4.25" />
-          </motion.g>
+          <circle cx="12" cy="12" r="2.5" />
+          <motion.ellipse cx="12" cy="12" rx="9" ry="4" animate={reduce ? undefined : { rotate: 360 }} transition={{ duration: 12, repeat: loop, ease: "linear" }} style={{ transformOrigin: "12px 12px" }} />
         </svg>
       );
     case "mail":

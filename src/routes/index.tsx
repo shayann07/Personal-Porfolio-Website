@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
 /* ---------- Data ---------- */
 const METRICS = [
   { v: "3+", k: "Live Apps", icon: "bolt" },
-  { v: "10k+", k: "Installs", icon: "download" },
+  { v: "10k+", k: "Installs", icon: "orbit" },
   { v: "99%+", k: "Stability", icon: "spark" },
   { v: "60%", k: "Perf Gain", icon: "gear" },
 ];
