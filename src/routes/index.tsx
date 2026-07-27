@@ -603,6 +603,10 @@ function CloudBg() {
   return (
     <div className="cloud-bg" aria-hidden ref={ref}>
       <div className="cloud-bg__layer" />
+      <div className="cloud-bg__wash" />
+      <div className="cloud-bg__mist cloud-bg__mist--upper" />
+      <div className="cloud-bg__mist cloud-bg__mist--main" />
+      <div className="cloud-bg__mist cloud-bg__mist--low" />
       <div className="cloud-bg__vignette" />
     </div>
   );
