@@ -193,7 +193,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
   const sy2 = useSpring(y2, { stiffness: 60, damping: 22 });
 
   return (
-    <section id="top" aria-labelledby="hero-title" className="section pt-[max(6.5rem,10vh)]">
+    <section id="top" aria-labelledby="hero-title" className="section section--hero">
       <div className="container-x">
         <Reveal>
           <div className="flex items-center gap-2 eyebrow">

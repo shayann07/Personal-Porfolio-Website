@@ -717,3 +717,6 @@ body { cursor: none; }
 
 /* Tighter vertical rhythm */
 .section-head { margin-bottom: clamp(1.5rem, 2.5vw + 0.5rem, 2.5rem); }
+
+/* Hero clears the fixed header */
+.section--hero { padding-top: max(7rem, 12vh); }
