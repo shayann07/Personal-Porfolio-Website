@@ -64,26 +64,77 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
     case "orbit":
       return (
         <svg {...common}>
-          {/* core */}
-          <circle cx="12" cy="12" r="2.25" fill="currentColor" fillOpacity="0.18" />
-          <circle cx="12" cy="12" r="2.25" />
-          {/* two tilted orbital rings */}
+          <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
+          <motion.circle
+            cx="12" cy="12" r="7.5"
+            opacity="0.45"
+            animate={reduce ? undefined : { opacity: [0.2, 0.55, 0.2] }}
+            transition={{ duration: 3, repeat: loop, ease: "easeInOut" }}
+          />
           <motion.g
             style={{ transformOrigin: "12px 12px" }}
             animate={reduce ? undefined : { rotate: 360 }}
-            transition={{ duration: 16, repeat: loop, ease: "linear" }}
+            transition={{ duration: 8, repeat: loop, ease: "linear" }}
           >
-            <ellipse cx="12" cy="12" rx="9.25" ry="4" transform="rotate(-24 12 12)" opacity="0.85" />
-            <ellipse cx="12" cy="12" rx="9.25" ry="4" transform="rotate(56 12 12)" opacity="0.4" />
+            <circle cx="19.5" cy="12" r="1.6" fill="currentColor" stroke="none" />
           </motion.g>
-          {/* satellite travelling the primary ring */}
-          <motion.g
-            style={{ transformOrigin: "12px 12px" }}
-            animate={reduce ? undefined : { rotate: 360 }}
-            transition={{ duration: 6, repeat: loop, ease: "linear" }}
-          >
-            <circle cx="20.45" cy="8.24" r="1.5" fill="currentColor" stroke="none" />
-          </motion.g>
+        </svg>
+      );
+    case "download":
+      return (
+        <svg {...common}>
+          <motion.path
+            d="M12 3v10"
+            animate={reduce ? undefined : { y: [0, 2, 0] }}
+            transition={{ duration: 1.8, repeat: loop, ease: "easeInOut" }}
+          />
+          <motion.path
+            d="M8 9.5l4 4 4-4"
+            animate={reduce ? undefined : { y: [0, 2, 0] }}
+            transition={{ duration: 1.8, repeat: loop, ease: "easeInOut" }}
+          />
+          <path d="M4 17.5v1.5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5" opacity="0.7" />
+        </svg>
+      );
+    case "layers":
+      return (
+        <svg {...common}>
+          <motion.path
+            d="M12 3l8 4.5-8 4.5-8-4.5L12 3z"
+            fill="currentColor" fillOpacity="0.16"
+            animate={reduce ? undefined : { y: [0, -1.2, 0] }}
+            transition={{ duration: 3, repeat: loop, ease: "easeInOut" }}
+          />
+          <motion.path d="M4 12l8 4.5 8-4.5" opacity="0.75" animate={reduce ? undefined : { y: [0, 1, 0] }} transition={{ duration: 3, repeat: loop, ease: "easeInOut", delay: 0.2 }} />
+          <motion.path d="M4 16.5L12 21l8-4.5" opacity="0.45" animate={reduce ? undefined : { y: [0, 1.6, 0] }} transition={{ duration: 3, repeat: loop, ease: "easeInOut", delay: 0.4 }} />
+        </svg>
+      );
+    case "wave":
+      return (
+        <svg {...common}>
+          <motion.path
+            d="M2 12c2.5-5 5-5 7.5 0s5 5 7.5 0 5-5 5 0"
+            animate={reduce ? undefined : { x: [0, -5, 0] }}
+            transition={{ duration: 3.2, repeat: loop, ease: "easeInOut" }}
+          />
+          <motion.path
+            d="M2 17c2.5-4 5-4 7.5 0s5 4 7.5 0 5-4 5 0"
+            opacity="0.45"
+            animate={reduce ? undefined : { x: [0, 5, 0] }}
+            transition={{ duration: 3.8, repeat: loop, ease: "easeInOut" }}
+          />
+        </svg>
+      );
+    case "chip":
+      return (
+        <svg {...common}>
+          <rect x="7" y="7" width="10" height="10" rx="2.5" fill="currentColor" fillOpacity="0.14" />
+          <motion.rect
+            x="10.25" y="10.25" width="3.5" height="3.5" rx="1" fill="currentColor" stroke="none"
+            animate={reduce ? undefined : { opacity: [0.35, 1, 0.35] }}
+            transition={{ duration: 2, repeat: loop, ease: "easeInOut" }}
+          />
+          <path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" opacity="0.65" />
         </svg>
       );
     case "mail":
