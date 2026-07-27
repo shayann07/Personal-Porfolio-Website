@@ -56,16 +56,16 @@
 }
 
 :root {
-  --void: #05060a;
-  --panel: #0d0f16;
+  --void: #020204;
+  --panel: #07080c;
   --mid: #8a90a0;
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #2a2e36; /* cool graphite */
-  --cloud-2: #3a3f4a; /* slate */
-  --cloud-3: #1c1f26; /* deep neutral */
-  --cloud-4: #0d1a2a; /* deep navy */
+  --cloud-1: #1a1d23; /* graphite, dimmed */
+  --cloud-2: #262a32; /* slate, dimmed */
+  --cloud-3: #0c0e13; /* deep neutral, near-black */
+  --cloud-4: #050810; /* deep navy, near-black */
 
   --background: var(--void);
   --foreground: var(--platinum);
