@@ -1664,6 +1664,8 @@ body { cursor: none; }
   .spatial__glow,
   .spatial-cluster__glow { filter: blur(24px); }
   .work-pane__trail { display: none; }
+  .wslab, .wframe, .wphone, .wtag { backdrop-filter: none; }
+  .wscene__glow { filter: blur(10px); }
   .spatial, .spatial-cluster, .work-panes { contain: layout paint; }
 }
 @media (max-width: 767px) {
@@ -1676,7 +1678,7 @@ body { cursor: none; }
   .work-pane,
   .work-pane:hover,
   .work-pane[data-depth="far"] { transform: none !important; transition: none !important; }
-  .work-pane__bars > i { animation: none !important; }
+  .wscene *, .wscene { animation: none !important; }
   .snav__item, .snav__dot, .snav__label { transition: none !important; }
   .spatial:hover .spatial__scene,
   .spatial-cluster:hover .spatial-cluster__scene { transform: none !important; }
