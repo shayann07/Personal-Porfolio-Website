@@ -83,6 +83,37 @@
   --cloud-4: #0d0c11; /* near-black anchor */
   --cloud-5: #4a1a26; /* crimson ember */
 
+  /* ---- SHARED DESIGN SYSTEM TOKENS ---- */
+  /* spacing rhythm */
+  --gap-2xs: 0.35rem;
+  --gap-xs: 0.55rem;
+  --gap-sm: 0.85rem;
+  --gap-md: clamp(1rem, 1.2vw + 0.6rem, 1.5rem);
+  --gap-lg: clamp(1.5rem, 2vw + 0.8rem, 2.5rem);
+  --gap-xl: clamp(2rem, 3vw + 1rem, 3.5rem);
+  --stack-copy: clamp(0.85rem, 0.6vw + 0.6rem, 1.15rem);
+  --section-head-gap: clamp(1.4rem, 2.4vw + 0.4rem, 2.6rem);
+  --section-tail-gap: clamp(1.25rem, 2vw + 0.5rem, 2.25rem);
+
+  /* marker (dot) system — quiet by default, crimson only when live */
+  --dot-size: 6px;
+  --dot-ring: 1px solid color-mix(in oklab, var(--platinum) 40%, transparent);
+  --dot-quiet-bg: transparent;
+  --dot-live-bg: rgb(var(--crimson-rgb) / 0.95);
+  --dot-live-halo: 0 0 0 3px rgb(var(--crimson-rgb) / 0.13);
+
+  /* typography — sentence-case sans labels; mono reserved for units */
+  --label-family: var(--font-sans);
+  --label-size: var(--text-xs);
+  --label-weight: 600;
+  --label-tracking: 0.005em;
+  --label-transform: none;
+  --label-color: color-mix(in oklab, var(--platinum) 72%, transparent);
+  --label-color-quiet: color-mix(in oklab, var(--platinum) 55%, transparent);
+  --unit-family: var(--font-mono);
+  --unit-size: var(--text-micro);
+  --unit-tracking: 0.06em;
+
   --background: var(--void);
   --foreground: var(--platinum);
   --hairline: rgb(237 235 222 / 0.12);
