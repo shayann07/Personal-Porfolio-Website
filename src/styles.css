@@ -451,6 +451,8 @@ body { cursor: none; }
   position: relative;
   padding-block: var(--space-section);
 }
+/* pulls the following block closer to the closing paragraph */
+.section--tight-bottom { padding-bottom: var(--section-tail-gap); }
 .section-head {
   display: flex;
   flex-direction: column;

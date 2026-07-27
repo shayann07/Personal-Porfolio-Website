@@ -145,7 +145,7 @@ function Header({ active }: { active: string }) {
           <div className="pill">
             <span className="nav-link">
               <span className="live-dot live-dot--muted" aria-hidden />
-              KHI {time || "--:--"}
+              KHI <span className="unit">{time || "--:--"}</span>
             </span>
           </div>
         </div>
@@ -218,7 +218,7 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
 /* ---------- About ---------- */
 function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="section">
+    <section id="about" aria-labelledby="about-title" className="section section--tight-bottom">
       <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
       <div className="container-x grid gap-6 md:grid-cols-12 md:gap-10 items-start">
         <div className="md:col-span-5 md:sticky md:top-28 flex justify-center md:justify-start">
@@ -236,7 +236,7 @@ function About() {
           </p>
         </Reveal>
         <Reveal delay={0.2}>
-          <ul className="flex flex-wrap gap-2 pt-1" aria-label="Core technologies">
+          <ul className="flex flex-wrap gap-2" aria-label="Core technologies">
             {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
           </ul>
         </Reveal>

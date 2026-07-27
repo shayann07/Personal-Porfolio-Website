@@ -30,7 +30,7 @@ function WorkPane({ item, index }: { item: WorkItem; index: number }) {
       <span className="work-pane__inner">
         <span className="work-pane__top">
           <span className="work-pane__num">{String(index + 1).padStart(2, "0")}</span>
-          <span className="work-pane__year eyebrow">{item.year}</span>
+          <span className="work-pane__year unit">{item.year}</span>
         </span>
 
         <span className="work-pane__art" aria-hidden>
