@@ -101,11 +101,10 @@ html, body {
   overscroll-behavior: none;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-}
-@media (min-width: 768px) { html { scroll-padding-top: 6rem; } }
+/* NOTE: no scroll-padding-top here — it stacks on top of the JS header offset
+   and lands anchors ~1 header too low. section[id] scroll-margin-top below
+   covers native hash navigation. */
+html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* Anchor targets clear the fixed glass header */
