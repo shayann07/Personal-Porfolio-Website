@@ -9,7 +9,11 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:visual": "python3 scripts/visual-icon-check.py",
+    "test:visual:update": "python3 scripts/visual-icon-check.py --update"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
