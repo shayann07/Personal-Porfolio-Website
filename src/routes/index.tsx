@@ -462,14 +462,23 @@ function Footer() {
 /* ---------- Page ---------- */
 function Page() {
   const { scrollY } = useScroll();
+  const { active } = useSectionNav();
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const anchor = (e.target as HTMLElement).closest?.("a[href^='#']") as HTMLAnchorElement | null;
+    if (!anchor) return;
+    const href = anchor.getAttribute("href") ?? "";
+    if (href === "#main") return;
+    if (scrollToHash(href)) e.preventDefault();
+  };
 
   return (
-    <div className="grain relative isolate min-h-dvh overflow-x-clip">
+    <div className="grain relative isolate min-h-dvh overflow-x-clip" onClick={handleAnchorClick}>
       <ShaderBackground />
       <a href="#main" className="skip-link">Skip to content</a>
       <Cursor />
-      <Header />
-      <MobileNav />
+      <Header active={active} />
+      <MobileNav active={active} />
 
       <main id="main" tabIndex={-1} className="relative z-10 pb-28 md:pb-20">
         <Hero scrollY={scrollY} />
