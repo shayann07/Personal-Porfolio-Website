@@ -3,85 +3,58 @@ import { useSpatialPointer } from "./useSpatialPointer";
 
 const SCENES = ["ledger", "vision", "pulse", "care"] as const;
 
-/**
- * Per-project schematic: precise hairline vector plate, no glow blobs.
- * Drawn on a shared 240x120 grid so every card reads with identical rhythm.
- */
+/** Per-project spatial diorama: floating depth planes over a perspective grid. */
 function WorkScene({ variant }: { variant: (typeof SCENES)[number] }) {
   return (
-    <span className="wplate" data-scene={variant} aria-hidden>
-      <svg className="wplate__svg" viewBox="0 0 240 120" fill="none" preserveAspectRatio="xMidYMid meet">
-        <g className="wplate__grid" stroke="currentColor" strokeWidth="0.5">
-          {[0, 1, 2, 3].map((i) => (
-            <line key={i} x1="16" x2="224" y1={24 + i * 24} y2={24 + i * 24} />
-          ))}
-        </g>
-
+    <span className="wscene" data-scene={variant} aria-hidden>
+      <span className="wscene__grid" />
+      <span className="wscene__glow" />
+      <span className="wscene__stage">
         {variant === "ledger" && (
           <>
-            <path
-              className="wplate__area"
-              d="M16 92 L64 74 L104 82 L148 48 L192 56 L224 30 L224 104 L16 104 Z"
-            />
-            <path className="wplate__draw" d="M16 92 L64 74 L104 82 L148 48 L192 56 L224 30" />
-            {[[64, 74], [148, 48], [224, 30]].map(([x, y], i) => (
-              <circle key={i} className="wplate__node" cx={x} cy={y} r="2.4" />
-            ))}
+            <span className="wslab wslab--back" />
+            <span className="wslab wslab--mid">
+              <span className="wline" style={{ width: "62%" }} />
+              <span className="wline" style={{ width: "38%" }} />
+            </span>
+            <span className="wslab wslab--front">
+              <span className="wslab__row"><i /><i /><i /></span>
+              <span className="wbeam" />
+            </span>
           </>
         )}
-
         {variant === "vision" && (
           <>
-            <path
-              className="wplate__draw"
-              d="M120 96 C 96 84 82 62 90 38 C 116 34 138 48 142 72 C 144 86 134 94 120 96 Z"
-            />
-            <path className="wplate__hair" d="M120 96 C 116 74 112 56 100 42" />
-            <g className="wplate__reticle">
-              <path d="M66 34 L66 22 L78 22" />
-              <path d="M174 22 L186 22 L186 34" />
-              <path d="M186 86 L186 98 L174 98" />
-              <path d="M78 98 L66 98 L66 86" />
-            </g>
-            <line className="wplate__scan" x1="66" x2="186" y1="0" y2="0" />
+            <span className="wslab wslab--back" />
+            <span className="wframe">
+              <span className="wframe__corner" />
+              <span className="wscan" />
+              <span className="wleaf" />
+            </span>
+            <span className="wtag wtag--a">98.2%</span>
           </>
         )}
-
         {variant === "pulse" && (
           <>
-            <path className="wplate__hair" d="M32 84 L88 84 L112 56 L168 56" />
-            <path className="wplate__hair" d="M112 56 L136 32 L208 32" />
-            <path className="wplate__draw" d="M32 84 L88 84 L112 56 L168 56 L192 84 L208 84" />
-            {[[32, 84], [88, 84], [112, 56], [136, 32], [168, 56], [208, 32]].map(([x, y], i) => (
-              <circle key={i} className="wplate__node" cx={x} cy={y} r="3" style={{ animationDelay: `${i * 0.18}s` }} />
-            ))}
+            <span className="worbit worbit--o1" />
+            <span className="worbit worbit--o2" />
+            <span className="wcore" />
+            <span className="wnode wnode--n1" />
+            <span className="wnode wnode--n2" />
+            <span className="wnode wnode--n3" />
           </>
         )}
-
         {variant === "care" && (
           <>
-            <rect className="wplate__hair" x="24" y="22" width="76" height="76" rx="8" />
-            {[0, 1, 2].map((r) =>
-              [0, 1, 2, 3].map((c) => (
-                <rect
-                  key={`${r}-${c}`}
-                  className={r === 1 && c === 2 ? "wplate__cell wplate__cell--on" : "wplate__cell"}
-                  x={34 + c * 16}
-                  y={38 + r * 18}
-                  width="10"
-                  height="10"
-                  rx="2"
-                />
-              )),
-            )}
-            <path
-              className="wplate__draw"
-              d="M116 62 L140 62 L148 44 L160 82 L170 62 L216 62"
-            />
+            <span className="wslab wslab--back" />
+            <span className="wphone">
+              <span className="wphone__bar" />
+              <span className="wpulse" />
+            </span>
+            <span className="wtag wtag--b">Booked</span>
           </>
         )}
-      </svg>
-      <span className="wplate__sheen" />
+      </span>
     </span>
   );
 }
