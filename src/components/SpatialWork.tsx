@@ -1,6 +1,64 @@
 import { AnimatedIcon } from "./AnimatedIcon";
 import { useSpatialPointer } from "./useSpatialPointer";
 
+const SCENES = ["ledger", "vision", "pulse", "care"] as const;
+
+/** Per-project spatial diorama: floating depth planes over a perspective grid. */
+function WorkScene({ variant }: { variant: (typeof SCENES)[number] }) {
+  return (
+    <span className="wscene" data-scene={variant} aria-hidden>
+      <span className="wscene__grid" />
+      <span className="wscene__glow" />
+      <span className="wscene__stage">
+        {variant === "ledger" && (
+          <>
+            <span className="wslab wslab--back" />
+            <span className="wslab wslab--mid">
+              <span className="wline" style={{ width: "62%" }} />
+              <span className="wline" style={{ width: "38%" }} />
+            </span>
+            <span className="wslab wslab--front">
+              <span className="wslab__row"><i /><i /><i /></span>
+              <span className="wbeam" />
+            </span>
+          </>
+        )}
+        {variant === "vision" && (
+          <>
+            <span className="wslab wslab--back" />
+            <span className="wframe">
+              <span className="wframe__corner" />
+              <span className="wscan" />
+              <span className="wleaf" />
+            </span>
+            <span className="wtag wtag--a">98.2%</span>
+          </>
+        )}
+        {variant === "pulse" && (
+          <>
+            <span className="worbit worbit--o1" />
+            <span className="worbit worbit--o2" />
+            <span className="wcore" />
+            <span className="wnode wnode--n1" />
+            <span className="wnode wnode--n2" />
+            <span className="wnode wnode--n3" />
+          </>
+        )}
+        {variant === "care" && (
+          <>
+            <span className="wslab wslab--back" />
+            <span className="wphone">
+              <span className="wphone__bar" />
+              <span className="wpulse" />
+            </span>
+            <span className="wtag wtag--b">Booked</span>
+          </>
+        )}
+      </span>
+    </span>
+  );
+}
+
 export type WorkItem = {
   title: string;
   desc: string;
@@ -34,14 +92,7 @@ function WorkPane({ item, index }: { item: WorkItem; index: number }) {
         </span>
 
         <span className="work-pane__art" aria-hidden>
-          <span className="work-pane__bars">
-            {[42, 74, 55, 88, 63, 96].map((h, i) => (
-              <i key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.14}s` }} />
-            ))}
-          </span>
-          <span className="work-pane__chip">
-            <AnimatedIcon name="chip" size={16} />
-          </span>
+          <WorkScene variant={SCENES[index % SCENES.length]} />
         </span>
 
         <span className="work-pane__body">
