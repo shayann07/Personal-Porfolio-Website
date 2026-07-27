@@ -175,8 +175,8 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
               </div>
             </Reveal>
             <h1 id="hero-title" className="hd-hero">
-              <span className="block"><SplitReveal text="Muhammad" /></span>
-              <span className="block text-[color:var(--mid)]"><SplitReveal text="Shayan." delay={0.15} /></span>
+              <span className="hero-title-word">Muhammad</span>
+              <span className="hero-title-word hero-title-word--muted">Shayan.</span>
             </h1>
             <Reveal delay={0.6}>
               <p className="body-md mt-5 md:mt-7 max-w-xl">
