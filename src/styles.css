@@ -744,6 +744,12 @@ body { cursor: none; }
   box-shadow: 0 0 0 5px rgb(var(--crimson-rgb) / 0.22), 0 0 0 1px rgb(9 8 13 / 0.9);
 }
 .work-row:focus-visible { background: rgb(237 235 222 / 0.07); }
+
+/* Minimum 44px touch targets on coarse pointers */
+@media (pointer: coarse) {
+  .nav-link { min-height: 2.75rem; }
+  a[href^="mailto:"], a[href^="tel:"], a[target="_blank"] { min-height: 2.75rem; }
+}
 .input:focus-visible, .textarea:focus-visible {
   outline: 2px solid var(--crimson-lift);
   outline-offset: 2px;
