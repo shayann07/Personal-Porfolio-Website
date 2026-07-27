@@ -48,20 +48,22 @@ export function ShaderBackground() {
         n += md*0.35;
 
         // palette: cosmic ink -> cosmic -> plum slate -> crimson ember -> cotton bloom
-        vec3 c0 = vec3(0.078, 0.071, 0.098);      // #141219 cosmic shadow
-        vec3 c1 = vec3(0.137, 0.129, 0.173);      // #23212C cosmic
-        vec3 c2 = vec3(0.227, 0.204, 0.275);      // #3a3446 plum slate
-        vec3 cE = vec3(0.353, 0.082, 0.125);      // #5A1520 crimson ember
+        vec3 c0 = vec3(0.043, 0.039, 0.055);      // #0b0a0e deep cosmic shadow
+        vec3 c1 = vec3(0.106, 0.098, 0.137);      // #1b1923 cosmic
+        vec3 c2 = vec3(0.239, 0.216, 0.318);      // #3d3751 plum/lavender slate
+        vec3 cE = vec3(0.541, 0.169, 0.220);      // #8a2c38 lightened crimson ember
+        vec3 cL = vec3(0.824, 0.765, 0.965);      // #D2C3F6 lavender
         vec3 c3 = vec3(0.929, 0.922, 0.871);      // #EDEBDE cotton bloom
 
-        vec3 col = mix(c0, c1, smoothstep(0.34, 0.66, n));
-        col = mix(col, c2, smoothstep(0.64, 0.88, n)*0.78);
-        col = mix(col, cE, smoothstep(0.84, 0.96, n)*0.30);
-        col = mix(col, c3, smoothstep(0.90, 1.00, n)*0.42);
+        vec3 col = mix(c0, c1, smoothstep(0.30, 0.68, n));
+        col = mix(col, c2, smoothstep(0.66, 0.90, n)*0.70);
+        col = mix(col, cL, smoothstep(0.82, 0.95, n)*0.22);
+        col = mix(col, cE, smoothstep(0.86, 0.97, n)*0.34);
+        col = mix(col, c3, smoothstep(0.92, 1.00, n)*0.40);
 
         // deeper vignette for premium edge falloff
-        float v = smoothstep(1.3, 0.15, length(uv));
-        col *= mix(0.40, 1.0, v);
+        float v = smoothstep(1.35, 0.12, length(uv));
+        col *= mix(0.28, 1.0, v);
 
         // grain
         col += (hash(gl_FragCoord.xy + u_t) - 0.5)*0.03;
@@ -135,7 +137,7 @@ export function ShaderBackground() {
       ref={ref}
       aria-hidden
       className="fixed inset-0 -z-10 h-screen w-screen"
-      style={{ background: "#0a0a12" }}
+      style={{ background: "#0b0a0e" }}
     />
   );
 }
