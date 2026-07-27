@@ -45,17 +45,6 @@ const LAB = [
 const STACK = ["Android", "Kotlin", "Jetpack Compose", "Flutter", "Dart", "TensorFlow Lite", "Firebase", "GraphQL", "MVVM", "Stripe"];
 
 /* ---------- Utilities ---------- */
-function useKarachiTime() {
-  const [time, setTime] = useState("");
-  useEffect(() => {
-    const fmt = () => new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Karachi", hour12: false }).format(new Date());
-    setTime(fmt());
-    const id = window.setInterval(() => setTime(fmt()), 30_000);
-    return () => window.clearInterval(id);
-  }, []);
-  return time;
-}
-
 function SplitReveal({ text, delay = 0, className = "" }: { text: string; delay?: number; className?: string }) {
   return (
     <span className={className}>
@@ -353,7 +342,7 @@ function Contact() {
   const disabled = !form.name || !form.email || !form.message || state === "sending";
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="section">
+    <section id="contact" aria-labelledby="contact-title" className="section pb-[calc(var(--space-section)/3)]">
       <SectionHead id="contact-title" eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
       <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
         <Reveal className="lg:col-span-4">
