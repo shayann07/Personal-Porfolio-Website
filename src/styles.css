@@ -239,10 +239,10 @@ body { cursor: none; }
 @utility eyebrow {
   font-family: var(--font-mono);
   font-size: var(--text-micro);
-  letter-spacing: 0.3em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 700;
-  color: color-mix(in oklab, var(--platinum) 55%, transparent);
+  font-weight: 600;
+  color: color-mix(in oklab, var(--platinum) 62%, transparent);
 }
 @utility stat-num {
   font-family: var(--font-display);
@@ -370,13 +370,20 @@ body { cursor: none; }
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 999px;
-  background: var(--crimson-lift);
-  box-shadow: 0 0 0 3px rgb(var(--crimson-rgb) / 0.18), 0 0 14px rgb(var(--crimson-rgb) / 0.85);
-  animation: live-pulse 2s ease-in-out infinite;
+  background: color-mix(in oklab, var(--crimson-lift) 78%, var(--platinum));
+  box-shadow: 0 0 0 3px rgb(var(--crimson-rgb) / 0.12);
+  animation: live-pulse 3.6s ease-in-out infinite;
+}
+/* neutral variant for non-live markers (clock, footers, meta rows) */
+.live-dot--muted {
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--platinum) 40%, transparent);
+  box-shadow: none;
+  animation: none;
 }
 @keyframes live-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.4); }
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
 }
 
 /* ============ CHIPS ============ */

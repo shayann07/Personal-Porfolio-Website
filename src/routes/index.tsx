@@ -144,7 +144,7 @@ function Header({ active }: { active: string }) {
         <div className="hidden sm:block">
           <div className="pill">
             <span className="nav-link">
-              <span className="live-dot" aria-hidden />
+              <span className="live-dot live-dot--muted" aria-hidden />
               KHI {time || "--:--"}
             </span>
           </div>
