@@ -554,6 +554,19 @@ body { cursor: none; }
 /* Char reveal */
 .char-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; }
 .char-mask > span { display: inline-block; will-change: transform, opacity; }
+.hero-title-word {
+  display: block;
+  color: var(--platinum);
+  animation: title-rise 0.9s cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+.hero-title-word--muted {
+  color: color-mix(in oklab, var(--platinum) 55%, transparent);
+  animation-delay: 0.12s;
+}
+@keyframes title-rise {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); filter: blur(12px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
 
 .hero-composition {
   position: relative;
@@ -715,8 +728,8 @@ body { cursor: none; }
   padding: clamp(1rem, 1.6vw, 1.45rem);
   background: linear-gradient(180deg, rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.38));
 }
-.metric-reveal,
-.metric-reveal.is-revealed {
+.metrics-strip .metric-reveal,
+.metrics-strip .metric-reveal.is-revealed {
   opacity: 1;
   transform: none;
   height: 100%;
