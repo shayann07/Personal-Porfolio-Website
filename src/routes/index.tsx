@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { memo, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Cursor } from "@/components/Cursor";
 import { AnimatedIcon } from "@/components/AnimatedIcon";
@@ -41,6 +41,8 @@ const LAB = [
 ];
 
 const STACK = ["Android", "Kotlin", "Jetpack Compose", "Flutter", "Dart", "TensorFlow Lite", "Firebase", "GraphQL", "MVVM", "Stripe"];
+
+const HERO_NODES = ["Kotlin", "Compose", "Flutter", "TFLite", "CameraX", "GraphQL"];
 
 /* ---------- Utilities ---------- */
 function useKarachiTime() {
@@ -157,32 +159,32 @@ function MobileNav() {
 
 /* ---------- Hero ---------- */
 function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
-  const y1 = useTransform(scrollY, [0, 500], [0, 120]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -60]);
+  const y1 = useTransform(scrollY, [0, 520], [0, 82]);
+  const y2 = useTransform(scrollY, [0, 520], [0, -44]);
   const sy1 = useSpring(y1, { stiffness: 60, damping: 22 });
   const sy2 = useSpring(y2, { stiffness: 60, damping: 22 });
 
   return (
-    <section id="top" aria-labelledby="hero-title" className="section pt-[max(5.5rem,9vh)]">
+    <section id="top" aria-labelledby="hero-title" className="hero-section pt-[max(5.5rem,8vh)]">
       <div className="container-x">
-        <Reveal>
-          <div className="flex items-center gap-2 eyebrow">
-            <span className="live-dot" /> Available · Q3 2026
-          </div>
-        </Reveal>
-        <div className="relative mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-12 items-end gap-8">
-          <div className="md:col-span-8 relative z-10">
+        <div className="hero-composition">
+          <div className="hero-copy">
+            <Reveal>
+              <div className="flex items-center gap-2 eyebrow">
+                <span className="live-dot" /> Available · Q3 2026
+              </div>
+            </Reveal>
             <h1 id="hero-title" className="hd-hero">
               <span className="block"><SplitReveal text="Muhammad" /></span>
               <span className="block text-[color:var(--mid)]"><SplitReveal text="Shayan." delay={0.15} /></span>
             </h1>
             <Reveal delay={0.6}>
-              <p className="body-md mt-6 md:mt-8 max-w-xl">
+              <p className="body-md mt-5 md:mt-7 max-w-xl">
                 Mobile Engineer building <span className="text-[color:var(--platinum)]">Android, Flutter and on-device ML products</span> — from offline-first fintech to camera-driven vision apps. Based in Karachi, shipping worldwide.
               </p>
             </Reveal>
             <Reveal delay={0.75}>
-              <div className="mt-7 md:mt-10 flex flex-wrap items-center gap-3">
+              <div className="mt-6 md:mt-8 flex flex-wrap items-center gap-3">
                 <a href="#contact" className="btn btn-primary" data-cursor="Write">
                   <AnimatedIcon name="mail" size={16} /> Start a Project
                 </a>
@@ -192,20 +194,35 @@ function Hero({ scrollY }: { scrollY: MotionValue<number> }) {
               </div>
             </Reveal>
           </div>
-          <motion.div style={{ y: sy1 }} className="md:col-span-4 flex justify-center md:justify-end" aria-hidden>
-            <div className="hero-orb" aria-hidden />
+
+          <motion.div style={{ y: sy1 }} className="hero-visual" aria-hidden>
+            <div className="liquid-stage">
+              <div className="liquid-stage__halo" />
+              <div className="liquid-stage__glass">
+                <div className="liquid-stage__scan" />
+                <div className="liquid-stage__code">
+                  <span>class MotionSystem</span>
+                  <span>compose {`{`} 60fps {`}`}</span>
+                  <span>camera.ai.sync()</span>
+                  <span>offlineFirst=true</span>
+                </div>
+              </div>
+              <div className="liquid-stage__rail" />
+              {HERO_NODES.map((node, i) => (
+                <span key={node} className={`hero-node hero-node--${i + 1}`}>{node}</span>
+              ))}
+            </div>
           </motion.div>
         </div>
 
-        {/* Floating meta strip */}
-        <motion.div style={{ y: sy2 }} className="mt-12 md:mt-24 glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <motion.div style={{ y: sy2 }} className="metrics-strip">
           {METRICS.map((m, i) => (
             <Reveal key={m.k} delay={i * 0.08}>
-              <div className="flex min-w-0 items-center gap-3 md:gap-4">
-                <span className="shrink-0 text-[color:var(--platinum)]/70"><AnimatedIcon name={m.icon} size={22} /></span>
+              <div className="metric-item">
+                <span className="metric-icon"><AnimatedIcon name={m.icon} size={20} /></span>
                 <div className="min-w-0">
                   <div className="stat-num">{m.v}</div>
-                  <div className="eyebrow mt-1 truncate">{m.k}</div>
+                  <div className="eyebrow mt-1">{m.k}</div>
                 </div>
               </div>
             </Reveal>
@@ -221,22 +238,29 @@ function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="section">
       <SectionHead id="about-title" eyebrow="01 / About" title="Engineer's mind. Designer's obsession." kicker="Craft" />
-      <div className="container-narrow grid gap-6">
-        <Reveal>
-          <p className="body-md">
-            Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them. Kotlin and Flutter are my daily languages; TensorFlow Lite is where I have the most fun.
+      <div className="container-x about-flow">
+        <Reveal className="about-statement">
+          <p>
+            I turn complex mobile systems into interfaces that feel physical, fast, and precise.
           </p>
         </Reveal>
-        <Reveal delay={0.1}>
-          <p className="body-md">
-            I write my own animation systems, sweat over 60fps on mid-range Androids, and believe good interfaces feel physical. Currently open to senior mobile roles and long-term product partnerships.
-          </p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <ul className="flex flex-wrap gap-2 pt-4" aria-label="Core technologies">
-            {STACK.slice(0, 6).map((s) => <li key={s} className="chip">{s}</li>)}
-          </ul>
-        </Reveal>
+        <div className="about-detail">
+          <Reveal>
+            <p className="body-md">
+              Four years shipping production mobile apps across fintech, health, and creator tools. I favour architectures that are boring where it counts — offline-first, testable, observable — and expressive where users touch them.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="body-md">
+              Kotlin and Flutter are my daily languages. TensorFlow Lite, CameraX, motion systems, and mid-range device performance are where I have the most fun.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <ul className="flex flex-wrap gap-2 pt-3" aria-label="Core technologies">
+              {STACK.slice(0, 7).map((s) => <li key={s} className="chip">{s}</li>)}
+            </ul>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -248,7 +272,7 @@ function Work() {
     <section id="work" aria-labelledby="work-title" className="section">
       <SectionHead id="work-title" eyebrow="02 / Selected Work" title="Products, shipped." kicker="2023 — 2025" />
       <div className="container-x">
-        <ul className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-2xl)] overflow-hidden">
+        <ul className="work-list">
           {WORK.map((w, i) => (
             <li key={w.title}>
               <a
@@ -260,14 +284,12 @@ function Work() {
                 <span className="work-row__num">{String(i + 1).padStart(2, "0")}</span>
                 <span className="block min-w-0">
                   <span className="work-row__title block truncate">{w.title}</span>
-                  <span className="body-sm mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span>{w.desc}</span>
-                    <span className="opacity-40 hidden sm:inline">·</span>
+                  <span className="work-row__meta">
                     <span className="eyebrow">{w.tag}</span>
-                    <span className="opacity-40 hidden sm:inline">·</span>
                     <span className="eyebrow">{w.year}</span>
                   </span>
                 </span>
+                <span className="work-row__desc">{w.desc}</span>
                 <span className="work-row__arrow" aria-hidden>
                   <AnimatedIcon name="arrow" size={18} />
                 </span>
@@ -285,7 +307,7 @@ function Lab() {
   return (
     <section id="lab" aria-labelledby="lab-title" className="section">
       <SectionHead id="lab-title" eyebrow="03 / Lab" title="Experiments in motion." kicker="Open source" />
-      <ul className="container-x grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
+      <ul className="container-x lab-flow">
         {LAB.map((l, i) => (
           <li key={l.title} className="h-full">
             <Reveal delay={i * 0.08} className="h-full">
@@ -293,7 +315,7 @@ function Lab() {
                 href="#contact"
                 data-cursor="View"
                 aria-label={`${l.title} — ${l.note} (${l.status})`}
-                className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-7 flex flex-col justify-between min-h-[168px] md:min-h-[220px] group"
+                className="lab-pod group"
               >
                 <span className="flex items-center justify-between">
                   <span className="text-[color:var(--platinum)]/70 icon-float"><AnimatedIcon name="orbit" size={20} /></span>
@@ -354,9 +376,9 @@ function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="section">
       <SectionHead id="contact-title" eyebrow="04 / Contact" title="Let's build something calm and fast." kicker="Reply in ~24h" />
-      <div className="container-x grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+      <div className="container-x contact-panel">
         <Reveal className="lg:col-span-4">
-          <aside aria-label="Contact details" className="glass-soft h-full rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 flex flex-col justify-between gap-8 md:min-h-[420px]">
+          <aside aria-label="Contact details" className="contact-aside">
             <div className="space-y-6">
               <div>
                 <span className="eyebrow">Email</span>
@@ -381,7 +403,7 @@ function Contact() {
                 </div>
               </div>
             </div>
-            <div className="pt-5 border-t border-white/10">
+            <div className="pt-5 border-t border-[color:var(--hairline)]">
               <div className="eyebrow flex items-center gap-2"><span className="live-dot" /> Currently available</div>
               <div className="body-sm mt-2">Booking projects starting August 2026.</div>
             </div>
@@ -389,7 +411,7 @@ function Contact() {
         </Reveal>
 
         <Reveal delay={0.1} className="lg:col-span-8">
-          <form onSubmit={submit} aria-labelledby="contact-title" className="glass rounded-[var(--radius-lg)] md:rounded-[var(--radius-xl)] p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+          <form onSubmit={submit} aria-labelledby="contact-title" className="contact-form">
             <div className="field md:col-span-1">
               <label htmlFor="name">Name</label>
               <input id="name" name="name" autoComplete="name" required maxLength={80} className="input" placeholder="Ada Lovelace" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
@@ -431,7 +453,7 @@ function Footer() {
         <Reveal>
           <div className="wordmark-bg leading-none" aria-hidden>SHAYAN</div>
         </Reveal>
-        <div className="mt-8 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10 pt-6 text-center md:text-left">
+        <div className="mt-8 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-[color:var(--hairline)] pt-6 text-center md:text-left">
           <div className="eyebrow">© 2026 Muhammad Shayan · Karachi</div>
           <div className="eyebrow opacity-60">Built with TanStack Start · Motion · Tailwind v4</div>
         </div>
