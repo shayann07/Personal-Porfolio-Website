@@ -1,35 +1,41 @@
-## Goal
-Fix the empty About band, upgrade icons, tighten spacing, add a resume download, complete SEO, and make the contact form give real success/failure feedback.
+## Audit: what's actually happening
 
-## 1. Empty section (img 1)
-The About band reserves a wide left column that renders nothing, so the heading floats above a blank region. Rebuild About as a two-column composition where the left column carries actual content — a compact "at a glance" glass panel (role, location, availability, years shipping, current focus) — and the right column keeps the prose plus stack chips. On mobile it stacks with the panel below the prose.
+I inspected the live page. The cloud layer **is** in the DOM and rendering — it isn't a missing element or a z-index bug:
 
-## 2. Animated icons (img 2 and site-wide)
-Replace the hand-drawn SVG set with Lucide icons wrapped in a shared motion component:
-- New `src/components/Icon.tsx` — maps a semantic name to a Lucide icon, applies consistent size/stroke, and layers motion (subtle idle loop, hover/in-view response, draw-in on reveal), all disabled under `prefers-reduced-motion`, `aria-hidden` by default.
-- Metric strip gets meaningful icons (Rocket / Download / ShieldCheck / Gauge) instead of the current abstract marks, at a larger optical size aligned to the numerals.
-- Swap every `AnimatedIcon` usage across the page to the new component and delete the old file.
+- `src/routes/index.tsx:581` renders `<div className="cloud-bg" aria-hidden />` inside `.grain relative isolate`.
+- Computed styles confirm: `position: fixed`, full viewport (1522×904), `z-index: -2`, `opacity: 1`, gradients present, both drift pseudo-layers animating (`cloud-drift-a/b`, `blur(120px)`, opacity 0.55).
 
-## 3. Spacing pass
-- Reduce `--space-section` and section-head margins; remove the doubled gap between the section heading and content blocks.
-- Normalise the vertical rhythm between hero → metric strip → About, and tighten the marquee's oversized surrounding margin.
-- Audit each section for stacked padding (section padding + card padding + reveal margins) and collapse to a single spacing token per level.
+The problem is that it's **visually invisible**, not absent. Three reasons:
 
-## 4. Resume download
-Add a "Download CV" button next to the hero CTAs and a matching entry in the contact aside, pointing at the existing `/muhammad_shayan_cv.pdf` via `src/config/links.ts`. Real `<a download>` with a descriptive `aria-label`, visible focus ring, and file-type/size hint.
+1. **The cloud colors are almost black.** `--cloud-1 #3b2a63`, `--cloud-2 #1a3a5f`, `--cloud-3 #5a2440`, `--cloud-4 #0d1a2a` — each mixed at only 45–60% over `--void #05060a`. The dominant layer (`--cloud-4`, a near-black navy at 60% covering an ellipse 100%×80%) flattens the other three into the void.
+2. **The layer is `position: fixed` with no scroll response.** Everything below the hero sees the exact same static wash, so the page reads as flat black once you scroll.
+3. **Content sits on top with its own dark scrims.** The liquid-glass tiles use dark backdrop scrims, so what little tint exists gets absorbed.
 
-## 5. SEO
-- Expand the route `head()`: keyword-led title, canonical link, `og:url`, `og:image` + `twitter:image` using the existing `/og-image.png` (absolute URL derived at request time), `twitter:card` upgraded to `summary_large_image`.
-- Root gets sitewide defaults (site name, viewport, Person JSON-LD); the home route gets Person/WebSite structured data with real links.
-- Add `public/robots.txt` (allow all) and a `src/routes/sitemap[.]xml.ts` server route listing the single indexable route.
+Net: the previous version's visible cloudy aurora was replaced by a much darker, lower-contrast palette during the cosmic-black retune.
 
-## 6. Contact form states
-Keep the mailto handoff (your choice) but make it honest:
-- Client-side validation with inline field errors (required, email format) before submit.
-- Real states: idle → validating → opening mail app → handed off, plus a failure path if the mailto handoff can't be triggered, with a "copy email address" fallback that confirms on copy.
-- `aria-live` status region, error summary linked to fields via `aria-describedby`, disabled submit only while in flight.
+## Plan
 
-## Technical notes
-- Icons via `lucide-react` (already available) + framer-motion wrapper; no new deps expected.
-- Spacing changes stay in `src/styles.css` tokens so the whole page shifts consistently.
-- Sitemap uses the empty `BASE_URL` placeholder since no custom domain is set yet.
+**1. Retune the cloud palette (`src/styles.css`)**
+- Raise the cloud hues into visible territory while staying cosmic-black overall: brighter violet, teal, and plum stops, and drop the near-black `--cloud-4` from a dominant fill to a subtle vignette.
+- Increase per-gradient mix strength so the wash is readable against `#05060a` without turning the page purple.
+
+**2. Rebuild the cloud composition**
+- Add a third drifting blob (currently only `::before` / `::after`) on its own slower animation so the motion never visibly loops in sync.
+- Larger, softer radii with staggered durations; keep `translate3d` + `will-change: transform` so it stays GPU-composited.
+- Add a soft radial vignette on top so edges stay dark and center reads cloudy — this is what gave the earlier version depth.
+
+**3. Make the background respond to scroll**
+- Give the cloud container a very slow parallax drift tied to scroll position (CSS-driven, transform only, no per-frame React state) so lower sections get fresh cloud coverage instead of the same static frame.
+
+**4. Keep glass legible**
+- Slightly reduce the darkness of the tile scrims so the clouds show through the glass, which is the whole point of the liquid-glass look, while preserving text contrast.
+
+**5. Respect motion + mobile budgets**
+- Keep drift animations off under `prefers-reduced-motion`.
+- Keep the existing mobile override (`blur(70px)`, lower opacity), retuned to the new palette so mobile still shows clouds rather than mud.
+
+**6. Verify**
+- Screenshot the hero, a mid-page section, and the footer via Playwright to confirm the clouds are visible at all scroll depths, and re-check mobile width.
+
+### Technical notes
+All changes are confined to `src/styles.css` (the `.cloud-bg` block, cloud tokens, glass scrim tokens, and the reduced-motion / mobile media queries), plus a possible one-line class addition on the existing `.cloud-bg` div in `src/routes/index.tsx` for the scroll parallax. No structural or content changes.

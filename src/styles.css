@@ -62,10 +62,10 @@
   --silver: #c8ccd6;
   --platinum: #f2f3f6;
 
-  --cloud-1: #3b2a63; /* deep violet */
-  --cloud-2: #1a3a5f; /* teal-blue */
-  --cloud-3: #5a2440; /* magenta plum */
-  --cloud-4: #0d1a2a; /* deep navy */
+  --cloud-1: #6d4fc2; /* violet */
+  --cloud-2: #2f7fbf; /* teal-blue */
+  --cloud-3: #a8447a; /* magenta plum */
+  --cloud-4: #1c4d6b; /* steel navy */
 
   --background: var(--void);
   --foreground: var(--platinum);
@@ -124,34 +124,63 @@ body { cursor: none; }
   z-index: -2;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in oklab, var(--cloud-1) 55%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 55% at 85% 30%, color-mix(in oklab, var(--cloud-2) 50%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 90% 60% at 50% 90%, color-mix(in oklab, var(--cloud-3) 45%, transparent) 0%, transparent 65%),
-    radial-gradient(ellipse 100% 80% at 30% 60%, color-mix(in oklab, var(--cloud-4) 60%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 85% 62% at 14% 16%, color-mix(in oklab, var(--cloud-1) 72%, transparent) 0%, transparent 62%),
+    radial-gradient(ellipse 75% 58% at 88% 26%, color-mix(in oklab, var(--cloud-2) 66%, transparent) 0%, transparent 62%),
+    radial-gradient(ellipse 95% 62% at 54% 92%, color-mix(in oklab, var(--cloud-3) 58%, transparent) 0%, transparent 66%),
+    radial-gradient(ellipse 90% 70% at 26% 66%, color-mix(in oklab, var(--cloud-4) 46%, transparent) 0%, transparent 68%),
     var(--void);
 }
+
+/* Slow scroll-linked drift so lower sections get fresh cloud coverage */
+.cloud-bg__layer {
+  position: absolute;
+  inset: -20%;
+  will-change: transform;
+  transform: translate3d(0, calc(var(--cloud-scroll, 0) * -6vh), 0);
+}
+
+/* Vignette: keeps edges cosmic-black so the centre reads cloudy */
+.cloud-bg__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 78% 68% at 50% 45%, transparent 0%, transparent 42%, color-mix(in oklab, var(--void) 78%, transparent) 100%);
+}
+
 .cloud-bg::before,
-.cloud-bg::after {
+.cloud-bg::after,
+.cloud-bg__layer::before {
   content: "";
   position: absolute;
   width: 70vmax;
   height: 70vmax;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.55;
+  filter: blur(130px);
+  opacity: 0.6;
   will-change: transform;
+  pointer-events: none;
 }
 .cloud-bg::before {
   top: -20%;
   left: -15%;
-  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-1) 70%, transparent) 0%, transparent 60%);
+  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-1) 85%, transparent) 0%, transparent 62%);
   animation: cloud-drift-a 32s ease-in-out infinite alternate;
 }
 .cloud-bg::after {
   bottom: -25%;
   right: -20%;
-  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-2) 60%, transparent) 0%, transparent 60%);
+  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-2) 78%, transparent) 0%, transparent 62%);
   animation: cloud-drift-b 44s ease-in-out infinite alternate;
+}
+.cloud-bg__layer::before {
+  top: 22%;
+  left: 38%;
+  width: 60vmax;
+  height: 60vmax;
+  opacity: 0.5;
+  background: radial-gradient(circle, color-mix(in oklab, var(--cloud-3) 72%, transparent) 0%, transparent 62%);
+  animation: cloud-drift-c 61s ease-in-out infinite alternate;
 }
 @keyframes cloud-drift-a {
   0% { transform: translate3d(0,0,0) scale(1); }
@@ -160,6 +189,10 @@ body { cursor: none; }
 @keyframes cloud-drift-b {
   0% { transform: translate3d(0,0,0) scale(1); }
   100% { transform: translate3d(-12vw, -8vh, 0) scale(1.2); }
+}
+@keyframes cloud-drift-c {
+  0% { transform: translate3d(-8vw, 6vh, 0) scale(0.95); }
+  100% { transform: translate3d(10vw, -12vh, 0) scale(1.25); }
 }
 
 /* Grain overlay */
@@ -239,7 +272,7 @@ body { cursor: none; }
 @utility glass {
   position: relative;
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.38) 0%, rgb(0 0 0 / 0.55) 100%),
+    linear-gradient(180deg, rgb(0 0 0 / 0.30) 0%, rgb(0 0 0 / 0.46) 100%),
     linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.02));
   border: 1px solid rgb(255 255 255 / 0.12);
   backdrop-filter: blur(40px) saturate(180%);
@@ -251,7 +284,7 @@ body { cursor: none; }
 @utility glass-soft {
   position: relative;
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.42) 100%);
+    linear-gradient(180deg, rgb(0 0 0 / 0.22) 0%, rgb(0 0 0 / 0.34) 100%);
   border: 1px solid rgb(255 255 255 / 0.09);
   backdrop-filter: blur(32px) saturate(170%);
   box-shadow:
@@ -261,7 +294,7 @@ body { cursor: none; }
 @utility glass-heavy {
   position: relative;
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.7) 100%);
+    linear-gradient(180deg, rgb(0 0 0 / 0.42) 0%, rgb(0 0 0 / 0.60) 100%);
   border: 1px solid rgb(255 255 255 / 0.14);
   backdrop-filter: blur(56px) saturate(190%);
   box-shadow:
@@ -600,6 +633,7 @@ body { cursor: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .cloud-bg__layer { transform: none !important; }
 }
 
 /* ============ REVEAL (shared IntersectionObserver, CSS-driven) ============ */
@@ -677,7 +711,11 @@ body { cursor: none; }
   .textarea { min-height: 128px; }
 
   /* Cheaper aurora on phones */
-  .cloud-bg::before, .cloud-bg::after { filter: blur(70px); opacity: 0.45; }
+  .cloud-bg::before, .cloud-bg::after, .cloud-bg__layer::before {
+    filter: blur(80px);
+    opacity: 0.52;
+  }
+  .cloud-bg__layer::before { width: 70vmax; height: 70vmax; }
 }
 
 /* Tap targets */
