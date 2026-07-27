@@ -28,9 +28,9 @@ export const AnimatedIcon = memo(function AnimatedIcon({ name, className = "", s
   const loop = reduce ? 0 : Infinity;
   // Shared cadence so icons in the same tile row feel synchronised.
   const beat = 2.4;
-  const draw = reduce
-    ? { initial: { pathLength: 1 }, animate: { pathLength: 1 } }
-    : { initial: { pathLength: 0 }, animate: { pathLength: 1 } };
+  // Keep SSR/client markup identical (no reduce branch here) and neutralise the
+  // draw-on by collapsing its duration under reduced motion instead.
+  const draw = { initial: { pathLength: 0 }, animate: { pathLength: 1 } };
 
   switch (name) {
     case "arrow":
