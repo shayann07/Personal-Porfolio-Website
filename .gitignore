@@ -38,3 +38,8 @@ dist-ssr
 
 # Windows
 Thumbs.db
+
+.gsd/
+expressions.txt
+replacements.txt
+
