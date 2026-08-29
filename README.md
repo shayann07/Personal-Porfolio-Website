@@ -1,29 +1,57 @@
-# Welcome to your Lovable project
+# Personal Portfolio Website
 
-This project was built with [Lovable](https://lovable.dev).
+An interactive, fluid personal engineering portfolio designed and developed to showcase technical projects, architecture experience, and interactive capabilities.
 
-## Build with Lovable
+## Overview
+This modern web application serves as a personal portfolio showcasing high-fidelity spatial card visual layouts, fluid micro-interactions, dynamic project modal displays, and a seamless light/dark theme toggle. 
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+It is designed to deliver a highly interactive user experience while being performant and accessible.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Key Features
+- **Spatial Card Visual Layouts**: Immersive project and skills display.
+- **Fluid Micro-Interactions**: Smooth animations powered by Framer Motion.
+- **Dynamic Project Modal Displays**: Detailed overlay views for specific works.
+- **Light / Dark Theme Toggle**: Built-in visual comfort and aesthetic choices.
+- **MCP Tool Integrations**: Integrates with Model Context Protocol (`@lovable.dev/mcp-js`) endpoints.
 
-## Development
+## Tech Stack
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+| Technology | Role |
+| --- | --- |
+| **TanStack Start SSR** | Server-Side Rendering and routing |
+| **Vite 8** | Next-generation frontend tooling |
+| **Nitro 3** | Lightweight server engine |
+| **React 19** | Core UI library |
+| **Tailwind CSS v4** | Utility-first styling framework |
+| **Framer Motion** | Advanced animations and fluid UI |
+| **Lucide Icons** | SVG icon system |
+| **TypeScript** | Static typing and robust development |
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+## Local Development
 
-## Built with
+Follow these steps to run the portfolio locally:
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd Personal-Porfolio-Website
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+## License
+This project is open-source and available under the [MIT License](LICENSE). 
+Copyright (c) 2026 shayann07.
