@@ -1,20 +1,30 @@
 # Personal Portfolio Website
 
-An interactive, fluid personal engineering portfolio designed and developed to showcase technical projects, architecture experience, and interactive capabilities.
+[![Platform](https://img.shields.io/badge/Platform-Web-blue)]()
+[![Language](https://img.shields.io/badge/Language-React-61DAFB?logo=react&logoColor=black)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Overview
-This modern web application serves as a personal portfolio showcasing high-fidelity spatial card visual layouts, fluid micro-interactions, dynamic project modal displays, and a seamless light/dark theme toggle. 
+> Muhammad Shayan's interactive personal portfolio â€” spatial card layouts, fluid animations, dark/light theme, and project modals. Built with React 19, TanStack Start, Tailwind CSS v4, and Framer Motion.
 
-It is designed to deliver a highly interactive user experience while being performant and accessible.
+---
 
-## Key Features
+## 📖 Overview
+
+Muhammad Shayan's interactive personal portfolio â€” spatial card layouts, fluid animations, dark/light theme, and project modals. Built with React 19, TanStack Start, Tailwind CSS v4, and Framer Motion.
+
+---
+
+## ✨ Key Features
+
 - **Spatial Card Visual Layouts**: Immersive project and skills display.
 - **Fluid Micro-Interactions**: Smooth animations powered by Framer Motion.
 - **Dynamic Project Modal Displays**: Detailed overlay views for specific works.
 - **Light / Dark Theme Toggle**: Built-in visual comfort and aesthetic choices.
 - **MCP Tool Integrations**: Integrates with Model Context Protocol (`@lovable.dev/mcp-js`) endpoints.
 
-## Tech Stack
+---
+
+## 🛠️ Technology Stack
 
 | Technology | Role |
 | --- | --- |
@@ -27,31 +37,26 @@ It is designed to deliver a highly interactive user experience while being perfo
 | **Lucide Icons** | SVG icon system |
 | **TypeScript** | Static typing and robust development |
 
-## Local Development
+---
 
-Follow these steps to run the portfolio locally:
+## 🚀 Getting Started
 
-1. **Clone the repository:**
+### Prerequisites
+- Node.js / Modern Web Browser
+
+### Setup & Run
+1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/shayann07/Personal-Porfolio-Website.git
    cd Personal-Porfolio-Website
    ```
-
-2. **Install dependencies:**
+2. Open in browser or local server:
    ```bash
-   npm install
+   npx serve .
    ```
 
-3. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
+---
 
-4. **Build for production:**
-   ```bash
-   npm run build
-   ```
+## 📄 License
 
-## License
-This project is open-source and available under the [MIT License](LICENSE). 
-Copyright (c) 2026 shayann07.
+This project is licensed under the [MIT License](LICENSE) — Copyright (c) 2026 [shayann07](https://github.com/shayann07).
